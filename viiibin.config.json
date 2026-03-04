@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "name": "React + Vite + ShadCN + Capacitor",
+  "description": "Full-featured React SPA with mobile support, authentication, AI chat, and dark mode",
+  "targets": [
+    {
+      "type": "cloudflare-pages",
+      "name": "web",
+      "buildCommand": "npm run build",
+      "outputDir": "dist"
+    },
+    {
+      "type": "capacitor-ios",
+      "name": "ios",
+      "bundleId": "{{BUNDLE_ID}}",
+      "appName": "{{APP_NAME}}",
+      "minIosVersion": "14.0"
+    },
+    {
+      "type": "capacitor-android",
+      "name": "android",
+      "bundleId": "{{BUNDLE_ID}}",
+      "appName": "{{APP_NAME}}",
+      "minSdkVersion": 24,
+      "targetSdkVersion": 34
+    }
+  ],
+  "configVariables": {
+    "APP_NAME": {
+      "type": "string",
+      "required": true,
+      "description": "Application display name shown in app header, mobile home screen, and App Store/Play Store listings"
+    },
+    "APP_DESCRIPTION": {
+      "type": "string",
+      "description": "App description for SEO meta tags and store listings"
+    },
+    "BUNDLE_ID": {
+      "type": "string",
+      "required": true,
+      "description": "Reverse-domain bundle identifier (e.g., com.example.myapp). Used for iOS Bundle ID and Android applicationId.",
+      "validation": {
+        "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$"
+      }
+    },
+    "AUTH0_DOMAIN": {
+      "type": "string",
+      "description": "Auth0 tenant domain (e.g., myapp.auth0.com). Leave blank to disable authentication."
+    },
+    "AUTH0_CLIENT_ID": {
+      "type": "string",
+      "description": "Auth0 SPA application client ID"
+    },
+    "AUTH0_AUDIENCE": {
+      "type": "string",
+      "description": "Auth0 API audience identifier for access token scoping (optional)"
+    },
+    "PRIMARY_COLOR": {
+      "type": "color",
+      "default": "#6366f1",
+      "description": "Brand primary color. Applied to buttons, links, and accent elements across both themes."
+    },
+    "API_BASE_URL": {
+      "type": "url",
+      "description": "Backend API base URL. Relative paths (/api) work for same-origin backends."
+    },
+    "AI_PROVIDER": {
+      "type": "select",
+      "default": "none",
+      "description": "AI chat widget provider. Set to 'none' to hide the chat widget entirely.",
+      "validation": {
+        "enum": ["none", "anthropic", "openai"]
+      }
+    },
+    "AI_MODEL": {
+      "type": "string",
+      "default": "claude-sonnet-4-20250514",
+      "description": "AI model ID. Defaults to Claude Sonnet for Anthropic, gpt-4o for OpenAI."
+    },
+    "ENABLE_ANALYTICS": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable analytics event tracking. Requires analytics provider configuration."
+    },
+    "FCM_SENDER_ID": {
+      "type": "string",
+      "description": "Firebase Cloud Messaging sender ID for Android push notifications"
+    }
+  },
+  "configFiles": [
+    {
+      "template": ".env.template",
+      "output": ".env",
+      "format": "dotenv",
+      "deleteTemplate": true
+    }
+  ],
+  "files": {
+    "index.html": { "template": true },
+    "capacitor.config.ts": { "template": true },
+    "public/manifest.json": { "template": true }
+  },
+  "postCreate": {
+    "install": ["npm install"]
+  }
+}
