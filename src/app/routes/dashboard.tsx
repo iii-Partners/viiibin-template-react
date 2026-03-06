@@ -1,6 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { DashboardChecklist } from '@/components/onboarding/dashboard-checklist'
+import { useOnboardingStore } from '@/stores/onboarding'
 
 export default function DashboardPage() {
+  const onboardingComplete = useOnboardingStore((s) => s.completed)
+
   return (
     <div className="space-y-6">
       <div>
@@ -9,6 +13,8 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {!onboardingComplete && <DashboardChecklist />}
+
         <Card>
           <CardHeader>
             <CardTitle>Getting Started</CardTitle>
