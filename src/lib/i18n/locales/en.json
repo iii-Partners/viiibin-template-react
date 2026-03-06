@@ -1,0 +1,38 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close"
+  },
+  "auth": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "loginTitle": "Welcome back",
+    "signupTitle": "Create account"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "profile": {
+    "title": "Profile",
+    "displayName": "Display Name",
+    "email": "Email",
+    "updateSuccess": "Profile updated"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "unauthorized": "Please log in",
+    "generic": "An error occurred"
+  }
+}

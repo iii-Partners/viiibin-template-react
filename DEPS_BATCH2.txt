@@ -1,0 +1,7 @@
+@capacitor/network
+@capacitor/share
+@capacitor/haptics
+@capacitor/keyboard
+@capacitor/device
+@capacitor/app
+@capacitor/push-notifications

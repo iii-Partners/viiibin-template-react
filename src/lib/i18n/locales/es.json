@@ -1,0 +1,38 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salio mal",
+    "retry": "Intentar de nuevo",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "close": "Cerrar"
+  },
+  "auth": {
+    "login": "Iniciar sesion",
+    "signup": "Registrarse",
+    "logout": "Cerrar sesion",
+    "loginTitle": "Bienvenido de nuevo",
+    "signupTitle": "Crear cuenta"
+  },
+  "nav": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "settings": "Configuracion"
+  },
+  "profile": {
+    "title": "Perfil",
+    "displayName": "Nombre para mostrar",
+    "email": "Correo electronico",
+    "updateSuccess": "Perfil actualizado"
+  },
+  "errors": {
+    "notFound": "Pagina no encontrada",
+    "unauthorized": "Por favor inicia sesion",
+    "generic": "Ocurrio un error"
+  }
+}

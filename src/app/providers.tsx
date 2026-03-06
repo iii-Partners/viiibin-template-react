@@ -4,6 +4,7 @@ import { Auth0Provider } from '@auth0/auth0-react'
 import { Toaster } from 'sonner'
 import { ErrorBoundary } from '@/components/common/error-boundary'
 import { auth0Config, isAuthEnabled } from '@/lib/auth'
+import '@/lib/i18n' // Initialize i18n
 
 const queryClient = new QueryClient({
   defaultOptions: {

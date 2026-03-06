@@ -1,4 +1,6 @@
 export { AuthGuard } from './auth-guard'
+export { BiometricGuard } from './biometric-guard'
 export { ErrorBoundary } from './error-boundary'
 export { LoadingSpinner } from './loading-spinner'
+export { OfflineBanner } from './offline-banner'
 export { ThemeToggle } from './theme-toggle'

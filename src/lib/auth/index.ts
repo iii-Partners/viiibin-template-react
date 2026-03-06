@@ -1,2 +1,2 @@
 export { auth0Config, isAuthEnabled } from './config'
-export { hasPermission, type Role, type Permission } from './permissions'
+export { hasPermission, getPermissionsForRole, type Role, type Permission } from './permissions'
