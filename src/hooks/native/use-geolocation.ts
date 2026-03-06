@@ -19,7 +19,7 @@ function toGeoPosition(position: Position): GeoPosition {
     longitude: position.coords.longitude,
     accuracy: position.coords.accuracy,
     altitude: position.coords.altitude,
-    altitudeAccuracy: position.coords.altitudeAccuracy,
+    altitudeAccuracy: position.coords.altitudeAccuracy ?? null,
     heading: position.coords.heading,
     speed: position.coords.speed,
     timestamp: position.timestamp,
