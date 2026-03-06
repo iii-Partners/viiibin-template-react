@@ -55,7 +55,7 @@ describe('Dashboard', () => {
   it('renders dashboard heading', async () => {
     const DashboardPage = (await import('@/app/routes/dashboard')).default
     render(<DashboardPage />, { wrapper: createWrapper() })
-    expect(screen.getByText(/Dashboard/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Dashboard/i })).toBeInTheDocument()
   })
 })
 
@@ -63,7 +63,7 @@ describe('Settings', () => {
   it('renders settings heading', async () => {
     const SettingsPage = (await import('@/app/routes/settings')).default
     render(<SettingsPage />, { wrapper: createWrapper() })
-    expect(screen.getByText(/Settings/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Settings/i })).toBeInTheDocument()
   })
 })
 
@@ -71,7 +71,7 @@ describe('Profile', () => {
   it('renders profile heading', async () => {
     const ProfilePage = (await import('@/app/routes/profile')).default
     render(<ProfilePage />, { wrapper: createWrapper() })
-    expect(screen.getByText(/Profile/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Profile/i })).toBeInTheDocument()
   })
 })
 
@@ -79,6 +79,6 @@ describe('Not Found', () => {
   it('renders 404 page', async () => {
     const NotFoundPage = (await import('@/app/routes/not-found')).default
     render(<NotFoundPage />, { wrapper: createWrapper() })
-    expect(screen.getByText(/404|not found/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /404|not found/i })).toBeInTheDocument()
   })
 })
