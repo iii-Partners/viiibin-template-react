@@ -1,4 +1,6 @@
 export { announceToScreenReader, getContrastRatio } from './a11y'
 export { cn } from './cn'
+export { matchDeepLink } from './deep-link-config'
+export type { DeepLinkRoute, DeepLinkRouteMap } from './deep-link-config'
 export { formatDate, formatRelativeTime } from './format'
 export { getPlatform, isNative, isIos, isAndroid, isWeb } from './platform'
