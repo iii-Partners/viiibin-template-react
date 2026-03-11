@@ -1,3 +1,5 @@
 export { api } from './client'
 export { offlineQueue } from './offline-queue'
+export { itemsApi } from './items'
+export type { Item, ItemsListResponse, ItemResponse } from './items'
 export { queryKeys } from './query-keys'

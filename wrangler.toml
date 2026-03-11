@@ -1,0 +1,10 @@
+# Cloudflare Pages configuration
+# D1 database binding is injected by viiibin at deploy time
+# This file configures local development with wrangler pages dev
+
+compatibility_date = "2024-12-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "project-db"
+database_id = "local"  # Placeholder — real ID injected at deploy
