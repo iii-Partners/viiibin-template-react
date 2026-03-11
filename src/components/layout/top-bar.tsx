@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Menu } from 'lucide-react'
 import { useUIStore } from '@/stores/ui'
@@ -11,6 +12,9 @@ export function TopBar() {
         <Menu className="h-5 w-5" />
         <span className="sr-only">Toggle sidebar</span>
       </Button>
+      <Link to="/" className="text-lg font-semibold md:hidden">
+        {import.meta.env.VITE_APP_NAME || 'App'}
+      </Link>
       <div className="flex-1" />
     </header>
   )

@@ -9,17 +9,18 @@ export default function SignupPage() {
       <div className="flex min-h-[80vh] items-center justify-center px-4">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <CardTitle>Auth Not Configured</CardTitle>
+            <CardTitle>Demo Mode</CardTitle>
             <CardDescription>
-              Set <code className="rounded bg-muted px-1 py-0.5 text-xs">VITE_AUTH0_DOMAIN</code> and{' '}
-              <code className="rounded bg-muted px-1 py-0.5 text-xs">VITE_AUTH0_CLIENT_ID</code> in your{' '}
-              <code className="rounded bg-muted px-1 py-0.5 text-xs">.env</code> to enable authentication.
+              Authentication is not configured. Explore the app freely in demo mode.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-3">
             <Button className="w-full" asChild>
-              <a href="/app/dashboard">Continue without auth</a>
+              <a href="/app/dashboard">Continue to App</a>
             </Button>
+            <p className="text-center text-xs text-muted-foreground">
+              Configure Auth0 in your <code className="rounded bg-muted px-1 py-0.5">.env</code> file to enable authentication.
+            </p>
           </CardContent>
         </Card>
       </div>

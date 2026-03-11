@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router'
 import { useAuth0 } from '@auth0/auth0-react'
-import { LayoutDashboard, Settings, User, Database, LogOut } from 'lucide-react'
+import { LayoutDashboard, Settings, User, Database, LogOut, ArrowLeft } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 import { isAuthEnabled } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
@@ -13,7 +13,32 @@ const navItems = [
 ]
 
 function UserMenu() {
-  if (!isAuthEnabled) return null
+  if (!isAuthEnabled) {
+    return (
+      <div className="border-t p-3">
+        <div className="flex items-center gap-3 px-1 pb-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
+            <User className="h-4 w-4" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium">Demo User</p>
+            <p className="text-xs text-muted-foreground">Demo Mode</p>
+          </div>
+        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="w-full justify-start text-muted-foreground"
+          asChild
+        >
+          <Link to="/">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Home
+          </Link>
+        </Button>
+      </div>
+    )
+  }
 
   const { user, isAuthenticated, logout } = useAuth0()
 
@@ -57,7 +82,7 @@ export function Sidebar() {
   return (
     <aside className="hidden w-64 flex-shrink-0 border-r bg-card md:flex md:flex-col">
       <div className="flex h-14 items-center border-b px-4">
-        <Link to="/app/dashboard" className="font-bold">
+        <Link to="/" className="text-lg font-semibold">
           {import.meta.env.VITE_APP_NAME || 'App'}
         </Link>
       </div>
