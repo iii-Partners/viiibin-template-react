@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
+import { useNavigate } from 'react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { isAuthEnabled } from '@/lib/auth'
@@ -31,7 +33,25 @@ export default function SignupPage() {
 }
 
 function SignupWithAuth0() {
-  const { loginWithRedirect } = useAuth0()
+  const { loginWithPopup } = useAuth0()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSignup = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      await loginWithPopup({ authorizationParams: { screen_hint: 'signup' } })
+      navigate('/app/dashboard', { replace: true })
+    } catch (err) {
+      if (err instanceof Error && err.message !== 'Popup closed') {
+        setError(err.message)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center px-4">
@@ -42,13 +62,13 @@ function SignupWithAuth0() {
             Get started with {import.meta.env.VITE_APP_NAME || 'App'}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <Button
-            className="w-full"
-            onClick={() => loginWithRedirect({ authorizationParams: { screen_hint: 'signup' } })}
-          >
-            Sign up
+        <CardContent className="space-y-3">
+          <Button className="w-full" onClick={handleSignup} disabled={loading}>
+            {loading ? 'Creating account...' : 'Sign up'}
           </Button>
+          {error && (
+            <p className="text-center text-sm text-destructive">{error}</p>
+          )}
         </CardContent>
       </Card>
     </div>

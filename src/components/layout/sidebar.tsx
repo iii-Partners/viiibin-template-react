@@ -67,7 +67,10 @@ function UserMenu() {
         variant="ghost"
         size="sm"
         className="w-full justify-start text-muted-foreground hover:text-destructive"
-        onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+        onClick={() => {
+          logout({ logoutParams: { returnTo: window.location.origin }, openUrl: false })
+          window.location.href = '/'
+        }}
       >
         <LogOut className="h-4 w-4" />
         Log out

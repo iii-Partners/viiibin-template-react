@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
+import { useNavigate } from 'react-router'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { isAuthEnabled } from '@/lib/auth'
@@ -31,7 +33,26 @@ export default function LoginPage() {
 }
 
 function LoginWithAuth0() {
-  const { loginWithRedirect } = useAuth0()
+  const { loginWithPopup } = useAuth0()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleLogin = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      await loginWithPopup()
+      navigate('/app/dashboard', { replace: true })
+    } catch (err) {
+      // User closed popup or auth failed
+      if (err instanceof Error && err.message !== 'Popup closed') {
+        setError(err.message)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center px-4">
@@ -40,10 +61,13 @@ function LoginWithAuth0() {
           <CardTitle>Welcome back</CardTitle>
           <CardDescription>Sign in to your account</CardDescription>
         </CardHeader>
-        <CardContent>
-          <Button className="w-full" onClick={() => loginWithRedirect()}>
-            Sign in
+        <CardContent className="space-y-3">
+          <Button className="w-full" onClick={handleLogin} disabled={loading}>
+            {loading ? 'Signing in...' : 'Sign in'}
           </Button>
+          {error && (
+            <p className="text-center text-sm text-destructive">{error}</p>
+          )}
         </CardContent>
       </Card>
     </div>
