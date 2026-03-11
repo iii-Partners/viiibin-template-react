@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router'
-import { LayoutDashboard, Settings, User } from 'lucide-react'
+import { LayoutDashboard, Settings, User, Database } from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 
 const navItems = [
   { label: 'Dashboard', href: '/app/dashboard', icon: LayoutDashboard },
+  { label: 'Items', href: '/app/items', icon: Database },
   { label: 'Profile', href: '/app/profile', icon: User },
   { label: 'Settings', href: '/app/settings', icon: Settings },
 ]

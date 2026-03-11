@@ -12,6 +12,7 @@ const CallbackPage = lazy(() => import('./routes/callback'))
 const DashboardPage = lazy(() => import('./routes/dashboard'))
 const ProfilePage = lazy(() => import('./routes/profile'))
 const SettingsPage = lazy(() => import('./routes/settings'))
+const ItemsPage = lazy(() => import('./routes/items'))
 const TermsPage = lazy(() => import('./routes/terms'))
 const PrivacyPage = lazy(() => import('./routes/privacy'))
 const NotFoundPage = lazy(() => import('./routes/not-found'))
@@ -65,6 +66,7 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: 'dashboard', element: <DashboardPage /> },
+      { path: 'items', element: <ItemsPage /> },
       { path: 'profile', element: <ProfilePage /> },
       { path: 'settings', element: <SettingsPage /> },
     ],
