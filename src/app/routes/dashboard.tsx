@@ -22,7 +22,10 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              This is a placeholder dashboard. Customize it for your app.
+              Your app is up and running. This is your dashboard — start
+              building by editing <code>src/app/routes/dashboard.tsx</code>,
+              adding pages under <code>src/app/routes</code>, and wiring up your
+              data.
             </p>
           </CardContent>
         </Card>
