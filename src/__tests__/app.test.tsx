@@ -44,10 +44,10 @@ describe('Landing Page', () => {
 })
 
 describe('Login Page', () => {
-  it('shows auth not configured when no Auth0 env vars', async () => {
+  it('shows the demo-mode / auth-not-configured state when no Auth0 env vars', async () => {
     const LoginPage = (await import('@/app/routes/login')).default
     render(<LoginPage />, { wrapper: createWrapper() })
-    expect(screen.getByText(/Auth Not Configured/i)).toBeInTheDocument()
+    expect(screen.getByText(/Authentication is not configured/i)).toBeInTheDocument()
   })
 })
 

@@ -57,11 +57,16 @@ function loadConfig(): D1ProxyConfig | null {
 
 class D1PreparedStatement {
   private params: unknown[] = []
+  private config: D1ProxyConfig
+  private sql: string
 
-  constructor(
-    private config: D1ProxyConfig,
-    private sql: string,
-  ) {}
+  // Explicit field assignment (not TS parameter properties) so the file is
+  // erasable-syntax-only compatible — vite.config.ts imports this shim and
+  // tsconfig.node.json builds it with `erasableSyntaxOnly`.
+  constructor(config: D1ProxyConfig, sql: string) {
+    this.config = config
+    this.sql = sql
+  }
 
   bind(...values: unknown[]) {
     this.params = values
@@ -106,7 +111,11 @@ class D1PreparedStatement {
 }
 
 class D1DatabaseProxy {
-  constructor(private config: D1ProxyConfig) {}
+  private config: D1ProxyConfig
+
+  constructor(config: D1ProxyConfig) {
+    this.config = config
+  }
 
   prepare(sql: string) {
     return new D1PreparedStatement(this.config, sql)
