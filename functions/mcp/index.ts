@@ -128,12 +128,25 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   }
 }
 
-// A GET returns human/discovery-friendly metadata (not part of the MCP wire).
-export const onRequestGet: PagesFunction<Env> = async () =>
-  Response.json({
+// A GET returns human/discovery-friendly metadata (public), including HOW to
+// authenticate — this business's own Auth0 issuer (OAuth 2.1). POST is auth-enforced
+// by functions/_middleware.ts (#3406).
+export const onRequestGet: PagesFunction<Env> = async (context) => {
+  const url = new URL(context.request.url)
+  const domain = (context.env as { AUTH0_DOMAIN?: string }).AUTH0_DOMAIN
+  const issuer = domain ? `https://${domain.replace(/\/+$/, '')}/` : null
+  return Response.json({
     server: SERVER,
     transport: 'streamable-http',
     endpoint: '/mcp',
     tools: TOOLS.map((t) => t.name),
-    note: 'This is this business own MCP service. POST JSON-RPC 2.0 to use it.',
+    auth: {
+      required: true,
+      scheme: 'OAuth 2.1 (Bearer)',
+      authorization_servers: issuer ? [issuer] : [],
+      resource: `${url.origin}/mcp`,
+      protected_resource_metadata: `${url.origin}/.well-known/oauth-protected-resource`,
+    },
+    note: 'POST JSON-RPC 2.0 with a Bearer token from this business Auth0 issuer.',
   })
+}
