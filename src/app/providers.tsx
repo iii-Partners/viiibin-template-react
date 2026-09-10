@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Auth0Provider } from '@auth0/auth0-react'
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react'
 import { Toaster } from 'sonner'
 import { ErrorBoundary } from '@/components/common/error-boundary'
+import { setApiTokenProvider } from '@/lib/api/client'
 import { auth0Config, isAuthEnabled } from '@/lib/auth'
 import '@/lib/i18n' // Initialize i18n
 
@@ -20,6 +21,27 @@ type ProvidersProps = {
   children: ReactNode
 }
 
+/**
+ * Registers the signed-in user's access token with the API client so every request
+ * to this app's OWN protected backend (`/api/*`, `POST /mcp`) carries a JWT that
+ * `functions/_middleware.ts` can verify. Rendered inside Auth0Provider so `useAuth0`
+ * is in scope; a no-op render (returns null).
+ */
+function ApiTokenBridge() {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+  useEffect(() => {
+    setApiTokenProvider(async () =>
+      isAuthenticated
+        ? getAccessTokenSilently(
+            auth0Config.audience ? { authorizationParams: { audience: auth0Config.audience } } : undefined,
+          )
+        : null,
+    )
+    return () => setApiTokenProvider(null)
+  }, [getAccessTokenSilently, isAuthenticated])
+  return null
+}
+
 function AuthProvider({ children }: { children: ReactNode }) {
   if (!isAuthEnabled) return <>{children}</>
 
@@ -33,6 +55,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       }}
       cacheLocation="localstorage"
     >
+      <ApiTokenBridge />
       {children}
     </Auth0Provider>
   )
