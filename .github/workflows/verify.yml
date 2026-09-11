@@ -1,0 +1,20 @@
+name: verify
+# Dependency-solidity gate: a fresh, lockfile-pinned install must build clean. This catches a
+# missing/mismatched dep (e.g. a `zod/v4` import with an incompatible zod pin, or an undeclared
+# import) BEFORE a spawn ever copies this template — so a broken dep can't reach a customer.
+on:
+  push: { branches: [main] }
+  pull_request: {}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Install (lockfile-pinned, no drift)
+        run: npm ci
+      - name: Build (fails on any unresolvable import)
+        run: npm run build
