@@ -84,12 +84,22 @@ Template variables in `viiibin.config.json`:
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
 | `npm run test` | Run Vitest tests |
+| `npm run test:delivery` | Delivery proof: real sends awaited at Mailosaur (see Telemetry and delivery proof) |
+| `npm run typecheck:functions` | Typecheck the Pages Functions |
 | `npm run lint` | Lint with ESLint |
 | `npm run format` | Format with Prettier |
 | `npm run icons` | Generate app icons from source |
 | `npx cap sync` | Sync web assets to native projects |
 | `npx cap open ios` | Open Xcode project |
 | `npx cap open android` | Open Android Studio project |
+
+## Telemetry and delivery proof
+
+This template is born reporting to the iii Partners fleet and proving its own sends, so every venture spawned from it is too.
+
+**Telemetry (PostHog, one schema).** Events carry the [Fleet Telemetry Standard](https://github.com/iii-Partners/iii-eye/blob/main/docs/standards/TELEMETRY-STANDARD.md): `venture_id`, `pillar`, `actor_type`, `actor_id`, `run_id`, `ticket`, `executor`, `env`, `class`. In the browser, `src/lib/analytics/posthog.ts` registers them as super properties (consent-gated; `VITE_ENABLE_ANALYTICS`, `VITE_POSTHOG_KEY`). In the functions, `functions/_lib/telemetry.ts` wraps `@iii-partners/fleet-kit/telemetry`: `emit(env, 'notification_sent', {...}, context)`, `emitError(env, err, { error_kind }, context)`, `agentProps(model, provider, usage, ms, rate)` for model calls. `GET /api/health` emits a `heartbeat`; the middleware reports uncaught errors as `$exception unhandled_error`. Keys live in the Pages project's variables (`POSTHOG_KEY`, `VENTURE_ID`, `PILLAR`, `APP_ENV`), never in the repo. The kit refuses personal data (emails, names, phone numbers, message bodies, secrets) at the call site.
+
+**Delivery proof (Mailosaur).** `POST /api/notify` sends the welcome email (Resend) and the one-time SMS code (Twilio); `docs/outbound-messages.md` is the inventory. `npm run test:delivery` runs `tests/delivery/*.spec.ts`: the real flow, the real provider, the message awaited at a Mailosaur inbox or number, then recipient, sender, subject, content, links and placeholder text asserted. Needs `MAILOSAUR_API_KEY`, `MAILOSAUR_SERVER_ID`, `MAILOSAUR_PHONE_NUMBER`, `DELIVERY_API_KEY` (a `vk_` key in the server's `API_KEYS`) and the server-side provider variables (`.dev.vars.example`); with `DELIVERY_BASE_URL` set the tests target a deployment, otherwise the global setup starts `wrangler pages dev dist` (build first). CI (`verify.yml`) runs them when the `MAILOSAUR_API_KEY` secret exists and says "not configured" otherwise.
 
 ## Mobile Development
 
@@ -114,7 +124,8 @@ npx cap open android
 - **i18n** -- Multi-language support (EN, ES) with auto-detection
 - **Offline Mode** -- Request queue with auto-retry on reconnect
 - **PWA** -- Installable web app with service worker caching
-- **Analytics** -- Provider-agnostic tracking with consent management
+- **Analytics** -- Provider-agnostic tracking with consent management; PostHog on the fleet telemetry schema
+- **Delivery proof** -- `POST /api/notify` (email, SMS) with Mailosaur tests that prove each message arrives
 - **GDPR** -- Cookie consent, data export, account deletion
 - **RBAC** -- Role-based access control (user/admin/owner)
 - **Accessibility** -- WCAG 2.1 AA, skip navigation, focus traps
