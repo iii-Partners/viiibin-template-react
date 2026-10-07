@@ -56,10 +56,18 @@ export async function setup(): Promise<void> {
 }
 
 export async function teardown(): Promise<void> {
-  if (child && child.exitCode === null) {
-    child.kill('SIGTERM')
-    await new Promise((r) => setTimeout(r, 500))
-    if (child.exitCode === null) child.kill('SIGKILL')
-  }
+  const c = child
   child = null
+  if (!c) return
+  // Release the pipes first: an open stdout/stderr on the wrangler child kept vitest's event loop alive after the tests
+  // ("close timed out after 10000ms", seen in CI on 2026-10-07); then stop the process and wait for it to go.
+  c.stdout?.destroy()
+  c.stderr?.destroy()
+  if (c.exitCode === null) {
+    const gone = new Promise<void>((resolve) => c.once('exit', () => resolve()))
+    c.kill('SIGTERM')
+    await Promise.race([gone, new Promise((r) => setTimeout(r, 5000))])
+    if (c.exitCode === null) c.kill('SIGKILL')
+  }
+  c.unref()
 }
