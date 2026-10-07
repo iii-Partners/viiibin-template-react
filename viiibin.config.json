@@ -69,7 +69,11 @@
       "default": "none",
       "description": "AI chat widget provider. Set to 'none' to hide the chat widget entirely.",
       "validation": {
-        "enum": ["none", "anthropic", "openai"]
+        "enum": [
+          "none",
+          "anthropic",
+          "openai"
+        ]
       }
     },
     "AI_MODEL": {
@@ -85,6 +89,24 @@
     "FCM_SENDER_ID": {
       "type": "string",
       "description": "Firebase Cloud Messaging sender ID for Android push notifications"
+    },
+    "POSTHOG_KEY": {
+      "type": "string",
+      "description": "PostHog project write key (phc_\u2026) for the fleet telemetry schema. Leave blank to send nothing."
+    },
+    "POSTHOG_HOST": {
+      "type": "url",
+      "default": "https://us.i.posthog.com",
+      "description": "PostHog ingest host."
+    },
+    "VENTURE_ID": {
+      "type": "string",
+      "description": "The venture this app serves, as EYE names it. Defaults to a slug of APP_NAME."
+    },
+    "PILLAR": {
+      "type": "string",
+      "default": "template",
+      "description": "The reporting system on the fleet schema: this product's slug."
     }
   },
   "configFiles": [
@@ -96,11 +118,19 @@
     }
   ],
   "files": {
-    "index.html": { "template": true },
-    "capacitor.config.ts": { "template": true },
-    "public/manifest.json": { "template": true }
+    "index.html": {
+      "template": true
+    },
+    "capacitor.config.ts": {
+      "template": true
+    },
+    "public/manifest.json": {
+      "template": true
+    }
   },
   "postCreate": {
-    "install": ["npm install"]
+    "install": [
+      "npm install"
+    ]
   }
 }

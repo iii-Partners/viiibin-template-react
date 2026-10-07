@@ -5,7 +5,12 @@ import { Toaster } from 'sonner'
 import { ErrorBoundary } from '@/components/common/error-boundary'
 import { setApiTokenProvider } from '@/lib/api/client'
 import { auth0Config, isAuthEnabled } from '@/lib/auth'
+import { applyAnalyticsConsent } from '@/lib/analytics'
 import '@/lib/i18n' // Initialize i18n
+
+// Fleet telemetry (TM-8): PostHog on the iii Partners schema, only when VITE_ENABLE_ANALYTICS, VITE_POSTHOG_KEY and the
+// visitor's analytics consent all say yes. useConsent() re-applies this whenever consent changes.
+applyAnalyticsConsent()
 
 const queryClient = new QueryClient({
   defaultOptions: {

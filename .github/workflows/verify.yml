@@ -18,3 +18,41 @@ jobs:
         run: npm ci
       - name: Build (fails on any unresolvable import)
         run: npm run build
+      - name: Typecheck the Pages Functions
+        run: npm run typecheck:functions
+  # Delivery proof (DP-9, iii-eye#527): the welcome email and the SMS code must really arrive at a Mailosaur inbox and
+  # number, with working links and no placeholder text. Runs only when the secrets exist; otherwise it says so loudly
+  # instead of passing in silence.
+  delivery:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      MAILOSAUR_API_KEY: ${{ secrets.MAILOSAUR_API_KEY }}
+      MAILOSAUR_SERVER_ID: ${{ secrets.MAILOSAUR_SERVER_ID }}
+      MAILOSAUR_PHONE_NUMBER: ${{ secrets.MAILOSAUR_PHONE_NUMBER }}
+      DELIVERY_API_KEY: ${{ secrets.DELIVERY_API_KEY }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      NOTIFY_FROM: ${{ secrets.NOTIFY_FROM }}
+      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+      TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+      TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
+      POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
+      APP_NAME: ${{ vars.APP_NAME || 'viiibin template' }}
+      VENTURE_ID: ${{ vars.VENTURE_ID || 'iii-partners' }}
+      PILLAR: ${{ vars.PILLAR || 'template' }}
+      APP_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - name: Delivery tests, or say why not
+        run: |
+          if [ -z "$MAILOSAUR_API_KEY" ]; then
+            echo "::warning::delivery tests not configured: add the MAILOSAUR_API_KEY, MAILOSAUR_SERVER_ID, MAILOSAUR_PHONE_NUMBER, DELIVERY_API_KEY, RESEND_API_KEY, NOTIFY_FROM, TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM and POSTHOG_KEY secrets"
+            exit 0
+          fi
+          npm run build
+          npm run test:delivery

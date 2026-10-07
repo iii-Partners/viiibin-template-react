@@ -1,7 +1,6 @@
 import { useState, useCallback, useMemo } from 'react'
 import { consentManager, type ConsentCategory, type ConsentState } from '@/lib/analytics/consent'
-import { analytics } from '@/lib/analytics'
-import { NoOpProvider } from '@/lib/analytics/provider'
+import { applyAnalyticsConsent } from '@/lib/analytics'
 
 /**
  * Hook for managing cookie/tracking consent.
@@ -18,24 +17,22 @@ export function useConsent() {
     const newConsent = consentManager.updateConsent(updates)
     setConsentState(newConsent)
     setHasConsented(true)
-
-    // If analytics consent was revoked, swap to no-op provider
-    if (!newConsent.analytics) {
-      analytics.setProvider(new NoOpProvider())
-    }
+    // Granted: PostHog on the fleet schema (when configured). Revoked: back to the no-op provider.
+    applyAnalyticsConsent()
   }, [])
 
   const acceptAll = useCallback(() => {
     const newConsent = consentManager.acceptAll()
     setConsentState(newConsent)
     setHasConsented(true)
+    applyAnalyticsConsent()
   }, [])
 
   const rejectAll = useCallback(() => {
     const newConsent = consentManager.rejectAll()
     setConsentState(newConsent)
     setHasConsented(true)
-    analytics.setProvider(new NoOpProvider())
+    applyAnalyticsConsent()
   }, [])
 
   const hasConsentFor = useCallback(

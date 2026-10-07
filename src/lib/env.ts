@@ -15,6 +15,12 @@ const envSchema = z.object({
     .transform((v) => v === 'true'),
   VITE_PRIMARY_COLOR: z.string().regex(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/).default('#6366f1'),
   VITE_FCM_SENDER_ID: z.string().default(''),
+  // Fleet telemetry (PostHog on the iii Partners schema; see README "Telemetry and delivery proof")
+  VITE_POSTHOG_KEY: z.string().default(''),
+  VITE_POSTHOG_HOST: z.string().default('https://us.i.posthog.com'),
+  VITE_VENTURE_ID: z.string().default(''),
+  VITE_PILLAR: z.string().default('template'),
+  VITE_APP_ENV: z.enum(['production', 'preview', 'development', 'test', '']).default(''),
 })
 
 export type Env = z.infer<typeof envSchema>
