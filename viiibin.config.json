@@ -39,18 +39,13 @@
       "type": "string",
       "required": true,
       "description": "Reverse-domain bundle identifier (e.g., com.example.myapp). Used for iOS Bundle ID and Android applicationId.",
-      "validation": {
-        "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$"
-      }
+      "validation": { "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$" }
     },
     "AUTH0_DOMAIN": {
       "type": "string",
       "description": "Auth0 tenant domain (e.g., myapp.auth0.com). Leave blank to disable authentication."
     },
-    "AUTH0_CLIENT_ID": {
-      "type": "string",
-      "description": "Auth0 SPA application client ID"
-    },
+    "AUTH0_CLIENT_ID": { "type": "string", "description": "Auth0 SPA application client ID" },
     "AUTH0_AUDIENCE": {
       "type": "string",
       "description": "Auth0 API audience identifier for access token scoping (optional)"
@@ -68,9 +63,7 @@
       "type": "select",
       "default": "none",
       "description": "AI chat widget provider. Set to 'none' to hide the chat widget entirely.",
-      "validation": {
-        "enum": ["none", "anthropic", "openai"]
-      }
+      "validation": { "enum": ["none", "anthropic", "openai"] }
     },
     "AI_MODEL": {
       "type": "string",
@@ -103,28 +96,47 @@
       "type": "string",
       "default": "template",
       "description": "This app's product slug, as EYE names it. No default: unset reports as `unset`, never `template`, and GET /api/health flags it."
+    },
+    "APP_URL": {
+      "type": "url",
+      "description": "The app's public base URL. Used in outbound messages (the link in the welcome email). Blank falls back to the request origin."
+    },
+    "API_KEYS": {
+      "type": "string",
+      "description": "Comma-separated API keys accepted by the protected function routes. SECRET \u2014 set per environment, never committed. Blank leaves those routes closed."
+    },
+    "APP_ENV": {
+      "type": "string",
+      "description": "production | preview | development | test. Stamped on every telemetry event. Unset is derived from CF_PAGES_BRANCH (main -> production, else preview)."
+    },
+    "RESEND_API_KEY": {
+      "type": "string",
+      "description": "Resend API key for the email half of /api/notify. SECRET. Blank makes notify answer `not configured (RESEND_API_KEY)` rather than failing."
+    },
+    "NOTIFY_FROM": {
+      "type": "string",
+      "description": "The From address for notification email (e.g. 'App <no-reply@example.com>'). Required whenever RESEND_API_KEY is set."
+    },
+    "TWILIO_ACCOUNT_SID": {
+      "type": "string",
+      "description": "Twilio Account SID (AC...) for the SMS half of /api/notify. Must belong to the SAME account as TWILIO_AUTH_TOKEN and TWILIO_FROM \u2014 a mismatched pair authenticates as `account ... is not active` and every send returns 502 (issue #12)."
+    },
+    "TWILIO_AUTH_TOKEN": {
+      "type": "string",
+      "description": "Twilio Auth Token for that account. SECRET \u2014 set per environment, never committed. Blank makes notify answer `not configured (TWILIO_AUTH_TOKEN)`."
+    },
+    "TWILIO_FROM": {
+      "type": "string",
+      "description": "The sending number in E.164 (e.g. +18555550123), SMS-capable and owned by TWILIO_ACCOUNT_SID. NOTE THE NAME: functions/api/notify.ts reads TWILIO_FROM, not TWILIO_FROM_NUMBER; the other name is silently ignored."
     }
   },
   "configFiles": [
-    {
-      "template": ".env.template",
-      "output": ".env",
-      "format": "dotenv",
-      "deleteTemplate": true
-    }
+    { "template": ".env.template", "output": ".env", "format": "dotenv", "deleteTemplate": true }
   ],
   "files": {
-    "index.html": {
-      "template": true
-    },
-    "capacitor.config.ts": {
-      "template": true
-    },
-    "public/manifest.json": {
-      "template": true
-    }
+    "index.html": { "template": true },
+    "capacitor.config.ts": { "template": true },
+    "public/manifest.json": { "template": true }
   },
-  "postCreate": {
-    "install": ["npm install"]
-  }
+  "postCreate": { "install": ["npm install"] }
 }
