@@ -69,11 +69,7 @@
       "default": "none",
       "description": "AI chat widget provider. Set to 'none' to hide the chat widget entirely.",
       "validation": {
-        "enum": [
-          "none",
-          "anthropic",
-          "openai"
-        ]
+        "enum": ["none", "anthropic", "openai"]
       }
     },
     "AI_MODEL": {
@@ -83,8 +79,8 @@
     },
     "ENABLE_ANALYTICS": {
       "type": "boolean",
-      "default": false,
-      "description": "Enable analytics event tracking. Requires analytics provider configuration."
+      "default": true,
+      "description": "Enable analytics event tracking. ON by default (2026-10-19): a project that ships with telemetry off is silent, and nobody notices. Set false only for a deliberately unmeasured build."
     },
     "FCM_SENDER_ID": {
       "type": "string",
@@ -92,7 +88,7 @@
     },
     "POSTHOG_KEY": {
       "type": "string",
-      "description": "PostHog project write key (phc_\u2026) for the fleet telemetry schema. Leave blank to send nothing."
+      "description": "PostHog project write key (phc_...) for the fleet telemetry schema. Blank means events are validated and DROPPED; GET /api/health then reports `not configured (POSTHOG_KEY)` in its findings, so the silence is visible. Provisioning should set this per environment."
     },
     "POSTHOG_HOST": {
       "type": "url",
@@ -106,7 +102,7 @@
     "PILLAR": {
       "type": "string",
       "default": "template",
-      "description": "The reporting system on the fleet schema: this product's slug."
+      "description": "This app's product slug, as EYE names it. No default: unset reports as `unset`, never `template`, and GET /api/health flags it."
     }
   },
   "configFiles": [
@@ -129,8 +125,6 @@
     }
   },
   "postCreate": {
-    "install": [
-      "npm install"
-    ]
+    "install": ["npm install"]
   }
 }
