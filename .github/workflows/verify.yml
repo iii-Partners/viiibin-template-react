@@ -20,6 +20,24 @@ jobs:
         run: npm run build
       - name: Typecheck the Pages Functions
         run: npm run typecheck:functions
+  # The agent-layer wall (iii-eye#1247, CO-3): no `ai` / `@ai-sdk/*` package, import or bundled SDK, and no agent-authoring
+  # control (prompt or tool editor) in anything this template delivers. The job id is the check name EYE grades on main
+  # as the settings-conformance row `agent-boundary · iii-Partners/viiibin-template-react` — do not rename it.
+  agent-boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - name: Build (the bundle is inspected, not just the source)
+        run: npm run build
+      - name: The check's own falsifiers (planted dependency, import, bundle marker, prompt-editor route)
+        run: node --test scripts/check-agent-boundary.test.mjs
+      - name: No Vercel AI SDK or agent authoring customer-side
+        run: node scripts/check-agent-boundary.mjs --require-dist
   # Delivery proof (DP-9, iii-eye#527): the welcome email and the SMS code must really arrive at a Mailosaur inbox and
   # number, with working links and no placeholder text. Runs only when the secrets exist; otherwise it says so loudly
   # instead of passing in silence.
