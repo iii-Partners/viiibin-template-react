@@ -48,3 +48,5 @@ coverage/
 # Local secrets for `wrangler pages dev` and the delivery tests' run ids
 .dev.vars
 tests/delivery/.runs.json
+.loop/state/
+.loop/artifacts/
