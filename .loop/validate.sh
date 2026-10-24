@@ -9,5 +9,6 @@ run(){ local n="$1"; shift; printf '%-22s ' "$n"; if "$@"; then echo PASS; else 
 has lint && run lint npm run -s lint
 has typecheck && run typecheck npm run -s typecheck
 has build && run build npm run -s build
+run agent-boundary node scripts/check-agent-boundary.mjs --require-dist   # iii-eye#1247 CO-3
 has test && run test env CI=1 npm test
 exit $fail
