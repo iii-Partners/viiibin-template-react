@@ -40,7 +40,7 @@ function fixture() {
       return stmt
     },
   } as unknown as D1Database
-  const env: KpiEnv = { DB: db, VENTURE_ID: 'synthetic-a' }
+  const env: KpiEnv = { DB: db, VENTURE_ID: 'synthetic-a', KPI_READ_API_KEYS: 'vk_kpi_public_test_constant' }
   return { env, sqlite }
 }
 
@@ -149,7 +149,8 @@ describe('OS-K1 discovery and append-only observation contract', () => {
   it('refuses end-user reads, caller scope overrides and unreadable storage', async () => {
     const { env } = fixture()
     const call = (url: string, kind: string, target: KpiEnv = env) => onRequestGet({
-      env: target, request: new Request(url), data: { identity: { kind } },
+      env: target, request: new Request(url, { headers: { authorization: 'Bearer vk_kpi_public_test_constant' } }),
+      data: { identity: { kind } },
     } as unknown as Parameters<typeof onRequestGet>[0]) as Promise<Response>
     expect((await call('https://synthetic.invalid/api/kpis', 'user')).status).toBe(403)
     expect((await call('https://synthetic.invalid/api/kpis?venture_id=synthetic-b', 'machine')).status).toBe(400)
@@ -158,5 +159,20 @@ describe('OS-K1 discovery and append-only observation contract', () => {
     expect(failure.status).toBe(503)
     expect(await failure.json()).toEqual({ error: 'kpi_storage_unavailable' })
     expect(failure.headers.get('cache-control')).toBe('no-store')
+  })
+
+  it('requires a determined KPI read grant beyond ordinary machine authentication', async () => {
+    const { env } = fixture()
+    const call = (credential: string, target: KpiEnv = env) => onRequestGet({
+      env: target, request: new Request('https://synthetic.invalid/api/kpis', {
+        headers: { authorization: `Bearer ${credential}` },
+      }), data: { identity: { kind: 'machine' } },
+    } as unknown as Parameters<typeof onRequestGet>[0]) as Promise<Response>
+    expect((await call('vk_business_public_test_constant')).status).toBe(403)
+    expect((await call('')).status).toBe(403)
+    const absent = await call('vk_kpi_public_test_constant', { ...env, KPI_READ_API_KEYS: undefined })
+    expect(absent.status).toBe(503)
+    expect(await absent.json()).toEqual({ error: 'kpi_read_identity_not_configured' })
+    expect((await call('vk_kpi_public_test_constant', { ...env, KPI_READ_API_KEYS: 'undetermined' })).status).toBe(503)
   })
 })

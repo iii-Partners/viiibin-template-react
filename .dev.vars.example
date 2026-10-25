@@ -4,6 +4,9 @@ APP_NAME=My App
 APP_URL=http://127.0.0.1:8788
 # Machine keys accepted by functions/_middleware.ts (comma-separated vk_ keys)
 API_KEYS=
+# EYE-only KPI read grant: subset of API_KEYS. Empty keeps /api/kpis closed.
+# Server secret only, never a VITE_* variable. Do not put real values in this example.
+KPI_READ_API_KEYS=
 # Fleet telemetry (functions/_lib/telemetry.ts): this app's PostHog project write key and identity on the fleet schema
 POSTHOG_KEY=
 POSTHOG_HOST=https://us.i.posthog.com

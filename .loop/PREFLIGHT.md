@@ -24,3 +24,6 @@ Invoked through the preflight skill in this worktree before /harness or /kickoff
 | Deployment approval | M4 | ⚠️ | User explicitly requires STOP before any deploy | Owner reviews concrete PR and grants deployment approval; this lane stops BLOCKED |
 
 No ❌ input blocks the independent local slice. Preflight is green for that scope; /harness is next. **I could not prove this against the real system.** No deployment or real customer source read-back ran.
+
+## Input discovered during security review
+`KPI_READ_API_KEYS` is an additional explicit server-only grant, a subset of `API_KEYS`, declared in viiibin.config.json and .dev.vars.example. Verified using a public synthetic test constant; ordinary authenticated business keys are refused. The actual EYE read identity remains undetermined and BLOCKED for deployment. Owner supplies it only through the governed per-project secret store, never through VITE_* or an issue. This updates the input inventory; it does not claim a second /preflight invocation.

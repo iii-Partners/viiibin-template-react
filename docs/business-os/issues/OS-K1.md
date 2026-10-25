@@ -21,7 +21,7 @@
 
 **Data / APIs:** kpi-definition/v1: key/version/label/unit/category/direction/discovery_ref/approval_ref/source_ref/max_age_seconds. Observation: stable id + exact definition version + finite number or null/reason + ordered UTC period + opaque source_ref. Composite venture keys and foreign key. business-os-kpis/v1 is a local observation contract, not client-kpi/v1.
 
-**Security / inputs:** VENTURE_ID comes only from server config. API/MCP machine allowlist is existing authority; reject user identity and scope overrides. Opaque operational references only, no PHI or free-form notes. No-store on every response. Missing binding/storage/unreadable source = 503, never empty success; unknown row = 404; writes = 405.
+**Security / inputs:** VENTURE_ID comes only from server config. Require both real Pages machine authentication through API_KEYS and a separate explicit KPI_READ_API_KEYS read grant for EYE. Ordinary business keys, user identities and scope overrides are refused. Missing/undetermined read grant fails 503. The server-only grant must be declared in provisioning and must never enter VITE_* client variables. Opaque operational references only, no PHI or free-form notes. No-store on handler responses. Missing binding/storage/unreadable source = 503, never empty success; unknown row = 404; writes = 405.
 
 **Dependencies / dedupe:** No implementation predecessor; reuse #5 identity, #8/#11 telemetry semantics and #14 fit review. Existing EYE #1248/#1254/#1251 own project/manifest/UI. PR #16 owns SDK wall. Local capability predecessors: none.
 

@@ -9,6 +9,14 @@ export const onRequestGet: PagesFunction<KpiEnv> = async ({ env, data, request }
   // Only middleware establishes identity; the handler never trusts a client identity header/body.
   if ((data.identity as { kind?: string } | undefined)?.kind !== 'machine')
     return json(403, { error: 'machine_identity_required' })
+  // Authentication for business tools does not grant access to operator metrics.
+  // Provision EYE's read key explicitly in BOTH allowlists; no default grant.
+  const readKeys = (env.KPI_READ_API_KEYS ?? '').split(',').map((s) => s.trim()).filter(Boolean)
+  if (!readKeys.length || readKeys.some((key) => !key.startsWith('vk_') || key.length <= 3))
+    return json(503, { error: 'kpi_read_identity_not_configured' })
+  const authorization = request.headers.get('authorization') ?? ''
+  const credential = authorization.startsWith('Bearer ') ? authorization.slice(7).trim() : ''
+  if (!readKeys.includes(credential)) return json(403, { error: 'kpi_read_forbidden' })
   const query = new URL(request.url).searchParams
   if ([...query.keys()].some((key) => key !== 'observation_id') || query.getAll('observation_id').length > 1)
     return json(400, { error: 'scope_not_selectable' })

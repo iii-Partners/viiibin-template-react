@@ -34,7 +34,7 @@ export const kpiObservationSchema = z.strictObject({
 
 export type KpiDefinition = z.infer<typeof kpiDefinitionSchema>
 export type KpiObservation = z.infer<typeof kpiObservationSchema>
-export interface KpiEnv { DB?: D1Database; VENTURE_ID?: string }
+export interface KpiEnv { DB?: D1Database; VENTURE_ID?: string; KPI_READ_API_KEYS?: string }
 export class KpiError extends Error {}
 
 function scope(env: KpiEnv) {

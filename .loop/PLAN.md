@@ -14,7 +14,7 @@ This lane reviews the base, refines and deduplicates delivery issues, and implem
 
 ## Milestones
 - [x] M1 (#14) Review fit with file evidence, draw boundaries, and file dependency-ordered children with two-layer contracts and three-part estimates; read them back and dedupe. Evidence: os-issue-contracts live PASS; os-drawing PASS and PNG visually inspected; children #17–#22.
-- [x] M2 (#17) Build the KPI declaration + append-only observation spine and protected read surface. Full local run at 2026-10-25T01:09:26Z: both M2 checks PASS after RED; eight contract tests, real local Pages/D1, two integrity regression falsifiers. This accepts local scope only; #17 production acceptance stays open.
+- [x] M2 (#17) Build the KPI declaration + append-only observation spine and protected read surface. Full local run at 2026-10-25T01:20:45Z: both M2 checks PASS after RED; nine contract tests, real local Pages/D1, replacement/ordering/service-grant falsifiers. This accepts local scope only; #17 production acceptance stays open.
 - [ ] M3 (#14) Review/test/document the slice, commit in this lane, and open ONE reviewable PR with mergeability checked. Inherited failures remain visible and block full readiness.
 - [ ] M4 (#14) Owner-approved deployment + production source read-back. BLOCKED: explicit owner approval and determined project configuration required; do not execute in this lane.
 
@@ -24,7 +24,7 @@ The customer's existing stakeholder web/mobile app stays their product. No secon
 ## First-slice acceptance
 1. Distinct discovery declarations validate into a closed versioned schema with stable keys, unit/category/direction, source/read-back reference, cadence, and approval reference. Missing/undetermined declarations fail by name; defaults contain no client KPIs.
 2. Instrumentation appends observations bound to the server's VENTURE_ID. Exact retry is idempotent; conflicting replay and unit/definition changes fail. Updates/deletes to observation/definition history are prevented by database triggers.
-3. GET /api/kpis is limited to authenticated machine callers, binds scope on the server, and never accepts a caller-selected venture. No reading is null/unmeasured, never zero; unreadable storage is unavailable, never empty success. No baselines, deltas, or claims of verified external source delivery.
+3. GET /api/kpis requires both authenticated machine identity and a separate explicit KPI read grant, binds scope on the server, and never accepts a caller-selected venture. Ordinary business keys are denied. Missing readings remain null/unmeasured; actual zero stays zero. Unreadable storage is unavailable, never empty success. No baselines, deltas, or claims of verified external source delivery.
 4. Real local Pages Functions + D1 contract tests exercise auth, two scoped fixtures, null/zero, replay, immutability, and read-back. No external customer or PHI data.
 
 ## Inputs required
@@ -36,6 +36,7 @@ The customer's existing stakeholder web/mobile app stays their product. No secon
 | Workers/D1 + browser tooling | local Wrangler; synthetic fixture constants; Chromium cache | local proof only |
 | KPI facts | no live facts supplied; empty base registry; synthetic fixtures explicitly named | real deployment BLOCKED until owner supplies approved discovery declaration and read-back |
 | VENTURE_ID / service credentials / D1 binding | synthetic constants in isolated harness; real values undetermined | deployment BLOCKED, never guess |
+| KPI_READ_API_KEYS | explicit server-only KPI read grant, subset of API_KEYS; synthetic constant verified locally, real grant undetermined | deployment BLOCKED until owner configures in governed secret store, never VITE_* |
 | agent execution location, authority tiers/write levers | owner U1/U6/U7 on iii-eye#1257/#1258 | later runtime/admin tickets BLOCKED |
 | deployment approval | owner, after reviewing concrete PR | M4 BLOCKED |
 

@@ -36,7 +36,8 @@ for (const table of ['os_kpi_definitions', 'os_kpi_observations']) {
 }
 
 const child = spawn(process.execPath, [wrangler, 'pages', 'dev', 'dist', '--ip', '127.0.0.1', '--port', '0',
-  '--persist-to', persist, '--binding', 'API_KEYS=vk_kpi_public_test_constant', '--binding', 'VENTURE_ID=synthetic-a'], {
+  '--persist-to', persist, '--binding', 'API_KEYS=vk_kpi_public_test_constant,vk_business_public_test_constant',
+  '--binding', 'KPI_READ_API_KEYS=vk_kpi_public_test_constant', '--binding', 'VENTURE_ID=synthetic-a'], {
   env: { ...process.env, WRANGLER_SEND_METRICS: 'false' }, stdio: ['ignore', 'pipe', 'pipe'],
 })
 let log = ''
@@ -54,6 +55,8 @@ try {
   const anon = await call()
   assert([401, 503].includes(anon.status), 'anonymous KPI read must fail closed')
   assert.equal((await call('/api/kpis', { headers: { authorization: 'Bearer vk_wrong_test_constant' } })).status, 401)
+  assert.equal((await call('/api/kpis', { headers: { authorization: 'Bearer vk_business_public_test_constant' } })).status,
+    403, 'ordinary authenticated business API keys must not read operator KPI data')
   const response = await call('/api/kpis', { headers })
   assert.equal(response.status, 200, 'KPI service must exist behind real Pages middleware')
   assert.equal(response.headers.get('cache-control'), 'no-store')

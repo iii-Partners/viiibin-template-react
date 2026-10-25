@@ -9,8 +9,8 @@ Measured evidence:
 - Existing working cn() deliberately broken: RED; original source bytes restored: GREEN (evidence/harness-mutation.json).
 - SQLite replacement bypass reproduced RED, then BEFORE INSERT replacement guards and idempotent INSERT SELECT path GREEN.
 - Equal-period/equal-timestamp latest reading reproduced RED, then append-sequence order GREEN.
-- 25 unit/SQLite-backed tests PASS; frontend/functions/Drizzle typechecks PASS; build PASS; new source files ESLint PASS.
-- Real local Wrangler Pages + D1: auth refusal, server scope, zero/NULL, stored-row proof, history refusal, foreign row refusal, unsupported writes and unavailable table contract PASS. Node 22 and Node 26 runs both PASS.
+- 26 unit/SQLite-backed tests PASS, including nine KPI tests; frontend/functions/Drizzle typechecks PASS; build PASS; new source files ESLint PASS.
+- Real local Wrangler Pages + D1: auth and ordinary-business-key refusal, explicit KPI read grant, server scope, zero/NULL, stored-row proof, history refusal, foreign row refusal, unsupported writes and unavailable table contract PASS. Node 22 and Node 26 runs both PASS.
 - GitHub remote bodies/titles/open states read back and match all six reviewed files; parent has actual sub-issue relations #17–#22.
 - SVG screenshot opened with view_image and inspected. Proposed states and boundary legible, no clipping.
 
@@ -18,7 +18,7 @@ Remaining limitations / owner gates:
 - Full local gate is RED: inherited lint (8 errors, 2 warnings) and malformed unchanged known-red ledger []. Neither was fixed or suppressed. M3 readiness remains BLOCKED.
 - Real customer source re-derivation, approval/signer verification, EYE projection, telemetry delivery, Auth0 end-user browser session, native device builds and live deployment were not proved by these local fixtures. I could not prove this against the real system.
 - Every KPI item explicitly says source_verification=not_verified. approval_ref is not a verified signature. Baselines/deltas remain EYE-owned and unimplemented here.
-- Existing API machine keys are deployment service trust, not fine-grained per-key KPI scopes. A compromised trusted producer can append false observations, which is why OS-K2 requires independent re-derivation. No public measurement write path exists.
+- Final review reproduced a real local leak to an ordinary authenticated business key (200 instead of 403). A separate explicit server-only KPI_READ_API_KEYS grant now sits after middleware authentication; its missing/undetermined state fails closed. Ordinary business keys are denied. A compromised producer can still record false business observations, which is why OS-K2 requires independent re-derivation. No public measurement write path exists.
 - Runtime placement U1 (#21 / EYE #1257), signer/authority U2/U6/U7 (#20 / EYE #1253/#1258), source binding (#18) and feature catalog/manifest (#22 / EYE #1248) remain scoped blocks, posted on their issues. No business fact/config/credential guessed.
 - Owner approval, real binding/identity/D1, approved discovery inputs, source-read permissions and retention policy must be determined before deployment. Do not merge/deploy as an incidental next step. No deployment/workflow dispatch performed.
 
