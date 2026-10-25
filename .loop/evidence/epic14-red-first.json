@@ -1,0 +1,82 @@
+{
+  "pass": false,
+  "passed": 1,
+  "failed": 7,
+  "fast": false,
+  "seconds": 9,
+  "at": "2026-10-25T00:52:53Z",
+  "checks": [
+    {
+      "id": "base-lint",
+      "milestone": "M3",
+      "status": "fail",
+      "seconds": 1
+    },
+    {
+      "id": "base-typecheck",
+      "milestone": "M3",
+      "status": "fail",
+      "seconds": 2
+    },
+    {
+      "id": "base-tests",
+      "milestone": "M3",
+      "status": "fail",
+      "seconds": 1
+    },
+    {
+      "id": "os-kpi-contract",
+      "milestone": "M2",
+      "status": "fail",
+      "seconds": 0
+    },
+    {
+      "id": "base-build",
+      "milestone": "M3",
+      "status": "pass",
+      "seconds": 3
+    },
+    {
+      "id": "os-kpi-api",
+      "milestone": "M2",
+      "status": "fail",
+      "seconds": 1
+    },
+    {
+      "id": "os-issue-contracts",
+      "milestone": "M1",
+      "status": "fail",
+      "seconds": 0
+    },
+    {
+      "id": "os-drawing",
+      "milestone": "M1",
+      "status": "fail",
+      "seconds": 0
+    }
+  ],
+  "skipped": 0,
+  "new_red": [
+    "known-reds.json",
+    "base-lint",
+    "base-typecheck",
+    "base-tests",
+    "os-kpi-contract",
+    "os-kpi-api",
+    "os-issue-contracts",
+    "os-drawing"
+  ],
+  "known_red": [],
+  "ledgered_not_judged": [],
+  "base_commit": "ff6326bcd6d0e6e2f9c900777d7ebe71bdde866e",
+  "logs": {
+    "base-lint.log": "773658b8f013b1f762a207457b6f49d64f1edb18d4512c831a9ccb8d377f890d",
+    "os-kpi-contract.log": "e8b09c2393ef83ee071cfc4405dd7f24343e8b333c8ccb40e73068d0fb1d2ded",
+    "os-issue-contracts.log": "b614c55975dedbee4c38b4a3bfc959816202637fa57767630cbbac1b225f9000",
+    "base-tests.log": "fbade48b4dba8fa0c2b20fb550dac4b3c0ca72580d644d16f9761bea6e3abced",
+    "base-typecheck.log": "048b7c66051a9d0cc1472cffbe64eef5a210bc3121691cc72451a7fa3b6bbbc6",
+    "os-drawing.log": "9a2ed1de59ea534cbd0a34ac1eedca9d032a8423bd565be09420a3de3366ce62",
+    "base-build.log": "51dae3c3290f2556526ab9bfc11a0f5ef51c96669f02f3f5feaa166b0b9699ae",
+    "os-kpi-api.log": "ce6cc4ddb9340312104f810f3c1bb1dedad889ecb40f78d106bb4e4975793d60"
+  }
+}

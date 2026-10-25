@@ -1,0 +1,8 @@
+{
+  "target": "src/lib/utils/cn.ts",
+  "red_exit": 1,
+  "restored_exit": 0,
+  "restored_sha256": "e46429536f43f5910f5b2b0c50bb2769b510a4558bb4b5d20a3b0a9091dbf7c3",
+  "red_log_sha256": "cb65f106be21ce82872290cc209ad62fc225d3264e97aa4f240ec95ca4388382",
+  "green_log_sha256": "623a74d762d8da8303975bed43fd6239660be633c66ab0f9a620cfe36b23af25"
+}
