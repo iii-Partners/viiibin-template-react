@@ -107,6 +107,17 @@ describe('OS-K1 discovery and append-only observation contract', () => {
     await expect(recordKpiObservation(env, { ...observation, observation_id: 'unknown', kpi_key: 'missing_key' })).rejects.toThrow('definition_not_found')
   })
 
+  it('selects the last append for an equal period/timestamp even when ids sort backwards', async () => {
+    const { env, sqlite } = fixture()
+    await declareKpi(env, definition)
+    const insert = sqlite.prepare(`INSERT INTO os_kpi_observations
+      (venture_id, observation_id, kpi_key, definition_version, value, source_ref, period_start, period_end, recorded_at)
+      VALUES ('synthetic-a', ?, 'queue_time', 1, ?, 'synthetic:row', ?, ?, '2026-10-21T00:00:01Z')`)
+    insert.run('tie_z', 9, observation.period.start, observation.period.end)
+    insert.run('tie_a', 1, observation.period.start, observation.period.end)
+    expect((await readKpis(env, now)).kpis[0].observation?.value).toBe(1)
+  })
+
   it('enforces append-only history and meaning in the database, even for direct SQL', async () => {
     const { env, sqlite } = fixture()
     await declareKpi(env, definition)
@@ -115,6 +126,10 @@ describe('OS-K1 discovery and append-only observation contract', () => {
       'UPDATE os_kpi_definitions SET version = 9', 'DELETE FROM os_kpi_definitions',
       'UPDATE os_kpi_observations SET value = 9', 'DELETE FROM os_kpi_observations',
     ]) expect(() => sqlite.exec(sql)).toThrow('append-only')
+    // SQLite REPLACE can delete without invoking DELETE triggers unless guarded at INSERT.
+    for (const table of ['os_kpi_definitions', 'os_kpi_observations']) {
+      expect(() => sqlite.exec(`INSERT OR REPLACE INTO ${table} SELECT * FROM ${table}`)).toThrow('append-only')
+    }
     expect(() => sqlite.exec("INSERT INTO os_kpi_definitions SELECT venture_id, kpi_key, 3, 'minutes', category, better_is_lower, definition_json FROM os_kpi_definitions")).toThrow('definition_meaning_changed')
   })
 

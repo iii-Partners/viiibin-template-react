@@ -4,7 +4,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
 source .loop/lib/check.sh
 check base-lint M3 "npm run -s lint"
-check base-typecheck M3 "npm run -s typecheck && npm run -s typecheck:functions"
+check base-typecheck M3 "npm run -s typecheck && npm run -s typecheck:functions && npm run -s typecheck:db"
 check base-tests M3 "env CI=1 npm test"
 check os-kpi-contract M2 "npx --no-install vitest run functions/__tests__/kpis.test.ts"
 if ! fast; then

@@ -14,7 +14,7 @@ This lane reviews the base, refines and deduplicates delivery issues, and implem
 
 ## Milestones
 - [x] M1 (#14) Review fit with file evidence, draw boundaries, and file dependency-ordered children with two-layer contracts and three-part estimates; read them back and dedupe. Evidence: os-issue-contracts live PASS; os-drawing PASS and PNG visually inspected; children #17–#22.
-- [ ] M2 (#17) Build the KPI declaration + append-only observation spine and protected read surface. Observe each new check RED before GREEN, including a planted working-feature fault.
+- [x] M2 (#17) Build the KPI declaration + append-only observation spine and protected read surface. Full local run at 2026-10-25T01:09:26Z: both M2 checks PASS after RED; eight contract tests, real local Pages/D1, two integrity regression falsifiers. This accepts local scope only; #17 production acceptance stays open.
 - [ ] M3 (#14) Review/test/document the slice, commit in this lane, and open ONE reviewable PR with mergeability checked. Inherited failures remain visible and block full readiness.
 - [ ] M4 (#14) Owner-approved deployment + production source read-back. BLOCKED: explicit owner approval and determined project configuration required; do not execute in this lane.
 

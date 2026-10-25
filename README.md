@@ -22,7 +22,7 @@ npm run dev
 | Forms | React Hook Form + Zod |
 | Data Fetching | TanStack Query 5 |
 | Auth | Auth0 |
-| Mobile | Capacitor 7 (iOS + Android) |
+| Mobile | Capacitor 8 (iOS + Android) |
 | i18n | react-i18next |
 | Testing | Vitest + Testing Library |
 
@@ -100,6 +100,16 @@ This template is born reporting to the iii Partners fleet and proving its own se
 **Telemetry (PostHog, one schema).** Events carry the [Fleet Telemetry Standard](https://github.com/iii-Partners/iii-eye/blob/main/docs/standards/TELEMETRY-STANDARD.md): `venture_id`, `pillar`, `actor_type`, `actor_id`, `run_id`, `ticket`, `executor`, `env`, `class`. In the browser, `src/lib/analytics/posthog.ts` registers them as super properties (consent-gated; `VITE_ENABLE_ANALYTICS`, `VITE_POSTHOG_KEY`). In the functions, `functions/_lib/telemetry.ts` wraps `@iii-partners/fleet-kit/telemetry`: `emit(env, 'notification_sent', {...}, context)`, `emitError(env, err, { error_kind }, context)`, `agentProps(model, provider, usage, ms, rate)` for model calls. `GET /api/health` emits a `heartbeat`; the middleware reports uncaught errors as `$exception unhandled_error`. Keys live in the Pages project's variables (`POSTHOG_KEY`, `VENTURE_ID`, `PILLAR`, `APP_ENV`), never in the repo. The kit refuses personal data (emails, names, phone numbers, message bodies, secrets) at the call site.
 
 **Delivery proof (Mailosaur).** `POST /api/notify` sends the welcome email (Resend) and the one-time SMS code (Twilio); `docs/outbound-messages.md` is the inventory. `npm run test:delivery` runs `tests/delivery/*.spec.ts`: the real flow, the real provider, the message awaited at a Mailosaur inbox or number, then recipient, sender, subject, content, links and placeholder text asserted. Needs `MAILOSAUR_API_KEY`, `MAILOSAUR_SERVER_ID`, `MAILOSAUR_PHONE_NUMBER`, `DELIVERY_API_KEY` (a `vk_` key in the server's `API_KEYS`) and the server-side provider variables (`.dev.vars.example`); with `DELIVERY_BASE_URL` set the tests target a deployment, otherwise the global setup starts `wrangler pages dev dist` (build first). CI (`verify.yml`) runs them when the `MAILOSAUR_API_KEY` secret exists and says "not configured" otherwise.
+
+## Business OS foundation
+
+[The fit review and delivery plan](docs/business-os/README.md) describes the KPI and GOVENANT work under [epic #14](https://github.com/iii-Partners/viiibin-template-react/issues/14). The base has no customer KPI defaults or agent executor. EYE owns customer administration, analytics and agent approvals; template routes serve the business's stakeholders.
+
+The first slice adds internal `declareKpi` / `recordKpiObservation` helpers in `functions/_lib/kpis.ts`, additive D1 migration `0001_kpi_spine.sql`, and machine-only `GET /api/kpis` / `?observation_id=<id>`. The server's `VENTURE_ID` scopes every row. Reads never create measurements. Missing readings stay null, actual zero stays zero, stale readings retain their period, and inaccessible storage returns 503. Definition/observation history forbids update, delete and replacement.
+
+Every response item identifies its external source as `not_verified`. Stored-row proof is available; source re-derivation, EYE export, countersigned baselines and impact deltas belong to later slices. Activate only with owner-approved discovery/configuration, retention and deployment approval; this lane has not deployed it.
+
+To reproduce local proof with synthetic data only: `npm run build`, then `node .loop/harness/kpi-api.mjs`. Run the full gate with `bash .loop/validate.sh`; existing inherited lint/ledger findings remain visible. See `.loop/PREFLIGHT.md` and `.loop/PROGRESS.md` for scope and evidence.
 
 ## Mobile Development
 

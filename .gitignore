@@ -52,3 +52,4 @@ tests/delivery/.runs.json
 .loop/artifacts/
 .loop/ACTIVE
 .loop/BLOCKED
+.wrangler/

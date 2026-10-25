@@ -78,7 +78,7 @@ sequenceDiagram
 ## Data and failure semantics (OS-K1)
 `os_kpi_definitions`: composite `(venture_id, kpi_key, version)`, immutable definition JSON plus stable unit/category/direction columns. A change to the meaning of a stable KPI key is refused; create a new key instead. Version changes can update label/source/cadence with their discovery/approval references. A new version has no reading until that version is measured.
 
-`os_kpi_observations`: composite `(venture_id, observation_id)`, foreign key to exact definition version, nullable finite value plus required missing reason for NULL, source reference, period and record timestamp. The producer chooses a stable id for retry; exact payload replay is harmless, conflicting reuse fails. Database triggers forbid UPDATE/DELETE, including paths that bypass application helpers. No baseline table or typed manual delta exists here.
+`os_kpi_observations`: unique `(venture_id, observation_id)`, foreign key to exact definition version, nullable finite value plus required missing reason for NULL, source reference, period and record timestamp. An internal append sequence breaks equal-period ties correctly even at the same timestamp. The producer chooses a stable id for retry; exact payload replay is harmless, conflicting reuse fails. Database triggers forbid UPDATE/DELETE/REPLACE, including paths that bypass application helpers. No baseline table or typed manual delta exists here.
 
 ```mermaid
 erDiagram
@@ -91,7 +91,7 @@ Illustrative synthetic declaration (not customer facts):
 ```json
 {"contract":"kpi-definition/v1","kpi_key":"queue_time","version":1,"label":"Queue time","unit":"hours","category":"cycle_time","better_is_lower":true,"discovery_ref":"synthetic:discovery:1","approval_ref":"synthetic:approval:1","source_ref":"synthetic:queue-query","max_age_seconds":86400}
 ```
-`GET /api/kpis` returns `business-os-kpis/v1`; a stored-row read uses `?observation_id=<opaque-id>`. Public/end-user reads are refused; caller-supplied venture scope is rejected; missing deployment binding or storage is 503, unknown stored row 404, unsupported HTTP mutations 405. Responses are no-store. Reads never declare or measure anything. Internal helpers accept no venture field and do not create an HTTP write path.
+`GET /api/kpis` returns `business-os-kpis/v1`; a stored-row read uses `?observation_id=<opaque-id>`. Public/end-user reads are refused; caller-supplied venture scope is rejected; missing deployment binding or storage is 503, unknown stored row 404, unsupported HTTP mutations 405. Handler responses are no-store. Every item says `source_verification: not_verified`: this service proves a stored observation, not its external source. Reads never declare or measure anything. Internal helpers accept no venture field and do not create an HTTP write path. Snapshot reads use one indexed query and refuse more than 100 distinct declarations explicitly rather than silently truncating.
 
 Canonical EYE `client-kpi/v1` requires a finite number, source_ref and (for baseline) signed_ref. **Do not serialize the local snapshot as client-kpi/v1**: it also represents NULL/missingness and lacks a verified countersignature. EYE owns baseline ratification and impact math. OS-K2 maps only re-derived measurements, deduplicates observation ids, keeps demo out of customer/revenue reporting, and separates cost bases. Unknown currency cost is NULL with cost_reason, never zero.
 

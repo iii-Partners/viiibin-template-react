@@ -10,7 +10,8 @@ const dir = mkdtempSync(resolve('.loop/state/kpi-api-'))
 const persist = resolve(dir, 'd1')
 const wrangler = resolve('node_modules/wrangler/bin/wrangler.js')
 const run = (args) => execFileSync(process.execPath, [wrangler, ...args], {
-  encoding: 'utf8', timeout: 60000, env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
+  encoding: 'utf8', timeout: 60000, stdio: ['ignore', 'pipe', 'pipe'],
+  env: { ...process.env, WRANGLER_SEND_METRICS: 'false' },
 })
 const sql = (command) => run(['d1', 'execute', 'DB', '--local', '--persist-to', persist, '--command', command])
 run(['d1', 'execute', 'DB', '--local', '--persist-to', persist, '--file', 'db/migrations/0001_kpi_spine.sql'])
@@ -27,6 +28,12 @@ const start = new Date(Date.now() - 7200000).toISOString()
 sql(`INSERT INTO os_kpi_observations (venture_id, observation_id, kpi_key, definition_version, value, missing_reason, source_ref, period_start, period_end)
 VALUES ('synthetic-a','obs_live','queue_time',1,0,NULL,'synthetic:row:1','${start}','${end}'),
 ('synthetic-b','obs_live','queue_time',1,42,NULL,'synthetic:row:2','${start}','${end}')`)
+sql(`INSERT INTO os_kpi_observations (venture_id, observation_id, kpi_key, definition_version, value, source_ref, period_start, period_end)
+VALUES ('synthetic-b','foreign_only','queue_time',1,42,'synthetic:row:3','${start}','${end}')`)
+for (const table of ['os_kpi_definitions', 'os_kpi_observations']) {
+  for (const command of [`DELETE FROM ${table}`, `INSERT OR REPLACE INTO ${table} SELECT * FROM ${table}`])
+    assert.throws(() => sql(command), /append-only/, 'real D1 must reject history rewrites')
+}
 
 const child = spawn(process.execPath, [wrangler, 'pages', 'dev', 'dist', '--ip', '127.0.0.1', '--port', '0',
   '--persist-to', persist, '--binding', 'API_KEYS=vk_kpi_public_test_constant', '--binding', 'VENTURE_ID=synthetic-a'], {
@@ -56,6 +63,7 @@ try {
   assert.equal(body.kpis.length, 1)
   assert.equal(body.kpis[0].observation.value, 0)
   assert.equal(body.kpis[0].state, 'measured')
+  assert.equal(body.kpis[0].source_verification, 'not_verified')
   assert(!JSON.stringify(body).includes('synthetic-b'))
   assert(!('delta' in body.kpis[0]))
   const proof = await call('/api/kpis?observation_id=obs_live', { headers })
@@ -63,6 +71,7 @@ try {
   assert.equal((await proof.json()).observation.value, 0)
   assert.equal((await call('/api/kpis?venture_id=synthetic-b', { headers })).status, 400)
   assert.equal((await call('/api/kpis?observation_id=absent', { headers })).status, 404)
+  assert.equal((await call('/api/kpis?observation_id=foreign_only', { headers })).status, 404)
   assert.equal((await call('/api/kpis', { headers, method: 'POST', body: '{}' })).status, 405)
   sql(`INSERT INTO os_kpi_observations (venture_id,observation_id,kpi_key,definition_version,value,missing_reason,source_ref,period_start,period_end)
     VALUES ('synthetic-a','obs_missing','queue_time',1,NULL,'source_unavailable','synthetic:query','${end}','${new Date().toISOString()}')`)

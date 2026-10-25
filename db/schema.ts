@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, real, primaryKey, foreignKey, index, check } from 'drizzle-orm/sqlite-core'
+import { sqliteTable, text, integer, real, primaryKey, foreignKey, index, check, unique } from 'drizzle-orm/sqlite-core'
 import { sql } from 'drizzle-orm'
 
 // Example schema — customize for your app
@@ -39,6 +39,7 @@ export const kpiDefinitions = sqliteTable('os_kpi_definitions', {
 ])
 
 export const kpiObservations = sqliteTable('os_kpi_observations', {
+  sequence: integer('sequence').primaryKey({ autoIncrement: true }),
   ventureId: text('venture_id').notNull(),
   observationId: text('observation_id').notNull(),
   kpiKey: text('kpi_key').notNull(),
@@ -50,10 +51,10 @@ export const kpiObservations = sqliteTable('os_kpi_observations', {
   periodEnd: text('period_end').notNull(),
   recordedAt: text('recorded_at').notNull().default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`),
 }, (t) => [
-  primaryKey({ columns: [t.ventureId, t.observationId] }),
+  unique('os_kpi_observation_identity').on(t.ventureId, t.observationId),
   foreignKey({ columns: [t.ventureId, t.kpiKey, t.definitionVersion],
     foreignColumns: [kpiDefinitions.ventureId, kpiDefinitions.kpiKey, kpiDefinitions.version] }),
-  index('os_kpi_latest').on(t.ventureId, t.kpiKey, t.definitionVersion, t.periodEnd.desc(), t.recordedAt.desc(), t.observationId.desc()),
+  index('os_kpi_latest').on(t.ventureId, t.kpiKey, t.definitionVersion, sql`${t.periodEnd} DESC`, sql`${t.sequence} DESC`),
   check('os_kpi_period_ordered', sql`${t.periodEnd} > ${t.periodStart}`),
   check('os_kpi_source_nonempty', sql`length(${t.sourceRef}) > 0`),
   check('os_kpi_missingness', sql`(${t.value} IS NULL AND ${t.missingReason} IS NOT NULL AND length(${t.missingReason}) > 0)

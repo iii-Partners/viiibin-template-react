@@ -53,8 +53,10 @@ export async function declareKpi(env: KpiEnv, input: unknown): Promise<KpiDefini
   try {
     await db.prepare(`INSERT INTO os_kpi_definitions
       (venture_id, kpi_key, version, unit, category, better_is_lower, definition_json)
-      VALUES (?, ?, ?, ?, ?, ?, ?) ON CONFLICT (venture_id, kpi_key, version) DO NOTHING`)
-      .bind(ventureId, d.kpi_key, d.version, d.unit, d.category, Number(d.better_is_lower), JSON.stringify(d)).run()
+      SELECT ?, ?, ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM os_kpi_definitions
+        WHERE venture_id = ? AND kpi_key = ? AND version = ?)`)
+      .bind(ventureId, d.kpi_key, d.version, d.unit, d.category, Number(d.better_is_lower), JSON.stringify(d),
+        ventureId, d.kpi_key, d.version).run()
   } catch (e) {
     if (String(e).includes('definition_meaning_changed')) throw new KpiError('definition_meaning_changed')
     throw e
@@ -100,9 +102,10 @@ export async function recordKpiObservation(env: KpiEnv, input: unknown): Promise
   if (!definition) throw new KpiError('definition_not_found')
   await db.prepare(`INSERT INTO os_kpi_observations
     (venture_id, observation_id, kpi_key, definition_version, value, missing_reason, source_ref, period_start, period_end)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT (venture_id, observation_id) DO NOTHING`)
+    SELECT ?, ?, ?, ?, ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM os_kpi_observations
+      WHERE venture_id = ? AND observation_id = ?)`)
     .bind(ventureId, o.observation_id, o.kpi_key, o.definition_version, o.value, o.missing_reason,
-      o.source_ref, o.period.start, o.period.end).run()
+      o.source_ref, o.period.start, o.period.end, ventureId, o.observation_id).run()
   const stored = await db.prepare('SELECT * FROM os_kpi_observations WHERE venture_id = ? AND observation_id = ?')
     .bind(ventureId, o.observation_id).first<ObservationRow>()
   if (!stored || JSON.stringify(observationFromRow(stored)) !== JSON.stringify(o))
@@ -115,7 +118,7 @@ function projection(row: JoinedRow, now: Date) {
   const observation = row.observation_id === null ? null : observationFromRow(row)
   const state = !observation || observation.value === null ? 'unmeasured'
     : now.getTime() - new Date(observation.period.end).getTime() > definition.max_age_seconds * 1000 ? 'stale' : 'measured'
-  return { definition, observation, state,
+  return { definition, observation, state, source_verification: 'not_verified' as const,
     recorded_at: observation ? row.recorded_at : null,
     proof_ref: observation ? `/api/kpis?observation_id=${encodeURIComponent(observation.observation_id)}` : null }
 }
@@ -128,7 +131,7 @@ export async function readKpis(env: KpiEnv, now = new Date()) {
       AND o.definition_version = d.version AND o.observation_id = (
         SELECT observation_id FROM os_kpi_observations latest WHERE latest.venture_id = d.venture_id
           AND latest.kpi_key = d.kpi_key AND latest.definition_version = d.version
-        ORDER BY period_end DESC, recorded_at DESC, observation_id DESC LIMIT 1)
+        ORDER BY period_end DESC, sequence DESC LIMIT 1)
     WHERE d.venture_id = ? AND d.version = (SELECT MAX(version) FROM os_kpi_definitions versions
       WHERE versions.venture_id = d.venture_id AND versions.kpi_key = d.kpi_key)
     ORDER BY d.kpi_key LIMIT 101`).bind(ventureId).all<JoinedRow>()
