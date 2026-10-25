@@ -10,3 +10,8 @@ Harness bootstrapped by hand.
 - Forward estimate and first-slice scope recorded in PLAN before implementation. Real discovery/venture/approval facts remain undetermined and are excluded from local synthetic proof.
 - /preflight completed: PREFLIGHT.md records real GitHub writes, local D1 SELECT 1, Chromium launch, build and 17 passing tests. npm ci succeeded through an invocation-only SSH mapping; initial npm HTTPS attempt was terminated after retry stalls. No credential file or global git setting written.
 - Inherited RED: lint has 8 errors and 2 warnings on untouched source; known-reds.json is an invalid [] for the supplied checker. Do not repair outside ticket or weaken gates.
+
+## Harness changes — /harness, 2026-10-24
+- Replaced the bootstrap console-only wrapper with the supplied check.sh/finish protocol; original lint/typecheck/build/test all remain. Added functions typecheck, KPI contract, real local API, live issue-contract and rendered SVG checks. No inherited assertion removed or weakened.
+- Full run observed RED before implementation: os-kpi-contract missing module; os-kpi-api missing migration; os-issue-contracts missing issue map; os-drawing missing SVG. base-build PASS; prior 17 tests still pass. Per-check logs and state/last-validate.json written by actual invocation.
+- Expected temporary RED in base-tests/typecheck is from new tests importing the unbuilt slice. Inherited lint/ledger remain separate. Saving this intentional RED checkpoint before /kickoff.
