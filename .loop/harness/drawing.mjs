@@ -10,7 +10,7 @@ try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 980 } })
   await page.setContent(svg)
   for (const text of ['Discovery', 'Business OS', 'EYE', 'Unmeasured', 'GOVENANT']) {
-    await page.getByText(text, { exact: false }).first().waitFor({ state: 'visible' })
+    await page.locator('svg text').filter({ hasText: text }).first().waitFor({ state: 'visible' })
   }
   mkdirSync('.loop/artifacts/screenshots/os-drawing', { recursive: true })
   await page.screenshot({ path: '.loop/artifacts/screenshots/os-drawing/control-surface.png', fullPage: true })
