@@ -13,8 +13,8 @@ This lane reviews the base, refines and deduplicates delivery issues, and implem
 - GOVENANT reference: app.iii.partners constitution.ts, capability-matrix-gate.ts, decision-ledger immutability migration. Its motion_tier is animation, not agent autonomy.
 
 ## Milestones
-- [ ] M1 (#14) Review fit with file evidence, draw boundaries, and file dependency-ordered children with two-layer contracts and three-part estimates; read them back and dedupe.
-- [ ] M2 (first child of #14) Build the KPI declaration + append-only observation spine and protected read surface. Observe each new check RED before GREEN, including a planted working-feature fault.
+- [x] M1 (#14) Review fit with file evidence, draw boundaries, and file dependency-ordered children with two-layer contracts and three-part estimates; read them back and dedupe. Evidence: os-issue-contracts live PASS; os-drawing PASS and PNG visually inspected; children #17–#22.
+- [ ] M2 (#17) Build the KPI declaration + append-only observation spine and protected read surface. Observe each new check RED before GREEN, including a planted working-feature fault.
 - [ ] M3 (#14) Review/test/document the slice, commit in this lane, and open ONE reviewable PR with mergeability checked. Inherited failures remain visible and block full readiness.
 - [ ] M4 (#14) Owner-approved deployment + production source read-back. BLOCKED: explicit owner approval and determined project configuration required; do not execute in this lane.
 
