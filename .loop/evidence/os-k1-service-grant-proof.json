@@ -1,0 +1,98 @@
+{
+  "scope": "local synthetic OS-K1; external source verification and production acceptance open",
+  "validation": {
+    "pass": false,
+    "passed": 7,
+    "failed": 1,
+    "fast": false,
+    "seconds": 23,
+    "at": "2026-10-25T01:20:45Z",
+    "checks": [
+      {
+        "id": "base-lint",
+        "milestone": "M3",
+        "status": "fail",
+        "seconds": 1
+      },
+      {
+        "id": "base-typecheck",
+        "milestone": "M3",
+        "status": "pass",
+        "seconds": 2
+      },
+      {
+        "id": "base-tests",
+        "milestone": "M3",
+        "status": "pass",
+        "seconds": 1
+      },
+      {
+        "id": "os-kpi-contract",
+        "milestone": "M2",
+        "status": "pass",
+        "seconds": 1
+      },
+      {
+        "id": "base-build",
+        "milestone": "M3",
+        "status": "pass",
+        "seconds": 3
+      },
+      {
+        "id": "os-kpi-api",
+        "milestone": "M2",
+        "status": "pass",
+        "seconds": 11
+      },
+      {
+        "id": "os-issue-contracts",
+        "milestone": "M1",
+        "status": "pass",
+        "seconds": 3
+      },
+      {
+        "id": "os-drawing",
+        "milestone": "M1",
+        "status": "pass",
+        "seconds": 1
+      }
+    ],
+    "skipped": 0,
+    "new_red": [
+      "known-reds.json",
+      "base-lint"
+    ],
+    "known_red": [],
+    "ledgered_not_judged": []
+  },
+  "unit_tests": 26,
+  "kpi_tests": 9,
+  "node22": "nine KPI tests and real local Pages/D1 passed",
+  "falsifier": "ordinary authenticated business key read returned 200; now denied 403; missing grant 503",
+  "red_log_sha256": "723bdbcdf597cb9af8f3083268e30b44d83fc2449cb540f8ca6b2ba7573a5ee3",
+  "source_sha256": {
+    "functions/_lib/kpis.ts": "916182397c18f699c5a890d7c6a918cae49cf61ca36d8f585c66e0fca7921769",
+    "functions/api/kpis.ts": "72be669a161b6a2e0799ce14f3c144a3edd90185f153a558b521fb4dc06ffb8e",
+    "functions/__tests__/kpis.test.ts": "beb671f4deb288155b48ca191832cb488af7242deabc5f0c9d5428823fe92e4a",
+    "db/migrations/0001_kpi_spine.sql": "8621896f25061e5e6707f21619fb3bb945777dee172897a00c12cbd546989597",
+    ".loop/harness/kpi-api.mjs": "1ea8d07ae42885aef6aaf510102d6b7ee8363086f6db95d4d09e60950425d232"
+  },
+  "logs_sha256": {
+    "base-lint.log": "773658b8f013b1f762a207457b6f49d64f1edb18d4512c831a9ccb8d377f890d",
+    "os-kpi-contract.log": "52c3db54e693588bbc6b0bf1ef803bdb79162e5c4e0a52ecdc3540f1b93f080c",
+    "os-issue-contracts.log": "a3595d7b06cef0b6d5833e2ad8835d8173f9563e662703b0dd08025f5c7ebc1d",
+    "base-tests.log": "5696ba4624e54b313b2a6ba0be0fcc2e5703c4b9ca8910dc0880069f863913b7",
+    "base-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "os-drawing.log": "8ead094d07e8921c3d65b4e553c30a3ead91f78a7120480a30710cbfe2bae691",
+    "base-build.log": "3d190c88f5f81e91fbeb26332ca80a503d16c2a082edb558b2a1d9905e195851",
+    "os-kpi-api.log": "d6f6e0857f364c82110c70ab7ad93bab72f097ee93d1ad772d0d8df8d320c2f9"
+  },
+  "cost_usd": null,
+  "cost_basis": "unknown",
+  "cost_reason": "exact provider usage and subscription allocation unavailable; no mixed-basis sum",
+  "actual_ai_tokens": null,
+  "actual_total_ai_clock_s": null,
+  "actual_human_minutes": null,
+  "actual_reason": "fleet/provider usage receipt and human review clock not available; validation runtime measured separately",
+  "deployment": "BLOCKED \u2014 explicit owner approval and determined config/identity/D1/source/retention required"
+}

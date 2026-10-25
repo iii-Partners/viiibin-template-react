@@ -50,3 +50,6 @@ coverage/
 tests/delivery/.runs.json
 .loop/state/
 .loop/artifacts/
+.loop/ACTIVE
+.loop/BLOCKED
+.wrangler/

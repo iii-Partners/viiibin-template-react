@@ -1,0 +1,100 @@
+{
+  "repo": "iii-Partners/viiibin-template-react",
+  "epic": 14,
+  "children": [
+    {
+      "key": "OS-K1",
+      "number": 17,
+      "title": "OS-K1 \u00b7 Discovery KPI declarations, immutable observations and a scoped read contract",
+      "depends_on": [],
+      "estimate": {
+        "tokens": 55000,
+        "wall_clock_s": 3600,
+        "human_minutes": 15,
+        "cost_usd": null,
+        "cost_basis": "unknown",
+        "cost_reason": "Exact provider usage and subscription allocation are not available; not a zero-cost claim."
+      }
+    },
+    {
+      "key": "OS-K2",
+      "number": 18,
+      "title": "OS-K2 \u00b7 Re-derive KPI sources and project verified measurements into EYE",
+      "depends_on": [
+        "OS-K1"
+      ],
+      "estimate": {
+        "tokens": 40000,
+        "wall_clock_s": 2400,
+        "human_minutes": 15,
+        "cost_usd": null,
+        "cost_basis": "unknown",
+        "cost_reason": "Exact provider usage and subscription allocation are not available; not a zero-cost claim."
+      }
+    },
+    {
+      "key": "OS-G1",
+      "number": 19,
+      "title": "OS-G1 \u00b7 Delivered agent roles, hierarchy and capability contracts as versioned data",
+      "depends_on": [],
+      "estimate": {
+        "tokens": 35000,
+        "wall_clock_s": 2400,
+        "human_minutes": 15,
+        "cost_usd": null,
+        "cost_basis": "unknown",
+        "cost_reason": "Exact provider usage and subscription allocation are not available; not a zero-cost claim."
+      }
+    },
+    {
+      "key": "OS-G2",
+      "number": 20,
+      "title": "OS-G2 \u00b7 Enforce the GOVENANT action door, human decisions and immutable act receipts",
+      "depends_on": [
+        "OS-G1"
+      ],
+      "estimate": {
+        "tokens": 55000,
+        "wall_clock_s": 3600,
+        "human_minutes": 25,
+        "cost_usd": null,
+        "cost_basis": "unknown",
+        "cost_reason": "Exact provider usage and subscription allocation are not available; not a zero-cost claim."
+      }
+    },
+    {
+      "key": "OS-G3",
+      "number": 21,
+      "title": "OS-G3 \u00b7 Execute delivered agents with bounded tools, pause enforcement and liveness coverage",
+      "depends_on": [
+        "OS-G1",
+        "OS-G2"
+      ],
+      "estimate": {
+        "tokens": 65000,
+        "wall_clock_s": 4800,
+        "human_minutes": 30,
+        "cost_usd": null,
+        "cost_basis": "unknown",
+        "cost_reason": "Exact provider usage and subscription allocation are not available; not a zero-cost claim."
+      }
+    },
+    {
+      "key": "OS-C1",
+      "number": 22,
+      "title": "OS-C1 \u00b7 Compose client KPI and agent packs through a versioned delivery manifest",
+      "depends_on": [
+        "OS-K1",
+        "OS-G1"
+      ],
+      "estimate": {
+        "tokens": 30000,
+        "wall_clock_s": 2400,
+        "human_minutes": 10,
+        "cost_usd": null,
+        "cost_basis": "unknown",
+        "cost_reason": "Exact provider usage and subscription allocation are not available; not a zero-cost claim."
+      }
+    }
+  ]
+}

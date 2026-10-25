@@ -105,6 +105,10 @@
       "type": "string",
       "description": "Comma-separated API keys accepted by the protected function routes. SECRET \u2014 set per environment, never committed. Blank leaves those routes closed."
     },
+    "KPI_READ_API_KEYS": {
+      "type": "string",
+      "description": "Server-only comma-separated machine keys explicitly granted KPI reads for EYE. SECRET: set only in the governed per-project secret store. Each must also be in API_KEYS. Blank keeps /api/kpis closed; ordinary business API keys do not grant KPI access. Never expose through VITE_* variables."
+    },
     "APP_ENV": {
       "type": "string",
       "description": "production | preview | development | test. Stamped on every telemetry event. Unset is derived from CF_PAGES_BRANCH (main -> production, else preview)."

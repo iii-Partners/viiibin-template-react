@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
-# viiibin-template-react harness (hand-bootstrapped): wraps the repo's own lint/typecheck/build/test.
+# Epic #14: preserve the original gates and add observable per-check evidence.
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
-fail=0
-has(){ node -e 'process.exit((require("./package.json").scripts||{})[process.argv[1]]?0:1)' "$1" 2>/dev/null; }
-run(){ local n="$1"; shift; printf '%-22s ' "$n"; if "$@"; then echo PASS; else echo FAIL; fail=1; fi; }
-[ -d node_modules ] || npm ci >/dev/null 2>&1 || npm install >/dev/null 2>&1 || true
-has lint && run lint npm run -s lint
-has typecheck && run typecheck npm run -s typecheck
-has build && run build npm run -s build
-has test && run test env CI=1 npm test
-exit $fail
+source .loop/lib/check.sh
+check base-lint M3 "npm run -s lint"
+check base-typecheck M3 "npm run -s typecheck && npm run -s typecheck:functions && npm run -s typecheck:db"
+check base-tests M3 "env CI=1 npm test"
+check os-kpi-contract M2 "npx --no-install vitest run functions/__tests__/kpis.test.ts"
+if ! fast; then
+  check base-build M3 "npm run -s build"
+  check os-kpi-api M2 "node .loop/harness/kpi-api.mjs"
+  check os-issue-contracts M1 "node .loop/harness/issues.mjs --live"
+  check os-drawing M1 "node .loop/harness/drawing.mjs"
+fi
+finish

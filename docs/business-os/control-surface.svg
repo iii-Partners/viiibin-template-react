@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 900" role="img" aria-labelledby="title desc">
+  <title id="title">Discovery to business OS to EYE: one governed control surface</title>
+  <desc id="desc">Proposed architecture and EYE wireframe. The business OS serves stakeholders; EYE alone serves operators. Missing readings and missing baselines remain visible. No live customer values are shown.</desc>
+  <defs>
+    <style>text{font-family:Arial,sans-serif;fill:#17243a}.title{font-size:28px;font-weight:bold}.head{font-size:20px;font-weight:bold}.body{font-size:16px}.small{font-size:14px;fill:#52627a}.card{fill:white;stroke:#c4cedd;stroke-width:1.5}.arrow{fill:none;stroke:#536985;stroke-width:2;marker-end:url(#arrow)}</style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#536985"/></marker>
+  </defs>
+  <rect width="1180" height="900" rx="16" fill="#eff3f8"/>
+  <text x="36" y="48" class="title">A business OS that measures what discovery promised</text>
+  <text x="36" y="78" class="body">Proposed boundary and operator states · synthetic illustration · no deployed screen or customer results</text>
+  <rect x="36" y="112" width="320" height="170" rx="12" class="card"/>
+  <text x="56" y="145" class="head">Discovery</text>
+  <text x="56" y="180" class="body">Unique KPI · unit · source · cadence</text>
+  <text x="56" y="210" class="body">Human approval reference</text>
+  <text x="56" y="252" class="small">Unknown inputs stop activation</text>
+  <path d="M356 197H403" class="arrow"/>
+  <rect x="416" y="112" width="336" height="170" rx="12" class="card"/>
+  <text x="436" y="145" class="head">Business OS</text>
+  <text x="436" y="180" class="body">Web · mobile · API · MCP</text>
+  <text x="436" y="210" class="body">KPI declarations + observations</text>
+  <text x="436" y="252" class="small">Stakeholders use their business product</text>
+  <path d="M752 197H799" class="arrow"/>
+  <rect x="812" y="112" width="332" height="170" rx="12" fill="#e9edff" stroke="#727ac2"/>
+  <text x="832" y="145" class="head">EYE</text>
+  <text x="832" y="180" class="body">Only operator admin + analytics</text>
+  <text x="832" y="210" class="body">Source verification + signed baseline</text>
+  <text x="832" y="252" class="small">Customer configures, approves, measures</text>
+  <rect x="36" y="318" width="1108" height="444" rx="12" class="card"/>
+  <text x="60" y="356" class="head">EYE · Your business performance</text>
+  <text x="60" y="385" class="small">Single column on mobile · text states alongside colors · keyboard-accessible proof and decisions</text>
+  <rect x="60" y="412" width="328" height="156" rx="8" fill="#f7f9fc" stroke="#c4cedd"/>
+  <text x="78" y="444" class="head">Your agreed KPI</text>
+  <text x="78" y="481" class="body">Unmeasured</text>
+  <text x="78" y="511" class="small">Waiting for a source reading</text>
+  <text x="78" y="541" class="small">Never substituted with zero</text>
+  <rect x="412" y="412" width="328" height="156" rx="8" fill="#f7f9fc" stroke="#c4cedd"/>
+  <text x="430" y="444" class="head">Impact</text>
+  <text x="430" y="481" class="body">No baseline</text>
+  <text x="430" y="511" class="small">Awaiting countersigned before-picture</text>
+  <text x="430" y="541" class="small">No improvement claim yet</text>
+  <rect x="764" y="412" width="356" height="156" rx="8" fill="#f7f9fc" stroke="#c4cedd"/>
+  <text x="782" y="444" class="head">Source status</text>
+  <text x="782" y="481" class="body">Unavailable / stale / current</text>
+  <text x="782" y="511" class="small">Period · unit · definition version</text>
+  <text x="782" y="541" class="small">Open recorded source proof</text>
+  <rect x="60" y="596" width="1060" height="138" rx="8" fill="#f0f7f5" stroke="#9bbfb0"/>
+  <text x="80" y="628" class="head">GOVENANT · Delivered agents</text>
+  <text x="80" y="660" class="body">Role + hierarchy → authority check → act, hold for human, or refuse</text>
+  <text x="80" y="691" class="body">Approver · tier · recorded row · source read-back</text>
+  <text x="80" y="719" class="small">Write controls await owner-approved authority. Raw agent authoring stays with iii.</text>
+  <rect x="36" y="794" width="1108" height="72" rx="10" fill="#17243a"/>
+  <text x="56" y="823" style="font: bold 17px Arial,sans-serif;fill:white">First slice: protected KPI data spine + local proof. No new admin UI.</text>
+  <text x="56" y="849" style="font: 15px Arial,sans-serif;fill:#d2ddee">Deployment and real-system proof remain BLOCKED on owner approval and determined inputs.</text>
+</svg>

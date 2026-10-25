@@ -1,0 +1,34 @@
+name: KPI spine
+on:
+  pull_request: {}
+  push: { branches: [main] }
+jobs:
+  kpi-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck:functions
+      - run: npm run typecheck:db
+      - run: npm run build
+      - name: Real local Pages and D1 proof (synthetic fixtures only)
+        run: node .loop/harness/kpi-api.mjs
+      - name: Validate issue contracts
+        run: node .loop/harness/issues.mjs
+      - name: Render the surface drawing
+        run: |
+          npx playwright install --with-deps chromium
+          node .loop/harness/drawing.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kpi-spine-evidence
+          path: |
+            .loop/state/kpi-api-*/evidence.json
+            .loop/state/kpi-api-*/pages.log
+            .loop/artifacts/screenshots/os-drawing/

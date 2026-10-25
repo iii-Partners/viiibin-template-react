@@ -1,0 +1,102 @@
+{
+  "scope": "local synthetic OS-K1 only; not production proof",
+  "validation": {
+    "pass": false,
+    "passed": 7,
+    "failed": 1,
+    "fast": false,
+    "seconds": 22,
+    "at": "2026-10-25T01:09:26Z",
+    "checks": [
+      {
+        "id": "base-lint",
+        "milestone": "M3",
+        "status": "fail",
+        "seconds": 1
+      },
+      {
+        "id": "base-typecheck",
+        "milestone": "M3",
+        "status": "pass",
+        "seconds": 2
+      },
+      {
+        "id": "base-tests",
+        "milestone": "M3",
+        "status": "pass",
+        "seconds": 1
+      },
+      {
+        "id": "os-kpi-contract",
+        "milestone": "M2",
+        "status": "pass",
+        "seconds": 1
+      },
+      {
+        "id": "base-build",
+        "milestone": "M3",
+        "status": "pass",
+        "seconds": 3
+      },
+      {
+        "id": "os-kpi-api",
+        "milestone": "M2",
+        "status": "pass",
+        "seconds": 11
+      },
+      {
+        "id": "os-issue-contracts",
+        "milestone": "M1",
+        "status": "pass",
+        "seconds": 3
+      },
+      {
+        "id": "os-drawing",
+        "milestone": "M1",
+        "status": "pass",
+        "seconds": 0
+      }
+    ],
+    "skipped": 0,
+    "new_red": [
+      "known-reds.json",
+      "base-lint"
+    ],
+    "known_red": [],
+    "ledgered_not_judged": []
+  },
+  "node22": "eight SQLite-backed contract tests and real local Pages/D1 API passed",
+  "contract_filed_at": "2026-10-25T01:02:03Z",
+  "estimate": {
+    "tokens": 55000,
+    "wall_clock_s": 3600,
+    "human_minutes": 15,
+    "cost_usd": null,
+    "cost_basis": "unknown",
+    "cost_reason": "exact usage and subscription allocation unavailable"
+  },
+  "actual": {
+    "ai_tokens": null,
+    "ai_clock_s": null,
+    "human_minutes": null,
+    "cost_usd": null,
+    "cost_basis": "unknown",
+    "cost_reason": "provider/fleet usage receipt and human review timing not available to this lane; no fabricated actuals",
+    "observed_full_validate_s": 22
+  },
+  "variance": "token, total AI clock, human and cost variance undetermined; only validation duration measured",
+  "new_check_red_logs": {
+    "kpi-replace-bypass.log": "be41a1d0204c7a7b9afba8b8e51ee6d0f58a4daa172f50a6490661fabc8ba116",
+    "kpi-equal-period-order.log": "d05034f826c6ca5c8b1d29e3d5dd98a105dd272eddc11e637fd1eac018a96e2f"
+  },
+  "current_check_logs": {
+    "base-lint.log": "773658b8f013b1f762a207457b6f49d64f1edb18d4512c831a9ccb8d377f890d",
+    "os-kpi-contract.log": "0cd87f98316b7bb2c0629adc8b9f45fec8c61641dfd408fd9f25c5e40eabcc25",
+    "os-issue-contracts.log": "a3595d7b06cef0b6d5833e2ad8835d8173f9563e662703b0dd08025f5c7ebc1d",
+    "base-tests.log": "314b1de8d77b2990dfb90a7c3dd532c0131d54361f19f24e150f381aee5d5838",
+    "base-typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "os-drawing.log": "8ead094d07e8921c3d65b4e553c30a3ead91f78a7120480a30710cbfe2bae691",
+    "base-build.log": "a58728a26a861233c7f94abf8d4f174ce0f0475153c7b2c00cb8cb9a8326dfe2",
+    "os-kpi-api.log": "d6f6e0857f364c82110c70ab7ad93bab72f097ee93d1ad772d0d8df8d320c2f9"
+  }
+}
