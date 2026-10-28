@@ -53,3 +53,4 @@ tests/delivery/.runs.json
 .loop/ACTIVE
 .loop/BLOCKED
 .wrangler/
+qa-out/

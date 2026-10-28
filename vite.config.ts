@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { viiiibinPagesDev } from './dev/viiibin-pages-dev'
+import { TOKENS_JSON, writeTokensCss } from './scripts/tokens'
 import path from 'node:path'
 
 // PWA Support (vite-plugin-pwa)
@@ -27,16 +28,36 @@ import path from 'node:path'
 //   },
 // }),
 
+// design-system/tokens.json is the theme's source: tokens.css is written from it on start and on every save
+function designTokens(): Plugin {
+  return {
+    name: 'design-tokens',
+    buildStart() {
+      writeTokensCss()
+      this.addWatchFile(TOKENS_JSON)
+    },
+    configureServer(server) {
+      server.watcher.add(TOKENS_JSON)
+      server.watcher.on('change', (file) => {
+        if (path.resolve(file) === TOKENS_JSON) writeTokensCss()
+      })
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [viiiibinPagesDev(), react(), tailwindcss()],
+  plugins: [designTokens(), viiiibinPagesDev(), react(), tailwindcss()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // this project's own port (CLAUDE.md, Local dev); a busy port is an error, never a move to the next one
+  preview: { port: 5182, strictPort: true },
   server: {
-    port: 5173,
+    port: 5182,
+    strictPort: true,
     proxy: {
       '/api': {
         target: process.env.VITE_API_BASE_URL || 'http://localhost:8787',

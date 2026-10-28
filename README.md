@@ -16,7 +16,7 @@ npm run dev
 | Framework | React 19 + TypeScript |
 | Build | Vite 7 |
 | Routing | React Router 7 |
-| UI Components | ShadCN/ui + Radix UI |
+| UI Components | ShadCN/ui + Radix UI, on the Fleet Command design system (`design-system/tokens.json`) |
 | Styling | Tailwind CSS 4 |
 | State | Zustand 5 |
 | Forms | React Hook Form + Zod |
@@ -33,9 +33,12 @@ src/
 ├── app/              # App shell, router, providers, route components
 │   ├── routes/       # Page components (file-based routing convention)
 │   └── providers.tsx # Context providers (Auth0, QueryClient, i18n, etc.)
+├── app/screens/      # Child views, opened as layered dialogs (no routes)
 ├── components/
+│   ├── system/       # Design system: folder card, door, status, empty states, confirm, charts
+│   ├── shell/        # Wedge-bar header, screen dialog
 │   ├── common/       # Shared components (guards, error boundary, loading)
-│   ├── layout/       # App shell, nav, sidebar, footer
+│   ├── layout/       # App shell, public header, footer
 │   ├── ui/           # ShadCN primitives (button, card, skeleton)
 │   ├── onboarding/   # First-run wizard and checklist
 │   ├── payments/     # Pricing cards, subscription status
@@ -80,7 +83,9 @@ Template variables in `viiibin.config.json`:
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start dev server (Vite) |
+| `npm run dev` | Start dev server (Vite) at http://localhost:5182 |
+| `npm run tokens` | Write `src/styles/tokens.css` from `design-system/tokens.json` (the dev server does this on start and save) |
+| `npm run qa` | Screenshot every view and screen in each data state and theme into `qa-out/` (dev server up) |
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
 | `npm run test` | Run Vitest tests |
@@ -110,6 +115,10 @@ The first slice adds internal `declareKpi` / `recordKpiObservation` helpers in `
 Every response item identifies its external source as `not_verified`. Stored-row proof is available; source re-derivation, EYE export, countersigned baselines and impact deltas belong to later slices. Activate only with owner-approved discovery/configuration, retention and deployment approval; this lane has not deployed it.
 
 To reproduce local proof with synthetic data only: `npm run build`, then `node .loop/harness/kpi-api.mjs`. Run the full gate with `bash .loop/validate.sh`; existing inherited lint/ledger findings remain visible. See `.loop/PREFLIGHT.md` and `.loop/PROGRESS.md` for scope and evidence.
+
+## Design system and navigation
+
+The interface is the navigation, as in a game. Only the main views (Dashboard, Items) have routes; each is a wedge in the header bar. Everything under them opens as a screen: a dialog layered over the view, and closed with Close or Esc. Every view, card, chart and dialog has a designed fresh state, so a new account sees what each place is for before any data exists. Viewers pick the wedge bar or a rail of icons down the side in Settings. `design-system/README.md` holds the rules and the recipes for agents and people building on the template; the Design system screen shows every part in each of its four states (happy path, empty, loading, error).
 
 ## Mobile Development
 

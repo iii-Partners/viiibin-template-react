@@ -15,12 +15,12 @@ const statusLabels: Record<string, string> = {
 }
 
 const statusColors: Record<string, string> = {
-  active: 'text-green-600 dark:text-green-400',
-  trialing: 'text-blue-600 dark:text-blue-400',
-  past_due: 'text-yellow-600 dark:text-yellow-400',
+  active: 'text-ok',
+  trialing: 'text-done',
+  past_due: 'text-watch',
   canceled: 'text-muted-foreground',
   unpaid: 'text-destructive',
-  incomplete: 'text-yellow-600 dark:text-yellow-400',
+  incomplete: 'text-watch',
   none: 'text-muted-foreground',
 }
 

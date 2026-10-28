@@ -18,7 +18,7 @@ export function OfflineBanner({ className }: OfflineBannerProps) {
   return (
     <div
       className={cn(
-        'flex items-center justify-center gap-2 bg-yellow-500 px-4 py-2 text-sm font-medium text-yellow-950',
+        'flex items-center justify-center gap-2 bg-watch px-4 py-2 text-sm font-medium text-white',
         className,
       )}
       role="alert"

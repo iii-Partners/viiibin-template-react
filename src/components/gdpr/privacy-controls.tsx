@@ -46,7 +46,7 @@ export function PrivacyControls() {
       {/* Consent preferences */}
       <Card>
         <CardHeader>
-          <CardTitle>Cookie Preferences</CardTitle>
+          <CardTitle>Cookie preferences</CardTitle>
           <CardDescription>
             Manage which types of cookies and tracking you allow.
           </CardDescription>
@@ -77,7 +77,7 @@ export function PrivacyControls() {
       {/* Data rights */}
       <Card>
         <CardHeader>
-          <CardTitle>Your Data</CardTitle>
+          <CardTitle>Your data</CardTitle>
           <CardDescription>
             Exercise your data rights under GDPR and similar privacy regulations.
           </CardDescription>
@@ -96,7 +96,7 @@ export function PrivacyControls() {
               onClick={handleExport}
               disabled={exportLoading}
             >
-              {exportLoading ? 'Requesting...' : 'Export Data'}
+              {exportLoading ? 'Requesting...' : 'Export data'}
             </Button>
           </div>
 
@@ -114,7 +114,7 @@ export function PrivacyControls() {
                   size="sm"
                   onClick={() => setShowDeleteConfirm(true)}
                 >
-                  Delete Account
+                  Delete account
                 </Button>
               ) : (
                 <div className="flex items-center gap-2">
@@ -131,7 +131,7 @@ export function PrivacyControls() {
                     onClick={handleDelete}
                     disabled={deleteLoading}
                   >
-                    {deleteLoading ? 'Deleting...' : 'Confirm Delete'}
+                    {deleteLoading ? 'Deleting...' : 'Confirm delete'}
                   </Button>
                 </div>
               )}

@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils/cn'
 
 /**
  * Cookie consent banner shown on first visit.
- * Allows Accept All, Reject All, or Customize.
+ * Allows Accept all, Reject all, or Customize.
  * Persists choice to localStorage.
  */
 export function CookieConsent() {
@@ -20,7 +20,7 @@ export function CookieConsent() {
         {!showCustomize ? (
           <div className="space-y-3">
             <div className="space-y-1">
-              <h3 className="text-sm font-semibold">Cookie Preferences</h3>
+              <h3 className="text-sm font-semibold">Cookie preferences</h3>
               <p className="text-xs text-muted-foreground">
                 We use cookies to improve your experience. You can choose which categories
                 of cookies you allow. Essential cookies are always active as they are necessary
@@ -30,10 +30,10 @@ export function CookieConsent() {
 
             <div className="flex flex-wrap items-center gap-2">
               <Button size="sm" onClick={acceptAll}>
-                Accept All
+                Accept all
               </Button>
               <Button size="sm" variant="outline" onClick={rejectAll}>
-                Reject All
+                Reject all
               </Button>
               <Button
                 size="sm"
@@ -47,7 +47,7 @@ export function CookieConsent() {
         ) : (
           <div className="space-y-4">
             <div className="space-y-1">
-              <h3 className="text-sm font-semibold">Customize Cookie Preferences</h3>
+              <h3 className="text-sm font-semibold">Customize cookie preferences</h3>
               <p className="text-xs text-muted-foreground">
                 Choose which types of cookies you want to allow.
               </p>
@@ -82,7 +82,7 @@ export function CookieConsent() {
 
             <div className="flex items-center gap-2">
               <Button size="sm" onClick={acceptAll}>
-                Accept All
+                Accept all
               </Button>
               <Button
                 size="sm"
@@ -92,7 +92,7 @@ export function CookieConsent() {
                   setShowCustomize(false)
                 }}
               >
-                Save Preferences
+                Save preferences
               </Button>
             </div>
           </div>

@@ -1,18 +1,19 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router'
 import { lazy, Suspense } from 'react'
 import { LoadingSpinner } from '@/components/common/loading-spinner'
+// the authenticated shell and its main views load with the app, so switching views shows at once
+import AuthLayout from './routes/_auth'
+import DashboardPage from './routes/dashboard'
+import ItemsPage from './routes/items'
+import { RailView } from './routes/rail-view'
 
-// Lazy-loaded route components
+
+// Lazy-loaded public routes
 const PublicLayout = lazy(() => import('./routes/_public'))
-const AuthLayout = lazy(() => import('./routes/_auth'))
 const LandingPage = lazy(() => import('./routes/index'))
 const LoginPage = lazy(() => import('./routes/login'))
 const SignupPage = lazy(() => import('./routes/signup'))
 const CallbackPage = lazy(() => import('./routes/callback'))
-const DashboardPage = lazy(() => import('./routes/dashboard'))
-const ProfilePage = lazy(() => import('./routes/profile'))
-const SettingsPage = lazy(() => import('./routes/settings'))
-const ItemsPage = lazy(() => import('./routes/items'))
 const TermsPage = lazy(() => import('./routes/terms'))
 const PrivacyPage = lazy(() => import('./routes/privacy'))
 const NotFoundPage = lazy(() => import('./routes/not-found'))
@@ -60,15 +61,18 @@ export const router = createBrowserRouter([
   {
     path: 'app',
     element: (
-      <SuspenseWrapper>
-        <AuthLayout />
-      </SuspenseWrapper>
+      <AuthLayout />
     ),
+    // the main views have routes (app/nav.ts), and so do the places the rail reaches: with the rail they are views,
+    // with the wedge bar their routes open them as screens over the dashboard. Every other child view is a screen.
     children: [
+      { index: true, element: <Navigate to="dashboard" replace /> },
       { path: 'dashboard', element: <DashboardPage /> },
       { path: 'items', element: <ItemsPage /> },
-      { path: 'profile', element: <ProfilePage /> },
-      { path: 'settings', element: <SettingsPage /> },
+      { path: 'birds-eye', element: <RailView id="dial" /> },
+      { path: 'design', element: <RailView id="design" /> },
+      { path: 'profile', element: <RailView id="profile" /> },
+      { path: 'settings', element: <RailView id="settings" /> },
     ],
   },
   // 404 catch-all

@@ -1,0 +1,306 @@
+/* Copied from Fleet Command's components.css (October 28, 2026). Design-system primitives that every view shares. Layout lives in the components as Tailwind utilities; these are
+   the pieces whose shape is the system's own: status, chips, buttons, section heads, the chart vocabulary, the dialog
+   veil and the game layer's frames, doors, wedges and folder cards. Every value reads the tokens. */
+@layer components {
+  /* status: a word, a shape and a color, always together */
+  .st { display: inline-flex; align-items: center; gap: 7px; font: 600 12.5px/1.2 var(--font-body); white-space: nowrap; }
+  .st::before, .s { content: ""; display: inline-block; width: 9px; height: 9px; background: currentColor; flex: none; }
+  .st.blocked, .s.blocked { color: var(--fault); }
+  .st.blocked::before, .s.blocked { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+  .st.pending, .s.pending { color: var(--brand); }
+  .st.pending::before, .s.pending { transform: rotate(45deg) scale(0.85); }
+  .st.risk, .s.risk { color: var(--watch); }
+  .st.ok, .s.ok { color: var(--ok); }
+  .st.done, .s.done { color: var(--done); }
+  .st.done::before, .s.done { border-radius: 99px; }
+
+  .chip { display: inline-flex; align-items: center; gap: 6px; font: 600 12px/1 var(--font-body); padding: 4px 7px; border: 1px solid currentColor; border-radius: var(--radius-chip); white-space: nowrap; }
+  .chip.done { color: var(--done); }
+  .chip.blocked { color: var(--fault); }
+  .chip.pending { color: var(--brand); }
+  .chip.risk { color: var(--watch); }
+  .chip.ok { color: var(--ok); }
+
+  /* buttons: the 4 px button. Primary (go) is the foreground color; Approve (ok) keeps the purple of a person's decision */
+  .btn { font: 600 12.5px/1 var(--font-body); letter-spacing: 0.02em; padding: 8px 12px; border: 1px solid var(--teal); border-radius: var(--radius-base); background: transparent; color: var(--text); cursor: pointer; transition: color var(--dur-hover) ease-out, border-color var(--dur-hover) ease-out, background-color var(--dur-hover) ease-out, opacity var(--dur-hover) ease-out; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn:disabled { opacity: 0.6; cursor: default; }
+  .btn.ok { background: var(--primary); border-color: var(--primary); color: #ffffff; }
+  .btn.go { background: var(--primary); border-color: var(--primary); color: var(--on-brand); }
+  .btn.go:hover { opacity: 0.88; }
+  .icon { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid var(--teal); border-radius: var(--radius-base); background: transparent; cursor: pointer; }
+  .icon:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* section heads: sentence case with the purple tick, as iii's */
+  .sec { display: inline-block; margin: 0; font: 500 12px/16px var(--font-body); letter-spacing: 0.02em; color: var(--dim); border-left: 2px solid var(--primary); padding-left: 10px; }
+  .empty { padding: 14px; border: 1px dashed var(--line); border-radius: var(--radius-card); color: var(--dim); font-size: 13.5px; }
+  .more { font-size: 12px; color: var(--dim); }
+
+  /* the svg vocabulary for flow charts, timelines and bars */
+  .fsvg { display: block; width: 100%; height: auto; overflow: visible; }
+  .fsvg text { font-family: var(--font-body); }
+  .node { fill: var(--glass-raised); stroke: var(--teal); stroke-width: 1; }
+  .node.lit { stroke: var(--lit); } .node.watch { stroke: var(--watch); } .node.blocked { stroke: var(--fault); } .node.done { stroke: var(--done); } .node.pending { stroke: var(--brand); }
+  .nt { fill: var(--lit); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; }
+  .nt.watch { fill: var(--watch); } .nt.blocked { fill: var(--fault); } .nt.done { fill: var(--done); } .nt.pending { fill: var(--brand); }
+  .nv { fill: var(--text); font-size: 13.5px; font-weight: 600; }
+  .ns { fill: var(--dim); font-size: 11px; font-weight: 500; letter-spacing: 0.03em; }
+  .edge { fill: none; stroke: var(--teal); stroke-width: 1.2; }
+  .edge.lit { stroke: var(--lit); } .edge.held { stroke: var(--dim); stroke-dasharray: 4 4; } .edge.blocked { stroke: var(--fault); stroke-dasharray: 3 3; }
+  .dot { fill: var(--lit); offset-rotate: 0deg; animation: ride 3.2s linear infinite; }
+  .ms { fill: var(--glass); stroke: var(--lit); stroke-width: 1.5; }
+  .ms.watch { stroke: var(--watch); } .ms.blocked { stroke: var(--fault); } .ms.done { fill: var(--done); stroke: var(--done); }
+  .bar-bg { fill: var(--glass-raised); } .bar { fill: var(--lit); } .bar.watch { fill: var(--watch); } .bar.blocked { fill: var(--fault); } .bar.done { fill: var(--done); }
+  .tick { stroke: var(--line); }
+  .today { stroke: var(--accent); stroke-width: 1.5; }
+  .halo { fill: none; stroke: var(--teal); opacity: 0.35; }
+  .sweep { transform-origin: 170px 170px; animation: sweep 24s linear infinite; }
+}
+
+@keyframes ride { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+@keyframes sweep { to { transform: rotate(360deg); } }
+@keyframes row-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pin-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes zin { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes zout { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+@keyframes door-in { from { opacity: 0; transform: translateY(14px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes q-in { from { opacity: 0; transform: translateX(26px); } to { opacity: 1; transform: none; } }
+@keyframes q-back { from { opacity: 0; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) { .dot, .sweep { animation: none !important; } }
+
+/* a stat tile's 14-day line draws in once, left to right */
+.spark { animation: spark-draw 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 120ms both; }
+@keyframes spark-draw { from { clip-path: inset(-2px 100% -2px -2px); } to { clip-path: inset(-2px -4px -2px -2px); } }
+@media (prefers-reduced-motion: reduce) { .spark { animation: none; } }
+
+/* the veil: a frameless dialog over the app, which blurs and dims behind it (the hub's boards, the assistant) */
+.surface {
+  background: color-mix(in srgb, var(--ground) 52%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  backdrop-filter: blur(14px) saturate(1.05);
+  animation: surface-in 260ms ease-out both;
+}
+.surface-out { animation: surface-out 220ms ease-in both; }
+.surface-title { animation: rise 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.surface-body { animation: rise 420ms cubic-bezier(0.2, 0.8, 0.2, 1) 60ms both; }
+@keyframes surface-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes surface-out { to { opacity: 0; } }
+.msg { animation: rise 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+/* a reply's words fade in as they land */
+.chat-word { animation: chat-word 320ms ease-out both; }
+@keyframes chat-word { from { opacity: 0; } to { opacity: 1; } }
+.writing { width: 6px; height: 6px; border-radius: 999px; background: var(--brand); animation: writing 900ms ease-in-out infinite; }
+@keyframes writing { 0%, 100% { opacity: 0.25; transform: none; } 40% { opacity: 1; transform: translateY(-3px); } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .surface, .surface-out, .surface-title, .surface-body, .msg, .writing, .chat-word { animation: none; } }
+
+/* the frame's content fades out as it scrolls under the header */
+.frame-fade { mask-image: linear-gradient(to bottom, transparent, black 32px); }
+
+/* The game menu (October 24, 2026): the design system with a heavier frame. Frames and button
+   outlines are 2 px; pointing at a door lights its edge purple, a box-shadow glow rises behind it, and a pseudo-element
+   sheen crosses its face. Still no corner brackets, and status keeps its own colors beside its word. */
+.gm-frame { position: relative; isolation: isolate; border: 2px solid var(--line); border-radius: var(--radius-card); background: color-mix(in srgb, var(--glass) 80%, transparent); backdrop-filter: blur(12px); box-shadow: var(--shadow-card); }
+.gm-door { cursor: pointer; text-align: left; color: var(--text); transition: border-color var(--dur-hover) ease-out, box-shadow 260ms ease-out, transform var(--dur-hover) var(--ease-open), background-color var(--dur-hover) ease-out; }
+.gm-door::after { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0;
+  background: linear-gradient(115deg, transparent 35%, color-mix(in srgb, var(--brand) 16%, transparent) 50%, transparent 65%) 100% 0 / 260% 100% no-repeat;
+  transition: opacity 200ms ease-out, background-position 700ms var(--ease-open); }
+.gm-door:hover, .gm-door:focus-visible { z-index: 1; border-color: var(--brand); transform: translateY(-2px); outline: none;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--brand) 35%, transparent), 0 0 26px -4px color-mix(in srgb, var(--brand) 55%, transparent), var(--shadow-card); }
+.gm-door:hover::after, .gm-door:focus-visible::after { opacity: 1; background-position: 0 0; }
+.gm-on { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 9%, var(--glass)); }
+.gm-door:disabled, .gm-door[aria-disabled="true"] { cursor: default; }
+
+/* the 2 px button: an outline that glows on hover; .go fills with the text color, .ok with the decision purple */
+.gm-btn { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 10px; font: 600 13px/1 var(--font-body); letter-spacing: 0.02em; padding: 11px 16px; border: 2px solid var(--text); border-radius: var(--radius-base); background: transparent; color: var(--text); cursor: pointer;
+  transition: box-shadow 240ms ease-out, border-color var(--dur-hover) ease-out, color var(--dur-hover) ease-out; }
+.gm-btn::before { content: ""; position: absolute; inset: 2px; z-index: -1; border-radius: 2px; background: var(--brand); opacity: 0; transform: scaleX(0.6); transition: opacity 200ms ease-out, transform 320ms var(--ease-open); }
+.gm-btn:hover, .gm-btn:focus-visible { border-color: var(--brand); color: var(--on-brand); outline: none; box-shadow: 0 0 22px -2px color-mix(in srgb, var(--brand) 60%, transparent); }
+.gm-btn:hover::before, .gm-btn:focus-visible::before { opacity: 1; transform: none; }
+/* the primary action is purple everywhere, as Approve is; hover keeps it purple and raises the glow */
+.gm-btn.go { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.gm-btn.go:hover, .gm-btn.go:focus-visible { background: var(--brand); color: var(--on-brand); }
+
+/* a category tab: a slanted plate drawn by ::before, the label upright on top */
+.gm-tab { position: relative; isolation: isolate; display: grid; gap: 3px; min-width: 0; padding: 10px 22px 10px 20px; text-align: left; color: var(--text); cursor: pointer; background: none; border: 0; }
+.gm-tab::before { content: ""; position: absolute; inset: 0; z-index: -1; transform: skewX(-14deg); border: 2px solid var(--line); border-radius: var(--radius-base); background: color-mix(in srgb, var(--glass) 82%, transparent); backdrop-filter: blur(12px);
+  transition: border-color var(--dur-hover) ease-out, box-shadow 260ms ease-out, background-color var(--dur-hover) ease-out; }
+.gm-tab:hover::before, .gm-tab:focus-visible::before { border-color: var(--brand); box-shadow: 0 0 24px -4px color-mix(in srgb, var(--brand) 60%, transparent); }
+.gm-tab:focus-visible { outline: none; }
+.gm-tab[aria-selected="true"] { color: var(--on-brand); }
+.gm-tab[aria-selected="true"]::before { border-color: var(--brand); background: var(--brand); }
+.gm-tab[aria-selected="true"] .text-dim { color: color-mix(in srgb, var(--on-brand) 78%, transparent); }
+
+@media (prefers-reduced-motion: reduce) { .gm-door, .gm-door::after, .gm-btn::before { transition: none; } .gm-door:hover, .gm-door:focus-visible { transform: none; } }
+
+/* the wedge bar (header v3): solid trapezoids on a soft shadow, no outline; the open one fills purple, a pointed-at one
+   takes a purple glow under its shadow */
+.gm-wedge { color: var(--text); }
+.gm-wedge path { fill: var(--glass); stroke: var(--glass); transition: fill var(--dur-hover) ease-out, stroke var(--dur-hover) ease-out; }
+.gm-wedge svg { filter: drop-shadow(0 6px 9px rgba(60, 72, 96, 0.16)) drop-shadow(0 1px 1px rgba(60, 72, 96, 0.08)); transition: filter 260ms ease-out; }
+.gm-wedge .gm-wedge-glow { fill: none; stroke: color-mix(in srgb, var(--brand) 45%, #ffffff); stroke-width: 9; opacity: 0; filter: blur(6px); transition: opacity 240ms ease-out; }
+.gm-wedge:hover .gm-wedge-glow, .gm-wedge:focus-visible .gm-wedge-glow { opacity: 0.13; }
+.gm-wedge-on .gm-wedge-glow { display: none; }
+.gm-wedge-on { color: var(--on-brand); }
+.gm-wedge-on path { fill: var(--brand); stroke: var(--brand); }
+.dark .gm-wedge svg { filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.55)); }
+.dark .gm-wedge:hover .gm-wedge-glow, .dark .gm-wedge:focus-visible .gm-wedge-glow { stroke: var(--brand); opacity: 0.2; }
+
+/* the folder card (compact doors, Continue, the needs, the live record): a tab rising on the left with a slanted shoulder, over the card's body;
+   one soft shadow follows both. Pointing at it raises a subtle inner glow of light purple inside the shape, as the nav
+   wedges do; nothing lifts or moves. */
+.gm-tabcard { position: relative; display: grid; padding-top: 16px; color: var(--text); filter: drop-shadow(0 1px 1px rgb(15 18 30 / 0.06)) drop-shadow(0 8px 16px rgb(15 18 30 / 0.09)); }
+/* a 1 px edge in the card's own light keeps the hover glow inside the shape. The tab sits over the body's top 12 px
+   (the body's top padding), so the body's edge never shows across the tab. */
+.gm-tabcard { --tc-edge: #ffffff; }
+.dark .gm-tabcard { --tc-edge: color-mix(in srgb, #ffffff 9%, var(--glass)); }
+.gm-tabcard::before { content: ""; position: absolute; z-index: 1; top: 0; left: 0; width: min(58%, 240px); height: 28px; background: var(--glass); border: 1px solid var(--tc-edge); border-right: 0; border-bottom: 0; border-radius: 10px 0 0 0; clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 100%, 0 100%); transition: box-shadow 240ms ease-out; }
+.gm-tabcard-body { position: relative; background: var(--glass); border: 1px solid var(--tc-edge); border-radius: 0 10px 10px 10px; transition: box-shadow 240ms ease-out; }
+.gm-tabcard-live { cursor: pointer; }
+/* the glow runs along the shape's outer edges only (the body's sides and foot, the tab's top and left), so no seam
+   shows where the tab meets the body */
+.gm-tabcard { --tc-glow: color-mix(in srgb, color-mix(in srgb, var(--brand) 35%, #ffffff) 24%, transparent); }
+.dark .gm-tabcard { --tc-glow: color-mix(in srgb, var(--brand) 16%, transparent); }
+.gm-tabcard-glow:hover .gm-tabcard-body, .gm-tabcard-glow:focus-visible .gm-tabcard-body, .gm-tabcard-glow:focus-within .gm-tabcard-body {
+  box-shadow: inset 12px 0 14px -10px var(--tc-glow), inset -12px 0 14px -10px var(--tc-glow), inset 0 -12px 14px -10px var(--tc-glow); }
+.gm-tabcard-glow:hover::before, .gm-tabcard-glow:focus-visible::before, .gm-tabcard-glow:focus-within::before {
+  box-shadow: inset 12px 0 14px -10px var(--tc-glow), inset 0 12px 14px -10px var(--tc-glow); }
+.gm-tabcard-glow:focus-visible { outline: none; }
+.dark .gm-tabcard { filter: drop-shadow(0 8px 18px rgb(0 0 0 / 0.4)); }
+
+/* a folder panel keeps the element's own position (a popover stays absolute); anything static becomes the pseudo-elements' anchor */
+.gm-folder:where(:not(.absolute, .fixed, .sticky)) { position: relative; }
+/* the folder panel: the folder card as one element, for panels that cannot take a wrapper (lists that scroll or clip,
+   dialogs, popovers). Its own box holds the 16 px tab band: the tab and the body are drawn behind the content by the
+   two pseudo-elements, so overflow never clips the tab. The top padding allows for the band; set --fold-pt to change
+   the space above the content. Add .gm-folder-glow for the hover glow on a panel the viewer acts on, and .gm-folder-on
+   to light it (a drop target). */
+.gm-folder { --tc-edge: #ffffff; --tc-glow: color-mix(in srgb, color-mix(in srgb, var(--brand) 35%, #ffffff) 24%, transparent);
+  isolation: isolate; background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+  padding-top: calc(16px + var(--fold-pt, 14px)) !important; backdrop-filter: none !important;
+  filter: drop-shadow(0 1px 1px rgb(15 18 30 / 0.06)) drop-shadow(0 8px 16px rgb(15 18 30 / 0.09)); }
+.dark .gm-folder { --tc-edge: color-mix(in srgb, #ffffff 9%, var(--glass)); --tc-glow: color-mix(in srgb, var(--brand) 16%, transparent); filter: drop-shadow(0 8px 18px rgb(0 0 0 / 0.4)); }
+.gm-folder::before { content: ""; position: absolute; z-index: -1; top: 0; left: 0; width: min(58%, 240px); height: 30px; background: var(--glass); border: 1px solid var(--tc-edge); border-right: 0; border-bottom: 0; border-radius: 10px 0 0 0; clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 100%, 0 100%); pointer-events: none; transition: box-shadow 240ms ease-out; }
+.gm-folder::after { content: ""; position: absolute; z-index: -2; inset: 16px 0 0 0; background: var(--glass); border: 1px solid var(--tc-edge); border-radius: 0 10px 10px 10px; pointer-events: none; transition: box-shadow 240ms ease-out; }
+.gm-folder-glow:hover::after, .gm-folder-glow:focus-visible::after, .gm-folder-glow:focus-within::after, .gm-folder-on::after {
+  box-shadow: inset 12px 0 14px -10px var(--tc-glow), inset -12px 0 14px -10px var(--tc-glow), inset 0 -12px 14px -10px var(--tc-glow); }
+.gm-folder-glow:hover::before, .gm-folder-glow:focus-visible::before, .gm-folder-glow:focus-within::before, .gm-folder-on::before {
+  box-shadow: inset 12px 0 14px -10px var(--tc-glow), inset 0 12px 14px -10px var(--tc-glow); }
+.gm-folder-glow:focus-visible { outline: none; }
+
+/* the logo's wedge does nothing on press, so it never glows */
+.gm-wedge-still .gm-wedge-glow { display: none; }
+
+/* rows and tiles that rise in one after another */
+.rise-in { animation: rise 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .rise-in { animation: none; } }
+
+/* a view's parts arrive in reading order, 70 ms apart */
+.arrive > * { animation: row-in 460ms var(--ease-open) both; }
+.arrive > :nth-child(2) { animation-delay: 70ms; }
+.arrive > :nth-child(3) { animation-delay: 140ms; }
+.arrive > :nth-child(n + 4) { animation-delay: 210ms; }
+@media (prefers-reduced-motion: reduce) { .arrive > * { animation: none; } }
+
+/* form fields: the 4 px control on its teal edge; the pointed-at edge is the foreground, focus the brand */
+.field { display: block; width: 100%; font: 400 14px/1.4 var(--font-body); padding: 9px 11px; color: var(--text); background: var(--glass); border: 1px solid var(--teal); border-radius: var(--radius-base); transition: border-color var(--dur-hover) ease-out, box-shadow var(--dur-hover) ease-out; }
+.field::placeholder { color: var(--dim); }
+.field:hover { border-color: var(--accent); }
+.field:focus-visible { outline: none; border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand); }
+.label { display: block; margin-bottom: 6px; font: 500 12.5px/16px var(--font-body); letter-spacing: 0.02em; color: var(--dim); }
+
+/* the phone's view tabs mark the open view as the page */
+.gm-tab[aria-current="page"] { color: var(--on-brand); }
+.gm-tab[aria-current="page"]::before { border-color: var(--brand); background: var(--brand); }
+
+/* a bar that opens its record lights its track on hover */
+.bar-row:hover .bar-bg { fill: color-mix(in srgb, var(--brand) 14%, var(--glass-raised)); }
+
+/* the ring's band draws in once, clockwise */
+.ring-band { stroke-dasharray: 600; animation: ring-draw 900ms var(--ease-open) both; }
+@keyframes ring-draw { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .ring-band { animation: none; stroke-dasharray: none; } }
+
+/* the small primary button fills with the brand, as the 2 px one does, so its text keeps contrast in both themes */
+.btn.go { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+
+/* the dial (after Fleet Command's hub dial): hairline bezel, the purple band, status cells, the flow line, the window */
+.dl text { font-family: var(--font-body); text-anchor: middle; dominant-baseline: middle; }
+.dl-bold { fill: none; stroke: var(--teal); stroke-width: 3; }
+.dl-base { fill: none; stroke: var(--teal); stroke-width: 1.6; }
+.dl-hair { fill: none; stroke: var(--teal); stroke-width: 1; opacity: 0.75; }
+.dl-faint { fill: none; stroke: var(--line); stroke-width: 1; }
+.dl-dot { fill: var(--teal); }
+.dl-track { fill: none; stroke: var(--glass-raised); stroke-width: 3; }
+.dl-band { fill: var(--lit); }
+.dl-room { fill: none; stroke: var(--lit); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.7; }
+.dl-needle path { stroke: var(--fault); stroke-width: 2.5; }
+.dl-needle .dl-needle-head { fill: var(--fault); stroke: none; }
+.dl-marker { fill: var(--glass); stroke: var(--text); stroke-width: 1.6; }
+.dl-cell { stroke-width: 2.6; stroke-linecap: butt; }
+.dl-cell-empty { stroke: var(--line); }
+.dl-line { fill: none; stroke: var(--ok); stroke-width: 4; stroke-linecap: round; }
+.dl-window-box { fill: none; stroke: var(--teal); stroke-width: 1.2; }
+.dl-wcell { fill: none; stroke: var(--teal); stroke-width: 1; opacity: 0.7; }
+.dl-wcell[data-on] { fill: var(--brand); stroke: var(--brand); opacity: 1; }
+.dl-tabtext { font-size: 15px; font-weight: 600; letter-spacing: 0.02em; fill: var(--text); }
+.dl-small { font-size: 15px; font-weight: 500; fill: var(--dim); }
+.dl-mid { font-size: 15px; font-weight: 500; fill: var(--text); }
+.dl-big { font-family: var(--font-figure) !important; font-size: 84px; font-weight: 600; letter-spacing: -0.045em; fill: var(--text); font-variant-numeric: tabular-nums; }
+.dl-big-unit { font-family: var(--font-figure) !important; font-size: 30px; font-weight: 500; fill: var(--dim); text-anchor: start !important; }
+/* a ring takes the pointer along a wide, invisible stroke; pointed at, it glows and the others quiet down */
+.dl-hit { fill: none; stroke: transparent; stroke-width: 20; pointer-events: stroke; cursor: default; }
+.dl-ring { transition: opacity 200ms ease-out, filter 200ms ease-out; }
+.dl-dim { opacity: 0.32; }
+.dl-hot { filter: drop-shadow(0 0 8px color-mix(in srgb, var(--brand) 55%, transparent)); }
+/* a tendril from a card to the ring it reads */
+.dl-tendril { fill: none; stroke: var(--teal); stroke-width: 1.2; stroke-dasharray: 3 4; transition: stroke 200ms ease-out, opacity 200ms ease-out; }
+.dl-tendril-end { fill: var(--glass); stroke: var(--teal); stroke-width: 1.5; transition: stroke 200ms ease-out; }
+.dl-tendril[data-hot], .dl-tendril-end[data-hot] { stroke: var(--brand); stroke-dasharray: none; stroke-width: 1.8; }
+.dl-tendril[data-dim] { opacity: 0.3; }
+
+/* a folder card lit from elsewhere (its ring on the dial is pointed at) takes the hover glow */
+.gm-tabcard.gm-on .gm-tabcard-body { box-shadow: inset 12px 0 14px -10px var(--tc-glow), inset -12px 0 14px -10px var(--tc-glow), inset 0 -12px 14px -10px var(--tc-glow); }
+.gm-tabcard.gm-on::before { box-shadow: inset 12px 0 14px -10px var(--tc-glow), inset 0 12px 14px -10px var(--tc-glow); }
+
+/* the rail (the alternative nav): one glass column, icon buttons, rules between groups, Settings at the foot.
+   The open view fills purple; a label slides out beside each icon. */
+.rail { display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; width: 64px; padding: 10px; border-radius: 16px;
+  background: color-mix(in srgb, var(--glass) 88%, transparent); backdrop-filter: blur(14px); box-shadow: var(--shadow-card); border: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+.rail-group { display: flex; flex-direction: column; gap: 6px; }
+.rail-rule { display: block; width: 28px; height: 1px; margin: 6px 0; background: var(--line); }
+.rail-foot { margin-top: auto; }
+.rail-btn { color: var(--dim); transition: color var(--dur-hover) ease-out, background-color var(--dur-hover) ease-out, box-shadow var(--dur-hover) ease-out; }
+.rail-btn:hover, .rail-btn:focus-visible { color: var(--text); background: var(--glass-raised); outline: none; }
+.rail-btn.rail-on { color: var(--on-brand); background: var(--brand); box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--brand) 70%, transparent); }
+.rail-tip { position: absolute; left: calc(100% + 14px); top: 50%; z-index: 20; padding: 6px 10px; border-radius: var(--radius-base); white-space: nowrap;
+  font: 500 12.5px/1 var(--font-body); color: var(--text); background: var(--glass); box-shadow: var(--shadow-card); border: 1px solid var(--line);
+  opacity: 0; transform: translate(-6px, -50%); pointer-events: none; transition: opacity 160ms ease-out, transform 200ms var(--ease-open); }
+.rail-btn:hover .rail-tip, .rail-btn:focus-visible .rail-tip { opacity: 1; transform: translate(0, -50%); }
+/* on a phone the rail lies along the bottom, in reach of the thumb; labels rise above the icons */
+@media (max-width: 720px) {
+  .rail { flex-direction: row; justify-content: space-between; height: auto; width: 100%; padding: 8px 10px; }
+  .rail-group { flex-direction: row; }
+  .rail-rule { width: 1px; height: 28px; margin: 0 2px; }
+  .rail-foot { margin-top: 0; }
+  .rail-btn { height: 40px; width: 40px; }
+  .rail-tip { left: 50%; top: auto; bottom: calc(100% + 12px); transform: translate(-50%, 6px); }
+  .rail-btn:hover .rail-tip, .rail-btn:focus-visible .rail-tip { transform: translate(-50%, 0); }
+}
+/* the dial with no signal: tracks dashed, cells hollow, the reading dimmed; red marks only the foot word */
+.dl-fault .dl-track, .dl-fault .dl-window-box { stroke: var(--line); stroke-dasharray: 2 6; }
+.dl-fault .dl-room { opacity: 0.35; }
+.dl-fault .dl-cell-empty { stroke: var(--glass-raised); }
+.dl-fault .dl-big { fill: var(--dim); font-weight: 500; }
+
+/* the state switch: small chips on a part's top right, a prototype tool; the picked state fills purple */
+.state-switch { display: flex; gap: 2px; padding: 2px; border-radius: var(--radius-base); background: color-mix(in srgb, var(--glass-raised) 70%, transparent); }
+.state-switch button { padding: 4px 7px; border-radius: 2px; font: 500 11px/1 var(--font-body); letter-spacing: 0.01em; color: var(--dim); transition: color var(--dur-hover) ease-out, background-color var(--dur-hover) ease-out; }
+.state-switch button:hover, .state-switch button:focus-visible { color: var(--text); background: var(--glass); outline: none; }
+.state-switch button[aria-checked="true"] { color: var(--on-brand); background: var(--brand); }
+/* the dial while its data is on its way: the tracks breathe, nothing is read */
+.dl-loading .dl-ring { animation: dl-breathe 1.6s ease-in-out infinite; }
+.dl-loading .dl-big { fill: var(--dim); font-weight: 500; }
+@keyframes dl-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) { .dl-loading .dl-ring { animation: none; } }

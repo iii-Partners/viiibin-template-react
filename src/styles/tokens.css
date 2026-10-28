@@ -1,0 +1,222 @@
+/* Generated from design-system/tokens.json by scripts/tokens.ts. Edit tokens.json, not this file. */
+
+/* Daylight is the default; Command applies only under the theme store's .dark class. */
+:root {
+  --ground: #f3f4f7;
+  --glass: #ffffff;
+  --glass-raised: #e8eaee;
+  --line: #d0d4dc;
+  --teal: #858d9e;
+  --lit: #561df3;
+  --on-lit: #ffffff;
+  --text: #171c26;
+  --dim: #5e6778;
+  --primary: #561df3;
+  --purple-dark: #7e00e6;
+  --brand: #561df3;
+  --on-brand: #ffffff;
+  --accent: #171c26;
+  --on-accent: #ffffff;
+  --ok: #13795b;
+  --watch: #8a6200;
+  --fault: #c62828;
+  --done: #2f5fd0;
+  --paused: #5c6870;
+  --shadow-card: 0 8px 32px -8px rgba(60, 72, 96, 0.14);
+  color-scheme: light;
+}
+.dark {
+  --ground: #101318;
+  --glass: #191d24;
+  --glass-raised: #272c35;
+  --line: #2b303b;
+  --teal: #57627a;
+  --lit: #9271f4;
+  --on-lit: #0d0620;
+  --text: #f5f3f0;
+  --dim: #848b99;
+  --primary: #561df3;
+  --purple-dark: #7e00e6;
+  --brand: #9271f4;
+  --on-brand: #0d0620;
+  --accent: #f5f3f0;
+  --on-accent: #101318;
+  --ok: #3ccf91;
+  --watch: #e9b949;
+  --fault: #ef5350;
+  --done: #7aa2ff;
+  --paused: #9aa3b2;
+  --shadow-card: 0 8px 32px -8px rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}
+:root {
+  --dur-hover: 160ms;
+  --dur-glance: 200ms;
+  --dur-open: 360ms;
+  --dur-flip-out: 560ms;
+  --dur-flip-in: 760ms;
+  --dur-lift: 520ms;
+  --softcut-cut: 30px;
+  --softcut-ease: 6px;
+  --layout-hub: minmax(0, 1fr) minmax(300px, 380px);
+  --layout-doors: repeat(auto-fill, minmax(220px, 1fr));
+  --layout-plates: repeat(auto-fill, minmax(280px, 1fr));
+  --layout-row: minmax(0, 1fr) auto auto;
+}
+
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --font-display: Sora, 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, Menlo, monospace;
+  --font-figure: Rajdhani, 'DM Sans', system-ui, sans-serif;
+  --radius-base: 4px;
+  --radius-chip: 2px;
+  --radius-tile: 6px;
+  --radius-card: 10px;
+  --radius-panel: 12px;
+  --radius-dot: 999px;
+  /* ShadCN's radius names on the system's radii: rounded-sm a chip, rounded-md a button, rounded-lg a card, rounded-xl a panel */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-12: 48px;
+  --spacing-safe: clamp(16px, 3vw, 44px);
+  --ease-open: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-flip: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* utilities such as bg-glass, text-dim, border-line and shadow-card read the live theme variables */
+@theme inline {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+  --color-ground: var(--ground);
+  --color-glass: var(--glass);
+  --color-glass-raised: var(--glass-raised);
+  --color-line: var(--line);
+  --color-teal: var(--teal);
+  --color-lit: var(--lit);
+  --color-on-lit: var(--on-lit);
+  --color-text: var(--text);
+  --color-dim: var(--dim);
+  --color-primary: var(--primary);
+  --color-purple-dark: var(--purple-dark);
+  --color-brand: var(--brand);
+  --color-on-brand: var(--on-brand);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-ok: var(--ok);
+  --color-watch: var(--watch);
+  --color-fault: var(--fault);
+  --color-done: var(--done);
+  --color-paused: var(--paused);
+  --color-background: var(--ground);
+  --color-foreground: var(--text);
+  --color-card: var(--glass);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--glass);
+  --color-popover-foreground: var(--text);
+  --color-primary-foreground: var(--on-brand);
+  --color-secondary: var(--glass-raised);
+  --color-secondary-foreground: var(--text);
+  --color-muted: var(--glass-raised);
+  --color-muted-foreground: var(--dim);
+  --color-accent-soft: var(--glass-raised);
+  --color-accent-foreground: var(--text);
+  --color-destructive: var(--fault);
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--line);
+  --color-input: var(--teal);
+  --color-ring: var(--brand);
+  --shadow-card: var(--shadow-card);
+}
+
+/* type styles: type-display, type-title, type-figure, type-label, type-section, type-summary and the rest */
+@utility type-display {
+  font-family: var(--font-display);
+  font-size: 50px;
+  line-height: 52px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+@utility type-figure {
+  font-family: var(--font-display);
+  font-size: 36px;
+  line-height: 36px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+@utility type-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+@utility type-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+@utility type-code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 500;
+  letter-spacing: 0em;
+}
+@utility type-section {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+@utility type-summary {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 26px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@utility type-body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@utility type-body-s {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@utility type-data {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@utility type-figure-row {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  letter-spacing: 0;
+}

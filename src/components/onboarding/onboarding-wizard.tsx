@@ -72,9 +72,9 @@ const steps: Step[] = [
     description: 'Your account is ready to go.',
     content: (
       <div className="flex flex-col items-center gap-4 py-4">
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/20">
+        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-ok/10">
           <svg
-            className="h-10 w-10 text-green-600 dark:text-green-400"
+            className="h-10 w-10 text-ok"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

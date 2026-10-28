@@ -46,7 +46,7 @@ export function PublicHeader() {
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground md:hidden"
+          className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent-soft hover:text-foreground md:hidden"
         >
           <svg
             width="20"
@@ -82,14 +82,14 @@ export function PublicHeader() {
             <Link
               to="/features"
               onClick={close}
-              className="rounded-md px-2 py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="rounded-md px-2 py-2 text-muted-foreground transition-colors hover:bg-accent-soft hover:text-foreground"
             >
               Features
             </Link>
             <Link
               to="/pricing"
               onClick={close}
-              className="rounded-md px-2 py-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="rounded-md px-2 py-2 text-muted-foreground transition-colors hover:bg-accent-soft hover:text-foreground"
             >
               Pricing
             </Link>

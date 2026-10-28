@@ -28,3 +28,13 @@ export function useDeleteItem() {
     },
   })
 }
+
+export function useUpdateItem() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, ...data }: { id: number; title?: string; description?: string; status?: string }) => itemsApi.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.items.all })
+    },
+  })
+}

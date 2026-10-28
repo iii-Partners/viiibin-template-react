@@ -36,7 +36,7 @@ if (stored) {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
-      mode: 'system',
+      mode: 'light',
       setMode: (mode) => {
         applyTheme(mode)
         set({ mode })
