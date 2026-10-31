@@ -2,7 +2,7 @@
 // edge, inside the safe margin: the views by audience (operations, clinical, the guest, the blueprint), each group set
 // off by a hairline, then the design system, then the viewer's own (the profile, the theme), with Settings at the foot.
 // Everything the rail reaches is a view at its own route, never a dialog; dialogs are for what opens from inside a
-// view. The open view fills white. A mustard badge on a view counts what waits there. Every icon names itself in a
+// view. The open view fills white. Every icon names itself in a
 // tracked tip that slides out beside it on hover or focus. Under 720 px the rail lies along the bottom.
 import { Fragment } from 'react'
 import { useLocation, useNavigate } from 'react-router'
@@ -10,25 +10,19 @@ import { Moon, Palette, Settings, Sun, UserRound, type LucideIcon } from 'lucide
 import { MAIN_VIEWS, RAIL_VIEWS, VIEW_GROUPS, type RailView } from '@/app/nav'
 import { useScreens } from '@/stores/screens'
 import { useThemeStore } from '@/stores/theme'
-import { useNeeds, type Lens } from '@/os/needs'
 import { cn } from '@/lib/utils/cn'
 
-function RailButton({ icon: Icon, label, on, badge, door, onPress }: { icon: LucideIcon; label: string; on?: boolean; badge?: number; door?: string; onPress(el: HTMLElement): void }) {
+function RailButton({ icon: Icon, label, on, door, onPress }: { icon: LucideIcon; label: string; on?: boolean; door?: string; onPress(el: HTMLElement): void }) {
   return (
     <button
       type="button"
       data-door={door}
-      aria-label={badge ? `${label}: ${badge} waiting` : label}
+      aria-label={label}
       aria-current={on ? 'page' : undefined}
       onClick={(e) => onPress(e.currentTarget)}
       className={cn('rail-btn group/rb relative grid h-10 w-10 flex-none place-items-center rounded-full', on && 'rail-on')}
     >
       <Icon size={18} strokeWidth={1.5} aria-hidden="true" />
-      {!!badge && (
-        <span aria-hidden="true" className="absolute -top-1 -right-1 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-mustard px-1 text-[10.5px]/none font-semibold text-on-need tabular-nums">
-          {badge}
-        </span>
-      )}
       <span aria-hidden="true" className="rail-tip">{label}</span>
     </button>
   )
@@ -36,13 +30,9 @@ function RailButton({ icon: Icon, label, on, badge, door, onPress }: { icon: Luc
 
 const Rule = () => <i aria-hidden="true" className="rail-rule" />
 
-/** Which needs each view's badge counts. */
-const BADGE: Record<string, Lens[]> = { today: ['operations', 'sales'], reviews: ['clinical'], care: ['care'] }
-
 export function Rail() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const needs = useNeeds()
   const mode = useThemeStore((s) => s.mode)
   const dark = mode === 'dark' || (mode === 'system' && typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: dark)').matches)
   // every press goes to a view: open screens close, and the frame shows the place
@@ -51,7 +41,6 @@ export function Rail() {
     navigate(path)
   }
   const place = (id: RailView) => ({ on: pathname === RAIL_VIEWS[id], onPress: () => go(RAIL_VIEWS[id]) })
-  const badge = (id: string) => (BADGE[id] ? needs.filter((n) => BADGE[id].includes(n.lens)).length : undefined)
   return (
     <nav aria-label="Main" className="rail">
       {VIEW_GROUPS.map((group, i) => (
@@ -59,7 +48,7 @@ export function Rail() {
           {i > 0 && <Rule />}
           <div className="rail-group" role="group" aria-label={group}>
             {MAIN_VIEWS.filter((v) => v.group === group).map((v) => (
-              <RailButton key={v.id} icon={v.icon} label={v.name} door={`rail-${v.id}`} on={v.path === pathname} badge={badge(v.id)} onPress={() => go(v.path)} />
+              <RailButton key={v.id} icon={v.icon} label={v.name} door={`rail-${v.id}`} on={v.path === pathname} onPress={() => go(v.path)} />
             ))}
           </div>
         </Fragment>

@@ -1,6 +1,6 @@
 // Ambient light, after the reference deck: two WebGL layers over the Northlight variant (any variant that sets --glow-on: 1).
 //   The edge glow: soft light rises from the window's edges in the brand colors, turning slowly around the frame and
-//   melting into the ground color as it fades inward. It sits beneath everything, so it shows only where the page is
+//   dissolving by opacity as it fades inward, with no corner or rim. It sits beneath everything, so it shows only where the page is
 //   open and, faintly, through the glass panels and the rail. In the deck the music drove it; here it breathes on a slow cycle and swells for a moment whenever the OS
 //   records an event (a person acts, or an automation runs), so the light says the system is alive.
 //   The aura: a faint, smoke-edged light that trails the cursor behind the glass panels, mixing the brand colors.
@@ -21,11 +21,11 @@ precision mediump float;
 `
 
 /** The deck's edge waves, softened and without the audio stream: the frame swells gently, colored by two rings of the
- *  palette, and its color eases into the ground's as its strength falls, so there is no edge where it ends. */
+ *  palette, and it fades by opacity along a smooth curve, so neither its corners nor its end show. */
 const EDGE = `${HEADER}
 uniform vec2 u_size;
 uniform float u_time, u_level, u_turn, u_fade, u_reach, u_strength, u_max;
-uniform vec3 c1, c2, c3, c4, c5, c6, c7, c8, c9, u_ground;
+uniform vec3 c1, c2, c3, c4, c5, c6, c7, c8, c9;
 const float TAU = 6.2831853;
 vec3 ring(float x, vec3 a, vec3 b, vec3 c, vec3 d, vec3 e) {
   x = fract(x) * 5.0;
@@ -38,25 +38,28 @@ vec3 ring(float x, vec3 a, vec3 b, vec3 c, vec3 d, vec3 e) {
 void main() {
   vec2 p = gl_FragCoord.xy;
   vec2 q = p - 0.5 * u_size;
-  float d = min(min(p.x, u_size.x - p.x), min(p.y, u_size.y - p.y));
+  // a smooth minimum of the four edge distances: the edges blend into each other along a rounded curve, so no corner
+  // seam or rectangle shows where two edges meet (a plain min() draws a sharp diagonal at each corner)
+  float k = max(1.0, u_reach * 1.1);
+  float d = -k * log(exp(-p.x / k) + exp(-(u_size.x - p.x) / k) + exp(-p.y / k) + exp(-(u_size.y - p.y) / k));
+  d = max(d, 0.0);
   float around = atan(q.y, q.x) / TAU + u_turn;
   float swell = 0.55 * sin(TAU * around * 3.0 + u_time * 0.23)
               + 0.30 * sin(TAU * around * 7.0 - u_time * 0.31 + 1.7)
               + 0.15 * sin(TAU * around * 13.0 + u_time * 0.47 + 4.1);
   float x = d / (u_reach * (1.0 + 0.35 * swell));
-  if (x > 2.4) discard;
+  if (x > 3.2) discard;
   // a long, eased falloff instead of the deck's ripple band: strongest at the edge, gone well before the content
-  float fall = 1.0 - smoothstep(0.0, 2.4, x);
-  fall = fall * fall * (3.0 - 2.0 * fall);
+  float fall = 1.0 - smoothstep(0.0, 3.2, x);
+  fall = fall * fall * fall;
   float ripple = 0.5 + 0.5 * sin(x * 3.5 - u_time * 0.5 + swell * 1.2);
   float a = fall * (0.92 + 0.08 * ripple) * (0.65 + 0.35 * u_level) * u_fade * u_strength;
   a += (fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * (1.5 / 255.0);
   vec3 deep = ring(around, c1, c2, c4, c3, c5);
   vec3 bright = ring(around + 0.39, c6, c7, c9, c8, c3);
   vec3 col = mix(deep, bright, 0.45 + 0.15 * ripple);
-  // the color itself fades toward the ground as the light weakens, so it blends in rather than stopping
-  // the color eases into the ground early and never reaches full strength, so the light stays a soft wash
-  col = mix(u_ground, col, smoothstep(0.0, 1.15, fall));
+  // the light fades by opacity alone, over a long cubic tail, so it dissolves into whatever lies behind it (the dawn
+  // wash included) with no lighter or darker rim where it ends
   a = clamp(a, 0.0, u_max);
   gl_FragColor = vec4(col * a, a);
 }`
@@ -139,7 +142,7 @@ const GL_OPTS: WebGLContextAttributes = { alpha: true, premultipliedAlpha: true,
 /** How bright the edge glow burns. strength scales the light in each theme (dark is lower, because colored light on a
  *  dark ground reads stronger); maxAlpha is the most opaque the light may get at the very edge, so a swell brightens
  *  it without turning it into paint; reach scales how far it extends inward, cap included (1 is the usual reach).
- *  Every level keeps the color easing into the ground, so a brighter glow still has no edge where it ends. */
+ *  Every level fades by opacity along the same smooth curve, so a brighter glow still has no edge where it ends. */
 export type Glow = { strength?: { light: number; dark: number }; maxAlpha?: number; reach?: number }
 const GLOW = { strength: { light: 0.36, dark: 0.22 }, maxAlpha: 0.4, reach: 1 }
 
@@ -155,7 +158,6 @@ function EdgeGlow({ glow }: { glow?: Glow }) {
     try { prog = program(gl, EDGE) } catch { return drop }
     const u = (n: string) => gl.getUniformLocation(prog, n)
     for (let i = 1; i <= 9; i++) gl.uniform3f(u(`c${i}`), ...rgb(`--glow-${i}`))
-    gl.uniform3f(u('u_ground'), ...rgb('--ground'))
     gl.uniform1f(u('u_strength'), document.documentElement.classList.contains('dark') ? dark : light)
     gl.uniform1f(u('u_max'), maxAlpha)
     let raf = 0, last = 0, t = 0, level = 0.35, fade = 0, reach = 0, turn = 0, bump = 0, skip = false

@@ -49,7 +49,7 @@ The deck reads as calm and expensive, and it gets that from restraint. The app k
    risk a terracotta square, blocked a coral triangle, needs you a mustard diamond, paused a hollow gray square, done
    an ocean-blue disc. Never show a status color without its word.
 5. **The ink is the accent.** A solid ink pill marks the primary action and the open view; there is one primary action
-   per panel. Mustard marks only what waits on the viewer (the Needs you diamond and the rail's count badge). Ocean
+   per panel. Mustard marks only what waits on the viewer (the Needs you diamond). Ocean
    blue is the hover color and the Done color. Lagoon is the focus ring.
 6. **Type stays light.** Headings and figures are Newsreader 300, never bold; one italic word is the only emphasis a
    heading takes. Figures set `.figure` (lining, tabular numerals).
