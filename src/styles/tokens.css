@@ -461,12 +461,12 @@
 }
 /* Northlight: Soft white glass and a sun-gradient hairline (#ebc913 → #e77103 → #dc3286 → #8f6ab7 → #8bb1d3), with ambient light at the edges. */
 :root[data-variant="northlight"], [data-variant-scope="northlight"] {
-  --font-display: Newsreader, Georgia, serif;
-  --font-body: Newsreader, Georgia, serif;
-  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-figure: Newsreader, Georgia, serif;
+  --font-display: Jost, system-ui, sans-serif;
+  --font-body: Jost, system-ui, sans-serif;
+  --font-mono: Jost, system-ui, sans-serif;
+  --font-figure: Jost, system-ui, sans-serif;
   --font-label: Jost, system-ui, sans-serif;
-  --font-lead: Newsreader, Georgia, serif;
+  --font-lead: Jost, system-ui, sans-serif;
   --font-weight-light: 300;
   --pill-radius: 999px;
   --pill-pad-x: 26px;

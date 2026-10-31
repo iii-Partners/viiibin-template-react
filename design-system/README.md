@@ -45,7 +45,8 @@ build.
   (`rail-on-shadow`); it has no ring.
 - **Soft shapes.** Panels and dialogs take 22 px corners (`panel-radius`); fields take 60 % of that. Buttons are pills;
   icon buttons are circles.
-- **Type.** Newsreader for reading and figures, Jost for tracked capitals (0.18em), after Solage.
+- **Type.** One face, Jost (the `label` family), for everything: headings and figures at its light weight, reading text,
+  tracked capitals (0.18em) and codes. Its italic marks the one emphasized word in a heading.
 - **One thread of color.** A fine sun-gradient hairline (yellow, orange, magenta, violet, sky) marks only the primary
   action (`go-fill`), with a faint rose and amber glow under it on hover. Everything else is ink on white.
 - **Ambient light** (`src/components/shell/ambient.tsx`, on when a variant sets `glow-on: 1`):

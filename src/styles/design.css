@@ -44,15 +44,15 @@
 
   /* the pill: everything you press. An outline at rest; .go fills with the ink (the primary action); .risky is a
      faint coral hairline and coral text for a destructive action, which only tints on hover, never fills; .sm is the compact size in rows and cards */
-  .pill { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 13px var(--pill-pad-x); border: 1px solid var(--edge); border-radius: var(--pill-radius);
-    font: var(--pill-weight) 11.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; white-space: nowrap; color: var(--text); background: transparent; cursor: pointer;
+  .pill { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 11.5px var(--pill-pad-x); border: 1px solid var(--edge); border-radius: var(--pill-radius);
+    font: var(--pill-weight) 11.5px/1.25 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; max-width: 100%; text-align: center; text-wrap: balance; color: var(--text); background: transparent; cursor: pointer;
     transition: background-color var(--dur-hover) ease, border-color var(--dur-hover) ease, color var(--dur-hover) ease, opacity var(--dur-hover) ease; }
   .pill:hover, .pill:focus-visible { border-color: var(--text); background: color-mix(in srgb, var(--text) 7%, transparent); }
   .pill.go { background: var(--go-fill); border-color: var(--go-border); color: var(--on-primary); transition: background var(--dur-hover) ease, border-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease, opacity var(--dur-hover) ease; }
   .pill.go:hover, .pill.go:focus-visible { background: var(--go-hover-fill); border-color: var(--go-hover-border); box-shadow: var(--go-glow); }
   .pill.risky { border-color: color-mix(in srgb, var(--fault) 38%, transparent); color: var(--fault); }
   .pill.risky:hover, .pill.risky:focus-visible { background: color-mix(in srgb, var(--fault) 6%, transparent); border-color: color-mix(in srgb, var(--fault) 62%, transparent); color: var(--fault); }
-  .pill.sm { gap: 8px; padding: 10px calc(var(--pill-pad-x) * 0.73); font-size: 10.5px; }
+  .pill.sm { gap: 8px; padding: 8.5px calc(var(--pill-pad-x) * 0.73); font-size: 10.5px; }
   .pill:disabled, .pill[aria-disabled="true"] { opacity: 0.42; cursor: default; pointer-events: none; }
   .pill svg { flex: none; transition: transform var(--dur-hover) ease; }
   .pill:hover .arr, .pill:focus-visible .arr { transform: translateX(3px); }
@@ -74,6 +74,10 @@
   /* the panel: every card is flat and square on the ground, edged by a hairline. .live takes a press: its edge darkens
      and its arrow moves. .on lights it from elsewhere (a picked card, its ring on the dial pointed at). .band is the
      one cool aqua lead surface on a view */
+  /* a panel holds its content: its column may shrink to the panel's width (a grid column otherwise grows to its widest
+     child), and so may every child */
+  .panel { grid-template-columns: minmax(0, 1fr); }
+  .panel > * { min-width: 0; }
   .panel { position: relative; min-width: 0; background: color-mix(in srgb, var(--panel) var(--panel-opacity), transparent); border: 1px solid var(--line); border-radius: var(--panel-radius); box-shadow: var(--panel-shadow); padding: 24px; color: var(--text); }
   .panel.band { background: color-mix(in srgb, var(--band) var(--panel-opacity), transparent); border-color: color-mix(in srgb, var(--accent) 16%, transparent); }
   .panel.live { cursor: pointer; text-align: left; transition: border-color var(--dur-hover) ease, background-color var(--dur-hover) ease; }
