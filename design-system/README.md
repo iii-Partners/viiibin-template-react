@@ -48,7 +48,9 @@ build.
 - **Type.** One face, Jost (the `label` family), for everything: headings and figures at its light weight, reading text,
   tracked capitals (0.18em) and codes. Its italic marks the one emphasized word in a heading.
 - **One thread of color.** A fine sun-gradient hairline (yellow, orange, magenta, violet, sky) marks only the primary
-  action (`go-fill`), with a faint rose and amber glow under it on hover. Everything else is ink on white.
+  action (`go-ring` around a `go-fill` face), with a faint rose and amber glow under it on hover. The ring turns so its
+  rose faces the cursor (`src/components/shell/turning-ring.tsx` sets `--go-angle` on each `.pill.go`); under reduced
+  motion or without a mouse it rests at 210°. Everything else is ink on white.
 - **Ambient light** (`src/components/shell/ambient.tsx`, on when a variant sets `glow-on: 1`):
   - *The edge glow* sits beneath every element, in the nine `glow-*` brand colors turning slowly around the frame. Its
     reach is 6 to 12 % of the window's short side (capped at 110 px), and its light falls away over 3.2 times that. It measures distance with a smooth minimum of the

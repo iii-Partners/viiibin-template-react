@@ -48,8 +48,11 @@
     font: var(--pill-weight) 11.5px/1.25 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; max-width: 100%; text-align: center; text-wrap: balance; color: var(--text); background: transparent; cursor: pointer;
     transition: background-color var(--dur-hover) ease, border-color var(--dur-hover) ease, color var(--dur-hover) ease, opacity var(--dur-hover) ease; }
   .pill:hover, .pill:focus-visible { border-color: var(--text); background: color-mix(in srgb, var(--text) 7%, transparent); }
-  .pill.go { background: var(--go-fill); border-color: var(--go-border); color: var(--on-primary); transition: background var(--dur-hover) ease, border-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease, opacity var(--dur-hover) ease; }
-  .pill.go:hover, .pill.go:focus-visible { background: var(--go-hover-fill); border-color: var(--go-hover-border); box-shadow: var(--go-glow); }
+  /* .go's face fills the padding box; under its edge, the ring (--go-ring) shows through wherever the edge is transparent.
+     --go-angle is set on each button by the ambient layer so the ring turns to face the pointer */
+  .pill.go { --go-face: var(--go-fill); background: linear-gradient(var(--go-face), var(--go-face)) padding-box, conic-gradient(from var(--go-angle, 210deg), var(--go-ring)) border-box;
+    border-color: var(--go-border); color: var(--on-primary); transition: border-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease, opacity var(--dur-hover) ease; }
+  .pill.go:hover, .pill.go:focus-visible { --go-face: var(--go-hover-fill); border-color: var(--go-hover-border); box-shadow: var(--go-glow); }
   .pill.risky { border-color: color-mix(in srgb, var(--fault) 38%, transparent); color: var(--fault); }
   .pill.risky:hover, .pill.risky:focus-visible { background: color-mix(in srgb, var(--fault) 6%, transparent); border-color: color-mix(in srgb, var(--fault) 62%, transparent); color: var(--fault); }
   .pill.sm { gap: 8px; padding: 8.5px calc(var(--pill-pad-x) * 0.73); font-size: 10.5px; }
