@@ -196,7 +196,8 @@
   .rail-btn { color: var(--rail-dim); border: 1.5px solid transparent; transition: color var(--dur-hover) ease, background var(--dur-hover) ease; }
   .rail-btn:hover, .rail-btn:focus-visible { color: var(--rail-fg); background: var(--rail-hover); outline: none; }
   .rail-btn:focus-visible { box-shadow: 0 0 0 2px var(--focus); }
-  .rail-btn.rail-on { color: var(--rail-ink); background: var(--rail-on-bg); }
+  .rail-btn.rail-on { color: var(--rail-ink); background: var(--rail-on-bg); box-shadow: var(--rail-on-shadow); }
+  .rail-btn.rail-on:focus-visible { box-shadow: var(--rail-on-shadow), 0 0 0 2px var(--focus); }
   .rail-tip { position: absolute; left: calc(100% + 16px); top: 50%; z-index: 20; padding: 8px 13px; border-radius: 999px; white-space: nowrap;
     font: 400 10.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--rail-tip-fg); background: var(--rail-tip-bg); box-shadow: var(--shadow-float);
     opacity: 0; transform: translate(-6px, -50%); pointer-events: none; transition: opacity 200ms ease, transform 260ms var(--ease-rise); }

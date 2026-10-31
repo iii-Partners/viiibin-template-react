@@ -31,6 +31,36 @@ The deck reads as calm and expensive, and it gets that from restraint. The app k
 - **Slow, soft fades.** A view's parts fade up 8 px over 700 ms, 80 ms apart. A dialog's veil fades in over 500 ms
   while its sheet rises 12 px. Hover changes take 250 ms.
 
+## Northlight, the default look
+
+Northlight is the variant the app wears by default. It keeps every rule below and adds a softer surface: layers of warm
+white, depth from shadow instead of lines, and light that lives at the window's edges. Use it as the reference when you
+build.
+
+- **Porcelain and pearl.** The ground is porcelain `#f8f6f2` under a faint dawn wash (`ground-image`); panels are pearl
+  `#fefdfb` at 80 % (`panel-opacity`), so the wash and the light show faintly through them. The rail is the same pearl,
+  frosted. Night mode is a violet night (`#15121f`) with the same layering.
+- **Depth from shadow.** Panels lift on a soft two-layer shadow (`panel-shadow`) and keep only a faint hairline. The open
+  view on the rail sits raised on four layered shadows, from a tight contact shadow to a wide, faintly rose ambient one
+  (`rail-on-shadow`); it has no ring.
+- **Soft shapes.** Panels and dialogs take 22 px corners (`panel-radius`); fields take 60 % of that. Buttons are pills;
+  icon buttons are circles.
+- **Type.** Newsreader for reading and figures, Jost for tracked capitals (0.18em), after Solage.
+- **One thread of color.** A fine sun-gradient hairline (yellow, orange, magenta, violet, sky) marks only the primary
+  action (`go-fill`), with a faint rose and amber glow under it on hover. Everything else is ink on white.
+- **Ambient light** (`src/components/shell/ambient.tsx`, on when a variant sets `glow-on: 1`):
+  - *The edge glow* sits beneath every element, in the nine `glow-*` brand colors turning slowly around the frame. Its
+    reach is 6 to 12 % of the window's short side (capped at 110 px), and its light falls away over 3.2 times that. It measures distance with a smooth minimum of the
+    four edges, so the corners blend along a rounded curve, and it fades by opacity alone over a long cubic tail, so no
+    corner, seam or rim shows. It breathes slowly and swells briefly when the OS records an event. Strength 0.36 by day,
+    0.22 at night; never more than 40 % opaque.
+  - *The cursor aura* is a faint, smoke-edged light that trails the pointer behind the glass, drifting between warm sun,
+    rose and sky tints.
+  - Settings, Appearance turns both off; reduced motion holds the glow still and turns the aura off; the aura needs a
+    mouse.
+- **Motion.** Hover changes take 350 ms; a view's parts arrive over 900 ms; dialogs rise over 650 ms, on an expo-out
+  ease.
+
 ## The rules
 
 1. **Navigation is the interface.** Whatever the nav reaches is a view, with a route; whatever opens from inside a view
@@ -120,14 +150,9 @@ catalog with all four states. `npm test` renders every catalog part in every sta
 route through `RailView` in `src/app/router.tsx` and a button in `src/components/shell/rail.tsx`. To bring back the
 header pill, let `navStyle` be `'bar'` again in `src/stores/preferences.ts` (its migration forces the rail today).
 
-**The Northlight variant and its ambient light.** Northlight is the default variant for now (`src/stores/variant.ts`). It
-builds on Solage's type (Newsreader and tracked Jost) with layers of soft white: glass panels (`panel-opacity`,
-`panel-shadow`), a dawn wash over the ground (`ground-image`), a white rail, and a sun-gradient hairline on the primary
-action and the open view (`go-fill`, `rail-on-bg`). It sets `glow-on: 1` and nine `glow-*` colors sampled from the
-Northlight logo, which turns on the ambient light (`src/components/shell/ambient.tsx`): the reference deck's edge-wave shader,
-softened to melt into the ground and set beneath every element, breathing slowly and swelling whenever the OS records
-an event, and the deck's cursor wisp as a faint aura behind the
-glass. Settings, Appearance has the switch; reduced motion stills the glow and turns the aura off.
+**The Northlight variant.** Northlight is the default look (`src/stores/variant.ts`) and the one to build against; see
+*Northlight, the default look* above for its rules. Its values live in `tokens.json` under `variants.list`, id
+`northlight`.
 
 **Add or change a design variant.** Variants live in `design-system/tokens.json` under `variants.list`: colors for light
 and dark (any token may be overridden; the rest come from the base), font families (`display`, `body`, `figure`,

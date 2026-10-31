@@ -39,6 +39,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -92,6 +93,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -202,6 +204,7 @@
   --color-rail-rule: var(--rail-rule);
   --color-rail-border: var(--rail-border);
   --color-rail-on-bg: var(--rail-on-bg);
+  --color-rail-on-shadow: var(--rail-on-shadow);
   --color-rail-tip-bg: var(--rail-tip-bg);
   --color-rail-tip-fg: var(--rail-tip-fg);
   --color-glow-on: var(--glow-on);
@@ -388,6 +391,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -440,6 +444,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -517,7 +522,8 @@
   --rail-hover: rgba(43, 45, 51, 0.06);
   --rail-rule: rgba(43, 45, 51, 0.10);
   --rail-border: rgba(43, 45, 51, 0.06);
-  --rail-on-bg: linear-gradient(#fefdfb, #fefdfb) padding-box, conic-gradient(from 210deg, #ebc913, #e77103, #dc3286, #8f6ab7, #8bb1d3, #ebc913) border-box;
+  --rail-on-bg: #fefdfb;
+  --rail-on-shadow: 0 1px 1px rgba(43, 36, 64, 0.05), 0 3px 8px -2px rgba(43, 36, 64, 0.10), 0 10px 22px -8px rgba(43, 36, 64, 0.16), 0 18px 36px -18px rgba(220, 50, 134, 0.10);
   --rail-tip-bg: #fefdfb;
   --rail-tip-fg: #2b2d33;
   --glow-on: 1;
@@ -570,7 +576,8 @@
   --rail-hover: rgba(255, 255, 255, 0.07);
   --rail-rule: rgba(255, 255, 255, 0.12);
   --rail-border: rgba(255, 255, 255, 0.08);
-  --rail-on-bg: linear-gradient(#1d1a2a, #1d1a2a) padding-box, conic-gradient(from 210deg, #ebc913, #e77103, #dc3286, #8f6ab7, #8bb1d3, #ebc913) border-box;
+  --rail-on-bg: #2a253b;
+  --rail-on-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 1px 1px rgba(0, 0, 0, 0.3), 0 4px 10px -2px rgba(0, 0, 0, 0.35), 0 12px 26px -8px rgba(0, 0, 0, 0.45);
   --rail-tip-bg: #f3f1f6;
   --rail-tip-fg: #15121f;
   --glow-on: 1;
@@ -650,6 +657,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -702,6 +710,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -780,6 +789,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -832,6 +842,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -910,6 +921,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -962,6 +974,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -1040,6 +1053,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -1092,6 +1106,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -1170,6 +1185,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -1222,6 +1238,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -1300,6 +1317,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -1352,6 +1370,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -1430,6 +1449,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -1482,6 +1502,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -1560,6 +1581,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -1612,6 +1634,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -1690,6 +1713,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -1742,6 +1766,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
@@ -1820,6 +1845,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: color-mix(in srgb, var(--rail-ink) 94%, transparent);
   --rail-tip-fg: #ffffff;
   --glow-on: 0;
@@ -1872,6 +1898,7 @@
   --rail-rule: rgba(255, 255, 255, 0.18);
   --rail-border: rgba(255, 255, 255, 0.10);
   --rail-on-bg: #ffffff;
+  --rail-on-shadow: none;
   --rail-tip-bg: var(--text);
   --rail-tip-fg: var(--ground);
   --glow-on: 0;
