@@ -1,5 +1,7 @@
 // The parts Northlight OS's views share: a guest row, the readiness meter, a need with its one-press actions, the
 // activity log, a flowchart step's type tag, the example-data note and the clock. Built from the design system's parts.
+import { Tip } from '@/components/ui/tooltip'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useState, type ReactNode } from 'react'
 import { ArrowRight, Cog, FlaskConical } from 'lucide-react'
 import { openScreen } from '@/stores/screens'
@@ -32,9 +34,11 @@ export function Readiness({ g, className }: { g: Guest; className?: string }) {
   const done = forms.filter((f) => f.x?.done).length
   return (
     <span className={cn('inline-flex items-center gap-2', className)} aria-label={`${done} of ${FORMS.length} forms returned`}>
-      <span className="flex gap-[3px]" aria-hidden="true">
+      <span className="flex gap-[3px]">
         {forms.map((f) => (
-          <i key={f.id} title={f.word} className={cn('block h-2.5 w-2.5', f.x?.done ? 'bg-text' : f.x && f.x.due < today ? 'bg-fault' : 'bg-wash ring-1 ring-edge/50 ring-inset')} />
+          <Tip key={f.id} label={`${f.word}: ${f.x?.done ? 'returned' : f.x && f.x.due < today ? 'overdue' : 'not yet due'}`}>
+            <i className={cn('block h-2.5 w-2.5 rounded-[2px]', f.x?.done ? 'bg-text' : f.x && f.x.due < today ? 'bg-fault' : 'bg-wash ring-1 ring-edge/50 ring-inset')} />
+          </Tip>
         ))}
       </span>
       <span className="text-[12px] text-dim tabular-nums">{done}/{FORMS.length}</span>
@@ -105,10 +109,10 @@ function NeedActions({ need, g }: { need: Need; g: Guest }) {
     case 'integrator':
       return (
         <span className="flex flex-wrap items-center gap-2">
-          <label className="sr-only" htmlFor={`int-${g.id}`}>Integrator</label>
-          <select id={`int-${g.id}`} value={who} onChange={(e) => setWho(e.target.value)} className="field !w-auto !py-2 !text-[13px]">
-            {INTEGRATORS.map((n) => <option key={n}>{n}</option>)}
-          </select>
+          <Select value={who} onValueChange={setWho}>
+            <SelectTrigger aria-label="Integrator" className="!w-auto min-w-[150px] !py-2 !text-[13px]"><SelectValue /></SelectTrigger>
+            <SelectContent>{INTEGRATORS.map((n) => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
+          </Select>
           {go('Assign', () => os.assignIntegrator(g.id, who, ACTOR.assignment), true)}
         </span>
       )
@@ -177,9 +181,9 @@ export function ActivityLog({ events, limit = 8, guestNames = true }: { events: 
                 <span className="flex flex-wrap gap-1.5 pt-0.5">
                   <span className="text-[10.5px] tracking-[0.12em] text-dim uppercase">Replaces</span>
                   {e.replaces.map((id) => (
-                    <button key={id} type="button" title={STEPS[id]?.title} onClick={(ev) => openScreen('step', { id }, ev.currentTarget)} className="font-mono text-[11px] text-accent underline decoration-transparent underline-offset-4 hover:decoration-accent">
+                    <Tip key={id} label={STEPS[id]?.title}><button type="button" onClick={(ev) => openScreen('step', { id }, ev.currentTarget)} className="font-mono text-[11px] text-accent underline decoration-transparent underline-offset-4 hover:decoration-accent">
                       {STEPS[id]?.sf ?? id}
-                    </button>
+                    </button></Tip>
                   ))}
                 </span>
               )}
@@ -207,9 +211,11 @@ export function Clock({ className }: { className?: string }) {
   return (
     <span className={cn('inline-flex flex-wrap items-center gap-3', className)}>
       <span className="eyebrow ink">{fmt(today, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
-      <button type="button" className="pill sm" onClick={advance} title="Advance the prototype’s clock one day; reminders, hold expiry, chasers and check-ins run">
-        Next day <ArrowRight size={13} strokeWidth={1.5} className="arr" aria-hidden="true" />
-      </button>
+      <Tip label="Advance the prototype’s clock one day; reminders, hold expiry, chasers and check-ins run" side="bottom">
+        <button type="button" className="pill sm" onClick={advance}>
+          Next day <ArrowRight size={13} strokeWidth={1.5} className="arr" aria-hidden="true" />
+        </button>
+      </Tip>
     </span>
   )
 }

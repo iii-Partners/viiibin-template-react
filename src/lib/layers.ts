@@ -16,7 +16,8 @@ export const layerDepth = () => stack.length
 
 if (typeof window !== 'undefined') {
   window.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape' || !stack.length) return
+    // a menu or tooltip that handled this Esc itself (Radix marks it) closes alone, not the layer under it
+    if (e.key !== 'Escape' || e.defaultPrevented || !stack.length) return
     e.preventDefault()
     stack[stack.length - 1].close()
   })

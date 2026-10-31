@@ -1,5 +1,6 @@
 // Settings as a screen: appearance (light or dark, and the design variant), the prototype's clock and its example
 // data, and privacy. Picking a theme marks the getting-started preferences step done.
+import { Switch } from '@/components/ui/switch'
 import { Monitor, Moon, Sun } from 'lucide-react'
 import { useThemeStore } from '@/stores/theme'
 import { usePreferencesStore } from '@/stores/preferences'
@@ -54,10 +55,13 @@ export function SettingsScreen() {
             </button>
           ))}
         </div>
-        <label className="flex w-fit cursor-pointer items-start gap-3 pt-1 text-[14px]/[1.5]">
-          <input type="checkbox" checked={ambient} onChange={(e) => setAmbient(e.target.checked)} className="mt-1 h-4 w-4 accent-[var(--focus)]" />
-          <span className="grid gap-0.5"><span>Ambient light</span><span className="text-[12.5px] text-dim">The edge glow and the light that follows the cursor, in the Northlight variant. Off under reduced motion.</span></span>
-        </label>
+        <div className="flex items-start justify-between gap-4 border-t border-line pt-4">
+          <label htmlFor="ambient" className="grid cursor-pointer gap-0.5 text-[14px]/[1.5]">
+            <span>Ambient light</span>
+            <span className="text-[12.5px] text-dim">The edge glow and the light that follows the cursor, in the Northlight variant. Off under reduced motion.</span>
+          </label>
+          <Switch id="ambient" checked={ambient} onCheckedChange={setAmbient} className="mt-0.5" />
+        </div>
       </Panel>
       <Panel className="content-start gap-4">
         <Sec as="h3">The prototype</Sec>

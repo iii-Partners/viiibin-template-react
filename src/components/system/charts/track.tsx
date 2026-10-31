@@ -1,6 +1,7 @@
 // The track: steps and timelines. One rail filled with ink to where the work is now, a tick ruler under it, and a
 // ringed marker on a dashed guide at each step, its name and detail under the guide, in sentence case. Labels
-// alternate two rows past five steps, or wherever the steps sit closer than their longest label (a phone). A timeline places its
+// alternate two rows past five steps, or wherever the steps sit closer than their longest label; where even two rows
+// would collide (a phone), the track stands up as a vertical timeline. A timeline places its
 // steps on its own scale and draws a Today line with its label above the rail. The legend names every ring color it
 // uses. Before any step is done the rail is empty and every ring reads Ahead, which is itself the plan.
 import { useLayoutEffect, useRef, useState } from 'react'
@@ -30,12 +31,38 @@ export function Track({ label, points, now, nowLabel, ruler }: { label: string; 
   }, [])
   // a label is about 7 px a character at 12 to 13 px; two rows when neighbors sit closer than the longest label
   const longest = Math.max(0, ...points.map((p) => Math.max(p.title.length, p.sub?.length ?? 0)))
-  const two = points.length > 5 || (w > 0 && w / Math.max(1, points.length - 1) < Math.max(84, longest * 7 + 16))
+  const gap = w / Math.max(1, points.length - 1)
+  const two = points.length > 5 || (w > 0 && gap < Math.max(84, longest * 7 + 16))
+  // when even two rows would collide (a phone, a long plan), the track stands up: a vertical timeline, one step a row
+  const upright = w > 0 && points.length > 2 && gap * 2 < longest * 7 + 16
   const top = nowLabel ? 20 : 0
   const legend = [...new Set(points.map((p) => p.tone ?? ''))].sort((x, y) => ORDER.indexOf(x) - ORDER.indexOf(y))
   return (
     <figure className="m-0 grid gap-3 px-2 pt-2" aria-label={`${label}: ${points.map((p) => `${p.title}${p.sub ? ` ${p.sub}` : ''}, ${WORD[p.tone ?? ''].toLowerCase()}`).join('; ')}.`}>
-      <div ref={box} className="relative mx-3" style={{ height: (two ? 160 : 116) + top }} aria-hidden="true">
+      <div ref={box} className="mx-3" aria-hidden="true">
+      {upright ? (
+        <ol className="m-0 grid list-none p-0">
+          {points.map((p, i) => {
+            const next = points[i + 1]
+            const reached = (t?: Tone) => t === 'done' || t === 'lit'
+            return (
+              <li key={i} className="rise-in grid grid-cols-[24px_minmax(0,1fr)] gap-x-3" style={{ animationDelay: `${60 + i * 50}ms` }}>
+                <span className="grid justify-items-center">
+                  <i className="grid h-[24px] w-[24px] flex-none place-items-center rounded-full border-[1.5px] bg-panel" style={{ borderColor: RING[p.tone ?? ''] }}>
+                    <i className="h-2 w-2 rounded-full" style={{ background: p.tone ? RING[p.tone] : 'transparent' }} />
+                  </i>
+                  {next && <i className={`block w-[2px] flex-1 ${reached(next.tone) ? 'bg-text' : 'bg-wash'}`} style={{ minHeight: 18 }} />}
+                </span>
+                <span className={`grid content-start gap-0.5 pt-[3px] ${next ? 'pb-3' : ''}`}>
+                  <b className={`text-[13.5px]/[1.25] ${p.tone === 'lit' ? 'font-semibold' : 'font-medium'}`} style={{ color: p.tone === 'pending' ? 'var(--need)' : p.tone ? undefined : 'var(--dim)' }}>{p.title}</b>
+                  {p.sub && <span className="text-[12px]/[1.25] text-dim">{p.sub}</span>}
+                </span>
+              </li>
+            )
+          })}
+        </ol>
+      ) : (
+      <div className="relative" style={{ height: (two ? 160 : 116) + top }}>
         <span style={{ top: 24 + top }} className="absolute inset-x-0 flex h-1.5 overflow-hidden bg-wash">
           <i className="block h-full bg-text" style={{ width: `${Math.max(0, Math.min(1, now)) * 100}%` }} />
         </span>
@@ -62,6 +89,8 @@ export function Track({ label, points, now, nowLabel, ruler }: { label: string; 
             </span>
           )
         })}
+      </div>
+      )}
       </div>
       <figcaption className="flex flex-wrap gap-x-5 gap-y-1 border-t border-line pt-3 text-[12.5px] text-dim">
         {legend.map((t) => (

@@ -2,6 +2,8 @@
 // record access window that closes three days after the retreat or when the notes are saved (the wish list). After
 // the session, Integration Guides run the 48-hour check-in, log integration calls and finalize care; the Life
 // Education Series runs on its own from the guest record.
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { useState } from 'react'
 import { KeyRound } from 'lucide-react'
 import { openScreen } from '@/stores/screens'
@@ -40,8 +42,8 @@ function SessionNotes({ g }: { g: Guest }) {
         </div>
       ) : (
         <form className="grid gap-3 border-t border-line pt-4" onSubmit={(e) => { e.preventDefault(); if (text.trim() && r) saveNotes(g.id, text.trim(), r.facilitator) }}>
-          <label htmlFor={`notes-${g.id}`} className="label !mb-0">Facilitator session notes</label>
-          <textarea id={`notes-${g.id}`} rows={3} value={text} onChange={(e) => setText(e.target.value)} className="field" placeholder="How the session went, and anything the Integration Guide should know" disabled={!open} />
+          <Label htmlFor={`notes-${g.id}`} className="!mb-0">Facilitator session notes</Label>
+          <Textarea id={`notes-${g.id}`} rows={3} value={text} onChange={(e) => setText(e.target.value)} placeholder="How the session went, and anything the Integration Guide should know" disabled={!open} />
           <button type="submit" className="pill go w-fit" disabled={!text.trim() || !open}>Save notes and close access</button>
         </form>
       )}

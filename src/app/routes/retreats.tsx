@@ -2,6 +2,7 @@
 // Sunday to Wednesday morning, B Wednesday afternoon to Saturday), its rooms as a grid (10 in Highlands, 8 in Europe),
 // who is in each room and how ready they are, and who facilitates. Held rooms show apart from booked ones, so room
 // inventory is never overstated (insight I05). A retreat opens as a screen with its manifest.
+import { Tip } from '@/components/ui/tooltip'
 import { openScreen } from '@/stores/screens'
 import { Panel } from '@/components/system/panel'
 import { Sec } from '@/components/system/status'
@@ -23,10 +24,11 @@ export function RoomGrid({ r, guests, today }: { r: Retreat; guests: Guest[]; to
         const hold = !g && h < held.length ? held[h++] : undefined
         const late = g && FORMS.some((f) => g.forms[f.id] && !g.forms[f.id]!.done && g.forms[f.id]!.due < today)
         const who = g ?? hold
+        const label = who ? `Room ${n}: ${who.name}${hold ? ' (held)' : late ? ' (forms overdue)' : ''}` : `Room ${n}: free`
         return (
+          <Tip key={n} label={label}>
           <span
-            key={n}
-            title={who ? `Room ${n}: ${who.name}${hold ? ' (held)' : late ? ' (forms overdue)' : ''}` : `Room ${n}: free`}
+            aria-label={label}
             className={cn(
               'grid aspect-square min-w-0 place-items-center rounded-[calc(var(--panel-radius)*0.4)] border text-[11px] font-medium tabular-nums',
               g ? (late ? 'border-fault bg-panel text-fault' : 'border-text bg-text text-ground') : hold ? 'border-dashed border-edge text-dim' : 'border-line text-dim/60',
@@ -34,6 +36,7 @@ export function RoomGrid({ r, guests, today }: { r: Retreat; guests: Guest[]; to
           >
             {who ? who.name.split(' ').map((w) => w[0]).join('') : n}
           </span>
+          </Tip>
         )
       })}
     </div>

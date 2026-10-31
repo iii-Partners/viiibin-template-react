@@ -3,6 +3,7 @@
 // every stage holds no more than the one before (a funnel), each column also says what share of the stage before
 // reached it. Solid ink marks where the work is now. With every stage at zero, each column keeps a sliver so the stages
 // still read as the path the work will take.
+import { Tip } from '@/components/ui/tooltip'
 import type { ReactNode } from 'react'
 import type { Tone } from './track'
 
@@ -41,7 +42,7 @@ export function StageChart({ code, label, meta, stages, empty }: { code: string;
                 <i className="rise-in block w-full border-t-2" style={{ height: `${Math.max(3, (s.n / max) * 100)}%`, borderColor: FILL[s.tone ?? ''], background: `color-mix(in srgb, ${FILL[s.tone ?? '']} 22%, transparent)`, animationDelay: `${i * 80}ms` }} />
               </span>
               <span className="grid gap-0.5 border-t border-line pt-2.5">
-                <span className="truncate text-[13px] font-medium" title={s.name}>{s.name}</span>
+                <Tip label={s.name}><span className="truncate text-[13px] font-medium">{s.name}</span></Tip>
                 {funnel && i > 0 && <span className="text-[12px] text-dim tabular-nums">{n[i - 1] ? Math.round((s.n / n[i - 1]) * 100) : 0} % of {stages[i - 1].name.toLowerCase()}</span>}
               </span>
             </li>

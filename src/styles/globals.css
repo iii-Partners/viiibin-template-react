@@ -46,6 +46,48 @@
     display: none !important;
   }
 
+  /* the browser's own chrome, in the system's colors: selection, caret, scrollbars, autofill */
+  ::selection {
+    background: color-mix(in srgb, var(--focus) 26%, transparent);
+    color: var(--text);
+  }
+
+  input,
+  textarea {
+    caret-color: var(--accent);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--text) 18%, transparent) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--text) 18%, transparent) padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in srgb, var(--text) 30%, transparent);
+  }
+
+  input:-webkit-autofill,
+  textarea:-webkit-autofill {
+    -webkit-text-fill-color: var(--text);
+    box-shadow: 0 0 0 1000px var(--panel) inset;
+    transition: background-color 9999s ease-out;
+  }
+
   /* headings are the display face at the light weight (Newsreader 300 in the Modern system): calm, never bold,
      balanced across their lines. A variant sets their case, style and tracking. */
   h1,

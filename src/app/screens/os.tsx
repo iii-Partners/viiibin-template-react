@@ -2,6 +2,8 @@
 // an insight and a discovery session. The guest record is the one record insight I02 asks for: the journey, the next
 // step with the staff action that takes it, the record, the clinical decision without its detail (insight I10), the
 // rooms the guest has stayed in (the wish list), and everything that happened to them.
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { ArrowRight, Lock, Printer } from 'lucide-react'
@@ -36,10 +38,13 @@ function RetreatPicker({ value, onChange, id }: { value: string; onChange(v: str
   const list = openRetreats(os)
   return (
     <div>
-      <label htmlFor={id} className="label">Retreat</label>
-      <select id={id} value={value} onChange={(e) => onChange(e.target.value)} className="field">
-        {list.map((r) => <option key={r.id} value={r.id}>{retreatName(r)} · {fmt(r.start)}</option>)}
-      </select>
+      <Label htmlFor={id}>Retreat</Label>
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger id={id}><SelectValue placeholder="Pick a retreat" /></SelectTrigger>
+        <SelectContent>
+          {list.map((r) => <SelectItem key={r.id} value={r.id}>{retreatName(r)} · {fmt(r.start)}</SelectItem>)}
+        </SelectContent>
+      </Select>
     </div>
   )
 }
@@ -60,10 +65,13 @@ function NextStep({ g }: { g: Guest }) {
           {title('Qualify the inquiry')}
           <p className="text-[14px]/[1.6] text-dim">The program sets the price from the rules; qualifying sends the application and holds a room that NL-OS releases on its own if nothing happens.</p>
           <div>
-            <label htmlFor="q-program" className="label">Program</label>
-            <select id="q-program" value={program} onChange={(e) => setProgram(e.target.value as ProgramId)} className="field">
-              {Object.entries(PROGRAMS).map(([k, p]) => <option key={k} value={k}>{p.word} · {money(p.price)}</option>)}
-            </select>
+            <Label htmlFor="q-program">Program</Label>
+            <Select value={program} onValueChange={(v) => setProgram(v as ProgramId)}>
+              <SelectTrigger id="q-program"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {Object.entries(PROGRAMS).map(([k, p]) => <SelectItem key={k} value={k}>{p.word} · {money(p.price)}</SelectItem>)}
+              </SelectContent>
+            </Select>
           </div>
           <RetreatPicker id="q-retreat" value={retreat} onChange={setRetreat} />
           <button type="submit" className="pill go w-fit" disabled={!retreat}>Qualify and send the application</button>
@@ -116,7 +124,13 @@ function NextStep({ g }: { g: Guest }) {
           </ul>
           {!g.integrator && (
             <div className="flex flex-wrap items-end gap-2.5 border-t border-line pt-4">
-              <div className="min-w-[180px] flex-1"><label htmlFor="g-int" className="label">Integrator</label><select id="g-int" value={who} onChange={(e) => setWho(e.target.value)} className="field">{INTEGRATORS.map((n) => <option key={n}>{n}</option>)}</select></div>
+              <div className="min-w-[180px] flex-1">
+                <Label htmlFor="g-int">Integrator</Label>
+                <Select value={who} onValueChange={setWho}>
+                  <SelectTrigger id="g-int"><SelectValue /></SelectTrigger>
+                  <SelectContent>{INTEGRATORS.map((n) => <SelectItem key={n} value={n}>{n}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
               <button type="button" className="pill go" onClick={() => os.assignIntegrator(g.id, who, ACTOR.assignment)}>Assign</button>
             </div>
           )}

@@ -2,6 +2,7 @@
 // steps in nine lanes, each with what NL-OS does instead, and which of today's steps the OS has already taken over in
 // this session's activity log), the ten intake insights, the systems today, the NL-OS target, and the discovery plan.
 // Every step, insight and session opens as a screen.
+import { Tip } from '@/components/ui/tooltip'
 import { useMemo, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { openScreen } from '@/stores/screens'
@@ -79,7 +80,7 @@ function Flow() {
                       </span>
                       <span className="flex items-center gap-3">
                         {absorbed.has(id) && <StatusWord st="done" className="!text-[11.5px]">Taken over</StatusWord>}
-                        {s.note && <span className="text-[11px] tracking-[0.1em] text-watch uppercase" title={s.note}>Note</span>}
+                        {s.note && <Tip label={s.note}><span className="text-[11px] tracking-[0.1em] text-watch uppercase">Note</span></Tip>}
                         <ArrowRight size={14} strokeWidth={1.4} className="text-dim transition-transform group-hover:translate-x-1" aria-hidden="true" />
                       </span>
                     </StepLink>

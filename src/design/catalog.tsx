@@ -6,6 +6,8 @@
 //   error    the data did not come. Says what failed and offers a retry.
 // To add a part: build it in src/components/system, export it from src/components/system/index.ts, and add an entry
 // here with all four states. The example data is invented and marked as such on the screen.
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import type { ReactNode } from 'react'
 import { CircleCheck, Database, Inbox, Palette } from 'lucide-react'
 import {
@@ -59,8 +61,8 @@ function Field({ value, error, busy }: { value: string; error?: string; busy?: b
   return (
     <div className="grid gap-3">
       <div>
-        <label className="label" htmlFor={`f-${value || 'empty'}-${error ? 'e' : ''}${busy ? 'b' : ''}`}>Title</label>
-        <input id={`f-${value || 'empty'}-${error ? 'e' : ''}${busy ? 'b' : ''}`} className={cn('field', error && '!border-fault')} defaultValue={value} placeholder="What is it?" disabled={busy} aria-invalid={!!error} />
+        <Label htmlFor={`f-${value || 'empty'}-${error ? 'e' : ''}${busy ? 'b' : ''}`}>Title</Label>
+        <Input id={`f-${value || 'empty'}-${error ? 'e' : ''}${busy ? 'b' : ''}`} className={cn(error && '!border-fault')} defaultValue={value} placeholder="What is it?" disabled={busy} aria-invalid={!!error} />
         {error && <p className="mt-1 text-[13px] text-fault">{error}</p>}
       </div>
       <button type="button" className="pill go w-fit" disabled={busy || !value}>

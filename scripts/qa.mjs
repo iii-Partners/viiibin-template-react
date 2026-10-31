@@ -69,7 +69,11 @@ try {
       // a guest action carried through: Ava pays in the portal, then shows as Preparing with a room
       await page.goto(`${URL}/app/portal`)
       await settle(page)
-      await page.locator('#as').selectOption('g07')
+      // the guest picker is a Select (Radix): open it, shoot the open menu once, then pick Ava
+      await page.locator('#as').click()
+      await settle(page, 400)
+      await shot('17a-portal-select-open')
+      await page.getByRole('option', { name: /Ava Lindqvist/ }).click()
       await settle(page, 500)
       await page.getByRole('button', { name: 'Pay now' }).click()
       await settle(page, 700)

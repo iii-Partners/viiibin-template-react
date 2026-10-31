@@ -2,6 +2,9 @@
 // at their stage: the one thing to do next (submit the application, sign, pay, return a form), their retreat, and the
 // preparation and after-care timeline with real dates. What a guest does here moves the operations and clinical views.
 // A prospect can also start an inquiry themselves, the direct path today's process lacks (insight I01).
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Check, Headphones, Leaf } from 'lucide-react'
@@ -150,9 +153,10 @@ function StartInquiry() {
   const addInquiry = useOs((s) => s.addInquiry)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const badEmail = email.trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
   const submit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!name.trim()) return
+    if (!name.trim() || badEmail) return
     addInquiry({ name: name.trim(), greeting: name.trim().split(' ')[0], email, home: '', channel: 'Direct inquiry' }, name.trim())
     toast.success('Inquiry sent. It is on the Guests view and in Needs you for sales.')
     setName('')
@@ -162,16 +166,17 @@ function StartInquiry() {
     <Panel className="gap-4">
       <Sec as="h2">A prospect starts here</Sec>
       <p className="text-[14px]/[1.6] text-dim">Today every lead reaches admin through Elan or a salesperson. Here a prospect or a referral partner sends an inquiry themselves.</p>
-      <form onSubmit={submit} className="grid gap-4">
+      <form onSubmit={submit} noValidate className="grid gap-4">
         <div>
-          <label htmlFor="p-name" className="label">Your name</label>
-          <input id="p-name" value={name} onChange={(e) => setName(e.target.value)} className="field" required />
+          <Label htmlFor="p-name">Your name</Label>
+          <Input id="p-name" value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
         <div>
-          <label htmlFor="p-email" className="label">Email</label>
-          <input id="p-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="field" />
+          <Label htmlFor="p-email">Email</Label>
+          <Input id="p-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-invalid={badEmail} aria-describedby={badEmail ? 'p-email-error' : undefined} className={cn(badEmail && '!border-fault')} />
+          {badEmail && <p id="p-email-error" className="mt-1.5 text-[13px] text-fault">Check the email address; it needs an @ and a domain.</p>}
         </div>
-        <button type="submit" className="pill go w-fit" disabled={!name.trim()}>Send inquiry</button>
+        <button type="submit" className="pill go w-fit" disabled={!name.trim() || badEmail}>Send inquiry</button>
       </form>
     </Panel>
   )
@@ -186,10 +191,11 @@ export default function PortalPage() {
       <ViewHead label={<>The guest · <ExampleNote /></>} title="Guest portal" lead="What a guest sees and does at each stage. A guest’s action here moves the same record operations and the Medical Team work from." />
       <div className="grid min-w-0 content-start gap-6">
         <Panel band className="gap-4 !p-7">
-          <label htmlFor="as" className="eyebrow ink">Viewing as</label>
-          <select id="as" value={g.id} onChange={(e) => setId(e.target.value)} className="field">
-            {guests.map((x) => <option key={x.id} value={x.id}>{x.name} · {STAGE[x.stage].word}</option>)}
-          </select>
+          <Label htmlFor="as" className="eyebrow ink !mb-0">Viewing as</Label>
+          <Select value={g.id} onValueChange={setId}>
+            <SelectTrigger id="as"><SelectValue /></SelectTrigger>
+            <SelectContent>{guests.map((x) => <SelectItem key={x.id} value={x.id}>{x.name} · {STAGE[x.stage].word}</SelectItem>)}</SelectContent>
+          </Select>
           <p className="text-[14px]/[1.6] text-dim">Try Ava Lindqvist: pay her invoice and her room is confirmed, her readiness checklist appears, and she moves to Preparing on the Guests view. Or Priya Nair: her application waits in Medical reviews.</p>
         </Panel>
         <StartInquiry />

@@ -42,16 +42,16 @@
   .kind.Decision::before { transform: rotate(45deg) scale(0.85); box-shadow: inset 0 0 0 1.5px var(--text); }
   .kind.Trigger::before { width: 9px; height: 9px; background: var(--dim); clip-path: polygon(0 0, 100% 50%, 0 100%); }
 
-  /* the pill: everything you press. An outline at rest; .go fills with the ink (the primary action); .risky is the
-     coral outline of a destructive action; .sm is the compact size in rows and cards */
+  /* the pill: everything you press. An outline at rest; .go fills with the ink (the primary action); .risky is a
+     faint coral hairline and coral text for a destructive action, which only tints on hover, never fills; .sm is the compact size in rows and cards */
   .pill { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 13px var(--pill-pad-x); border: 1px solid var(--edge); border-radius: var(--pill-radius);
     font: var(--pill-weight) 11.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; white-space: nowrap; color: var(--text); background: transparent; cursor: pointer;
     transition: background-color var(--dur-hover) ease, border-color var(--dur-hover) ease, color var(--dur-hover) ease, opacity var(--dur-hover) ease; }
   .pill:hover, .pill:focus-visible { border-color: var(--text); background: color-mix(in srgb, var(--text) 7%, transparent); }
   .pill.go { background: var(--go-fill); border-color: var(--go-border); color: var(--on-primary); transition: background var(--dur-hover) ease, border-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease, opacity var(--dur-hover) ease; }
   .pill.go:hover, .pill.go:focus-visible { background: var(--go-hover-fill); border-color: var(--go-hover-border); box-shadow: var(--go-glow); }
-  .pill.risky { border-color: color-mix(in srgb, var(--fault) 70%, transparent); color: var(--fault); }
-  .pill.risky:hover, .pill.risky:focus-visible { background: var(--fault); border-color: var(--fault); color: var(--on-primary); }
+  .pill.risky { border-color: color-mix(in srgb, var(--fault) 38%, transparent); color: var(--fault); }
+  .pill.risky:hover, .pill.risky:focus-visible { background: color-mix(in srgb, var(--fault) 6%, transparent); border-color: color-mix(in srgb, var(--fault) 62%, transparent); color: var(--fault); }
   .pill.sm { gap: 8px; padding: 10px calc(var(--pill-pad-x) * 0.73); font-size: 10.5px; }
   .pill:disabled, .pill[aria-disabled="true"] { opacity: 0.42; cursor: default; pointer-events: none; }
   .pill svg { flex: none; transition: transform var(--dur-hover) ease; }
@@ -95,6 +95,45 @@
   .field::placeholder { color: color-mix(in srgb, var(--dim) 80%, transparent); }
   .field:hover { border-color: var(--text); }
   .field:focus-visible { outline: none; border-color: var(--focus); box-shadow: 0 0 0 1px var(--focus); }
+  /* the select's trigger is a field laid out as a row; a placeholder reads dim */
+  .select-trigger { display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left; cursor: pointer; }
+  .select-trigger[data-placeholder] > span:first-child { color: color-mix(in srgb, var(--dim) 80%, transparent); }
+  .select-trigger[data-state="open"] { border-color: var(--text); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 16%, transparent); }
+
+  /* menus (the select's list): a small sheet of frosted glass that rises 4 px into place */
+  .menu { background: color-mix(in srgb, var(--panel) 94%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2);
+    border: 1px solid var(--line); border-radius: calc(var(--panel-radius) * 0.7); box-shadow: var(--shadow-float); color: var(--text); }
+  .menu[data-state="open"] { animation: menu-in 200ms var(--ease-rise) both; }
+  .menu-item { position: relative; display: flex; align-items: center; min-height: 38px; padding: 8px 14px 8px 34px; border-radius: calc(var(--panel-radius) * 0.45);
+    font: 400 14.5px/1.35 var(--font-body); color: var(--text); cursor: pointer; outline: none; user-select: none; transition: background-color 150ms ease; }
+  .menu-item[data-highlighted] { background: var(--wash); }
+  .menu-item[data-state="checked"] { font-weight: 500; }
+  .menu-item[data-disabled] { opacity: 0.45; pointer-events: none; }
+
+  /* the switch: a pill track and a round thumb; the track takes the accent when on */
+  .switch { position: relative; display: inline-flex; flex: none; width: 40px; height: 24px; padding: 2px; border-radius: 999px; background: var(--wash);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--edge) 55%, transparent); cursor: pointer; transition: background-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease; }
+  .switch[data-state="checked"] { background: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .switch:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+  .switch-thumb { display: block; width: 20px; height: 20px; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 2px 6px -2px rgba(0, 0, 0, 0.2);
+    transition: transform var(--dur-hover) var(--ease-rise); }
+  .switch[data-state="checked"] .switch-thumb { transform: translateX(16px); }
+
+  /* tooltips: a small frosted bubble in the system's type, in place of the browser's title box */
+  .tip-bubble { max-width: 280px; padding: 7px 11px; border-radius: calc(var(--panel-radius) * 0.45); font: 400 12.5px/1.45 var(--font-body); color: var(--text);
+    background: color-mix(in srgb, var(--panel) 96%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid var(--line);
+    box-shadow: var(--shadow-float); animation: fade-in 160ms ease both; }
+
+  /* toasts (sonner, unstyled): the same glass as a menu, with the status color on the icon */
+  .toast { display: flex; align-items: flex-start; gap: 12px; width: min(360px, calc(100vw - 32px)); padding: 14px 16px; border-radius: calc(var(--panel-radius) * 0.8);
+    background: color-mix(in srgb, var(--panel) 94%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2);
+    border: 1px solid var(--line); box-shadow: var(--shadow-float); color: var(--text); font: 400 14px/1.45 var(--font-body); }
+  .toast-title { font-weight: 500; }
+  .toast-desc { color: var(--dim); font-size: 13px; }
+  .toast-icon { margin-top: 1px; flex: none; }
+  .toast-ok .toast-icon { color: var(--ok); }
+  .toast-error .toast-icon { color: var(--fault); }
+
   .label { display: block; margin-bottom: 8px; font: 400 11px/16px var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); }
 
   /* the svg vocabulary for flow charts, timelines and bars: ink for the reading, hairlines for the frame */
@@ -126,6 +165,7 @@
    tiles do the same, quicker. Only opacity and transform move. */
 @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes menu-in { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: none; } }
 @keyframes fade-out { to { opacity: 0; } }
 @keyframes rise { from { opacity: 0; transform: translateY(12px) scale(0.985); } to { opacity: 1; transform: none; } }
 @keyframes sink { to { opacity: 0; transform: translateY(8px) scale(0.99); } }
@@ -135,7 +175,7 @@
 .arrive > :nth-child(n + 4) { animation-delay: 240ms; }
 .rise-in { animation: arrive 480ms var(--ease-soft) both; }
 .fade-in { animation: fade-in var(--dur-fade) var(--ease-soft) both; }
-@media (prefers-reduced-motion: reduce) { .arrive > *, .rise-in, .fade-in { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .arrive > *, .rise-in, .fade-in, .menu, .tip-bubble { animation: none !important; } }
 
 /* a stat tile's 14-day line draws in once, left to right */
 .spark { animation: spark-draw 900ms var(--ease-soft) 120ms both; }

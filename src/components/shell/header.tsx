@@ -37,13 +37,13 @@ function Tools() {
   const dark = mode === 'dark' || (mode === 'system' && typeof matchMedia !== 'undefined' && matchMedia('(prefers-color-scheme: dark)').matches)
   return (
     <div className="flex items-center gap-0.5">
-      <button type="button" data-door="theme" className="round ghost" aria-label={dark ? 'Dark mode. Switch to light' : 'Light mode. Switch to dark'} title={dark ? 'Switch to light' : 'Switch to dark'} onClick={() => useThemeStore.getState().setMode(dark ? 'light' : 'dark')}>
+      <button type="button" data-door="theme" className="round ghost" aria-label={dark ? 'Dark mode. Switch to light' : 'Light mode. Switch to dark'} onClick={() => useThemeStore.getState().setMode(dark ? 'light' : 'dark')}>
         {dark ? <Moon size={17} strokeWidth={1.5} aria-hidden="true" /> : <Sun size={17} strokeWidth={1.5} aria-hidden="true" />}
       </button>
-      <button type="button" data-door="settings" className="round ghost" aria-label="Settings" title="Settings" onClick={(e) => openScreen('settings', undefined, e.currentTarget)}>
+      <button type="button" data-door="settings" className="round ghost" aria-label="Settings" onClick={(e) => openScreen('settings', undefined, e.currentTarget)}>
         <Settings size={17} strokeWidth={1.5} aria-hidden="true" />
       </button>
-      <button type="button" data-door="profile" className="round" aria-label="Your profile" title="Your profile" onClick={(e) => openScreen('profile', undefined, e.currentTarget)}>
+      <button type="button" data-door="profile" className="round" aria-label="Your profile" onClick={(e) => openScreen('profile', undefined, e.currentTarget)}>
         <UserRound size={17} strokeWidth={1.5} aria-hidden="true" />
       </button>
     </div>

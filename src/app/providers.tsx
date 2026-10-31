@@ -2,6 +2,7 @@ import { useEffect, type ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react'
 import { Toaster } from 'sonner'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { ErrorBoundary } from '@/components/common/error-boundary'
 import { setApiTokenProvider } from '@/lib/api/client'
 import { auth0Config, isAuthEnabled } from '@/lib/auth'
@@ -71,8 +72,11 @@ export function Providers({ children }: ProvidersProps) {
     <ErrorBoundary>
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
-          {children}
-          <Toaster position="bottom-right" richColors />
+          <TooltipProvider delayDuration={250} skipDelayDuration={150}>
+            {children}
+          </TooltipProvider>
+          {/* sonner unstyled, so toasts wear the system's glass (.toast in design.css), not the library's look */}
+          <Toaster position="bottom-right" toastOptions={{ unstyled: true, classNames: { toast: 'toast', title: 'toast-title', description: 'toast-desc', icon: 'toast-icon', success: 'toast-ok', error: 'toast-error' } }} />
         </QueryClientProvider>
       </AuthProvider>
     </ErrorBoundary>

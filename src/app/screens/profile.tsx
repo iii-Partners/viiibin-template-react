@@ -1,5 +1,7 @@
 // The profile as a screen, opened from the profile tool or from Needs you. Who is signed in (or that the app runs in
 // demo mode), then the details form. Saving marks the getting-started step done.
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -85,20 +87,20 @@ function ProfileBody({ user, onLogout }: { user: User; onLogout?(): void }) {
       </Panel>
       <Panel className="content-start gap-5">
         <Sec as="h3">Your details</Sec>
-        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5">
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid gap-5">
           <div>
-            <label htmlFor="name" className="label">Name</label>
-            <input id="name" {...register('name')} className="field" placeholder="How the app should address you" />
+            <Label htmlFor="name">Name</Label>
+            <Input id="name" {...register('name')} placeholder="How the app should address you" />
             {errors.name && <p className="mt-1 text-[13px] text-fault">{errors.name.message}</p>}
           </div>
           <div>
-            <label htmlFor="email" className="label">Email</label>
-            <input id="email" type="email" {...register('email')} className="field" placeholder="you@example.com" />
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" type="email" {...register('email')} placeholder="you@example.com" />
             {errors.email && <p className="mt-1 text-[13px] text-fault">{errors.email.message}</p>}
           </div>
           <div>
-            <label htmlFor="phone" className="label">Phone (optional)</label>
-            <input id="phone" type="tel" {...register('phone')} className="field" />
+            <Label htmlFor="phone">Phone (optional)</Label>
+            <Input id="phone" type="tel" {...register('phone')} />
           </div>
           <button type="submit" className="pill go w-fit" disabled={!isDirty || saving}>
             {saving ? 'Saving…' : 'Save details'}

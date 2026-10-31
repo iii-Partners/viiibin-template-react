@@ -33,7 +33,7 @@ export default function TodayPage() {
         side={<Clock />}
       />
       <div className="arrive grid min-w-0 content-start gap-6 @max-[900px]/frame:col-span-full">
-        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+        <div className="grid grid-cols-2 gap-4 @min-[760px]/frame:grid-cols-4 @max-[420px]/frame:grid-cols-1">
           <Door id="today-guests" name="Guests" icon={Users} n={active.length} word="On the journey now" onOpen={() => navigate('/app/guests')} />
           <Door id="today-reviews" name="Medical reviews" icon={Stethoscope} n={guests.filter((g) => g.stage === 'review').length} st={clinical.some((n) => n.st === 'blocked') ? 'blocked' : 'ok'} word={clinical.some((n) => n.st === 'blocked') ? 'One is past its target' : 'Inside the target'} onOpen={() => navigate('/app/reviews')} />
           <Door id="today-retreats" name="Retreats this week" icon={BedDouble} n={thisWeek.length} word={thisWeek.map((r) => `${r.version} #${r.number}`).join(' · ') || 'None this week'} onOpen={() => navigate('/app/retreats')} />
