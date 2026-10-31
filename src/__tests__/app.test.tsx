@@ -51,37 +51,15 @@ describe('Login Page', () => {
   })
 })
 
-describe('Dashboard', () => {
-  it('renders dashboard heading', async () => {
-    const DashboardPage = (await import('@/app/routes/dashboard')).default
-    render(<DashboardPage />, { wrapper: createWrapper() })
-    expect(screen.getByRole('heading', { name: /Dashboard/i })).toBeInTheDocument()
-  })
-
-  it('holds value before any data: Start here and the getting-started steps', async () => {
-    // the fresh app: the dashboard's state switch on Empty
-    const { usePreferencesStore } = await import('@/stores/preferences')
-    const { usePreview } = await import('@/stores/preview')
-    usePreferencesStore.getState().setStateSwitches(true)
-    usePreview.getState().set('dashboard', 'empty')
-    const DashboardPage = (await import('@/app/routes/dashboard')).default
-    render(<DashboardPage />, { wrapper: createWrapper() })
-    expect(screen.getByText('Start here')).toBeInTheDocument()
-    expect(screen.getAllByText(/Add your first item/i).length).toBeGreaterThan(0)
-  })
-
-  it('opens on the Happy path while the state switches are on, and the switch moves it to Error', async () => {
-    const { usePreferencesStore } = await import('@/stores/preferences')
-    const { usePreview } = await import('@/stores/preview')
-    const { fireEvent } = await import('@testing-library/react')
-    usePreferencesStore.getState().setStateSwitches(true)
-    usePreview.setState({ parts: {} })
-    const DashboardPage = (await import('@/app/routes/dashboard')).default
-    render(<DashboardPage />, { wrapper: createWrapper() })
-    expect(screen.getByRole('radio', { name: 'Happy', checked: true })).toBeInTheDocument()
-    expect(screen.getByText(/6 items:/)).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('radio', { name: 'Error' }))
-    expect(screen.getByText('Items did not load')).toBeInTheDocument()
+describe('Today', () => {
+  it('renders its heading and what needs operations', async () => {
+    const { useOs } = await import('@/os/store')
+    useOs.getState().reset()
+    const TodayPage = (await import('@/app/routes/today')).default
+    render(<TodayPage />, { wrapper: createWrapper() })
+    expect(screen.getByRole('heading', { name: 'Today', level: 1 })).toBeInTheDocument()
+    expect(screen.getByText(/Needs you ·/)).toBeInTheDocument()
+    expect(screen.getByText(/Isabel Cruz owes iv consent/i)).toBeInTheDocument()
   })
 })
 

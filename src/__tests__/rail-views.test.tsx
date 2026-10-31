@@ -15,14 +15,14 @@ function at(path: string) {
       <MemoryRouter initialEntries={[path]}>
         <Routes>
           <Route path="/app/settings" element={<RailView id="settings" />} />
-          <Route path="/app/dashboard" element={<p>Dashboard view</p>} />
+          <Route path="/app/today" element={<p>Today view</p>} />
         </Routes>
       </MemoryRouter>
     </QueryClientProvider>,
   )
 }
 
-// With the rail, every place it reaches is a view, never a dialog. With the wedge bar, the same place is a screen.
+// With the rail, every place it reaches is a view, never a dialog. With the header pill, the same place is a screen.
 describe('Places the rail reaches', () => {
   beforeEach(() => useScreens.getState().closeAll())
 
@@ -34,10 +34,10 @@ describe('Places the rail reaches', () => {
     expect(useScreens.getState().stack).toHaveLength(0)
   })
 
-  it('open as a screen over the dashboard with the wedge bar', async () => {
-    usePreferencesStore.getState().setNavStyle('wedges')
+  it('open as a screen over Today with the header pill', async () => {
+    usePreferencesStore.getState().setNavStyle('bar')
     at('/app/settings')
-    expect(await screen.findByText('Dashboard view')).toBeInTheDocument()
+    expect(await screen.findByText('Today view')).toBeInTheDocument()
     await waitFor(() => expect(useScreens.getState().stack.map((s) => s.id)).toEqual(['settings']))
   })
 })

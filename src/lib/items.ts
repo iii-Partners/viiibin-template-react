@@ -8,7 +8,7 @@ export type ItemState = 'active' | 'done' | 'archived'
 export const ITEM_STATES: { id: ItemState; word: string; tone: ReelTone }[] = [
   { id: 'active', word: 'Active', tone: 'ok' },
   { id: 'done', word: 'Done', tone: 'done' },
-  { id: 'archived', word: 'Archived', tone: 'quiet' },
+  { id: 'archived', word: 'Archived', tone: 'paused' },
 ]
 
 export const stateOf = (item: Pick<Item, 'status'>): ItemState => (ITEM_STATES.some((s) => s.id === item.status) ? (item.status as ItemState) : 'active')

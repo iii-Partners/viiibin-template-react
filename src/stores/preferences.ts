@@ -10,12 +10,16 @@ import { persist } from 'zustand/middleware'
  * For user profile data (name, email, avatar), use TanStack Query.
  * This store is for client-side preferences only.
  */
-/** How the main views and tools are reached: the wedge bar across the top, or an icon rail down the left side. */
-export type NavStyle = 'wedges' | 'rail'
+/** How the main views and tools are reached: the header pill across the top, or an icon rail down the left side. For
+ *  now Northlight OS uses the rail only; the header pill stays in the code for later. */
+export type NavStyle = 'bar' | 'rail'
 
 type PreferencesState = {
   navStyle: NavStyle
   setNavStyle: (navStyle: NavStyle) => void
+  /** the ambient light (the edge glow and the cursor aura) on variants that have it */
+  ambient: boolean
+  setAmbient: (on: boolean) => void
   /** the small state switches on parts in the live UI (a prototype tool) */
   stateSwitches: boolean
   setStateSwitches: (on: boolean) => void
@@ -29,7 +33,8 @@ type PreferencesState = {
 }
 
 const defaults = {
-  navStyle: 'wedges' as NavStyle,
+  navStyle: 'rail' as NavStyle,
+  ambient: true,
   stateSwitches: import.meta.env.DEV,
   notificationsEnabled: true,
   reducedMotion: false,
@@ -41,12 +46,18 @@ export const usePreferencesStore = create<PreferencesState>()(
     (set) => ({
       ...defaults,
       setNavStyle: (navStyle) => set({ navStyle }),
+      setAmbient: (ambient) => set({ ambient }),
       setStateSwitches: (stateSwitches) => set({ stateSwitches }),
       setNotificationsEnabled: (notificationsEnabled) => set({ notificationsEnabled }),
       setReducedMotion: (reducedMotion) => set({ reducedMotion }),
       setLocale: (locale) => set({ locale }),
       reset: () => set(defaults),
     }),
-    { name: 'preferences' },
+    {
+      name: 'preferences',
+      // version 2: the rail is the only nav for now, so every saved style becomes the rail
+      version: 2,
+      migrate: (saved) => ({ ...(saved as PreferencesState), navStyle: 'rail' }),
+    },
   ),
 )

@@ -10,7 +10,7 @@ import { createJSONStorage, persist } from 'zustand/middleware'
  *
  * Persistence: sessionStorage, so a refresh keeps what is open; a new tab starts fresh.
  */
-export type ScreenId = 'profile' | 'settings' | 'item' | 'design' | 'dial'
+export type ScreenId = 'profile' | 'settings' | 'design' | 'guest' | 'retreat' | 'step' | 'insight' | 'session'
 
 export type OpenScreen = {
   /** unique per opening, so the same screen can sit twice in the stack */

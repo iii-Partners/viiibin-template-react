@@ -9,7 +9,7 @@ export function SkipToContent() {
   return (
     <a
       href="#main-content"
-      className="fixed left-2 top-2 z-[100] -translate-y-[calc(100%+16px)] rounded-base bg-brand px-4 py-2 text-sm font-semibold text-on-brand transition-transform focus:translate-y-0 focus:outline-none"
+      className="fixed left-2 top-2 z-[100] -translate-y-[calc(100%+16px)] rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-on-primary transition-transform focus:translate-y-0 focus:outline-none"
     >
       Skip to content
     </a>

@@ -1,25 +1,27 @@
-// The two nav styles, each with a small drawing, as a choice: the wedge bar across the top, or the rail down the side.
-// Settings and the Design system screen both show it; the choice applies at once and is kept in this browser. With
-// the rail, the places it reaches are views, so a place open as a screen when the viewer picks the rail becomes its
-// view. (Picking the wedge bar on a rail view, the route turns it back into a screen; see routes/rail-view.tsx.)
+// The two nav styles, each with a small drawing, as a choice: the header pill across the top, or the rail down the
+// side. Settings and the Design system screen both show it; the choice applies at once and is kept in this browser.
+// With the rail, the places it reaches are views, so a place open as a screen when the viewer picks the rail becomes
+// its view. (Picking the header pill on a rail view, the route turns it back into a screen; see routes/rail-view.tsx.)
 import { useNavigate } from 'react-router'
 import { RAIL_VIEWS, isRailView } from '@/app/nav'
 import { usePreferencesStore, type NavStyle } from '@/stores/preferences'
 import { useScreens } from '@/stores/screens'
 import { cn } from '@/lib/utils/cn'
 
-// a small drawing of each nav style: the wedge bar across the top, or the rail down the side
+// a small drawing of each nav style: the header pill across the top, or the ink rail down the side
 export const NAVS: { id: NavStyle; word: string; note: string; draw: React.ReactNode }[] = [
   {
-    id: 'wedges', word: 'Wedge bar', note: 'The views across the top',
+    id: 'bar', word: 'Header', note: 'The views across the top',
     draw: (
       <svg viewBox="0 0 120 64" className="h-auto w-full" aria-hidden="true">
-        <rect x="1" y="1" width="118" height="62" rx="6" className="fill-glass-raised" />
-        <path d="M8 8H42L38 18H12Z" className="fill-brand" />
-        <path d="M36 8H84L80 20H40Z" className="fill-glass" />
-        <path d="M78 8H112L108 18H82Z" className="fill-glass" />
-        <rect x="8" y="26" width="64" height="30" rx="3" className="fill-glass" />
-        <rect x="78" y="26" width="34" height="30" rx="3" className="fill-glass" />
+        <rect x="0.5" y="0.5" width="119" height="63" className="fill-ground stroke-line" />
+        <rect x="7" y="6" width="106" height="11" rx="5.5" className="fill-panel stroke-line" />
+        <rect x="44" y="8.5" width="14" height="6" rx="3" className="fill-text" />
+        <rect x="61" y="10.5" width="11" height="2" className="fill-dim" />
+        <rect x="12" y="10.5" width="16" height="2" className="fill-text" />
+        <circle cx="106" cy="11.5" r="3" className="fill-none stroke-edge" />
+        <rect x="7" y="23" width="70" height="34" className="fill-panel stroke-line" />
+        <rect x="81" y="23" width="32" height="34" className="fill-band stroke-line" />
       </svg>
     ),
   },
@@ -27,14 +29,14 @@ export const NAVS: { id: NavStyle; word: string; note: string; draw: React.React
     id: 'rail', word: 'Rail', note: 'Icons down the side',
     draw: (
       <svg viewBox="0 0 120 64" className="h-auto w-full" aria-hidden="true">
-        <rect x="1" y="1" width="118" height="62" rx="6" className="fill-glass-raised" />
-        <rect x="6" y="6" width="14" height="52" rx="4" className="fill-glass" />
-        <rect x="9" y="10" width="8" height="8" rx="2" className="fill-brand" />
-        <rect x="9" y="22" width="8" height="8" rx="2" className="fill-glass-raised" />
-        <rect x="9" y="46" width="8" height="8" rx="2" className="fill-glass-raised" />
-        <rect x="26" y="8" width="40" height="6" rx="2" className="fill-glass" />
-        <rect x="26" y="20" width="56" height="36" rx="3" className="fill-glass" />
-        <rect x="88" y="20" width="26" height="36" rx="3" className="fill-glass" />
+        <rect x="0.5" y="0.5" width="119" height="63" className="fill-ground stroke-line" />
+        <rect x="6" y="6" width="13" height="52" rx="6.5" fill="#0f2a38" />
+        <circle cx="12.5" cy="14" r="3.6" fill="#ffffff" />
+        <circle cx="12.5" cy="24" r="2.2" fill="#ffffff" opacity="0.6" />
+        <circle cx="12.5" cy="50" r="2.2" fill="#ffffff" opacity="0.6" />
+        <rect x="26" y="9" width="28" height="3" className="fill-text" />
+        <rect x="26" y="20" width="54" height="37" className="fill-panel stroke-line" />
+        <rect x="84" y="20" width="29" height="37" className="fill-band stroke-line" />
       </svg>
     ),
   },
@@ -62,13 +64,13 @@ export function NavStylePicker() {
           aria-checked={navStyle === n.id}
           onClick={() => pick(n.id)}
           className={cn(
-            'grid justify-items-start gap-1.5 rounded-card border-2 px-3 py-3 text-left transition-colors duration-(--dur-hover)',
-            navStyle === n.id ? 'border-brand bg-brand/8' : 'border-line hover:border-teal',
+            'grid justify-items-start gap-2 border p-3 text-left transition-colors duration-(--dur-hover)',
+            navStyle === n.id ? 'border-text bg-wash' : 'border-line hover:border-edge',
           )}
         >
           {n.draw}
-          <b className="text-[14px] font-semibold">{n.word}</b>
-          <span className="text-[12px] text-dim">{n.note}</span>
+          <span className="mt-1 font-display text-[19px]/none font-light">{n.word}</span>
+          <span className="text-[12.5px] text-dim">{n.note}</span>
         </button>
       ))}
     </div>

@@ -6,9 +6,9 @@ import { ScreenDialog, type ScreenHead } from '@/components/shell/screen-dialog'
 import { useScreens, type OpenScreen, type ScreenId } from '@/stores/screens'
 import { ProfileScreen } from './profile'
 import { SettingsScreen } from './settings'
-import { ItemScreen, useItemHead } from './item'
 import { DesignScreen } from './design'
-import { DialScreen } from './dial'
+import { GuestScreen, InsightScreen, RetreatScreen, SessionScreen, StepScreen } from './os'
+import { useGuestHead, useInsightHead, useRetreatHead, useSessionHead, useStepHead } from './os-heads'
 
 type Def = { useHead(params: OpenScreen['params'] | undefined): ScreenHead; render(entry: OpenScreen): ReactNode }
 
@@ -17,9 +17,12 @@ const fixed = (head: ScreenHead) => () => head
 export const SCREENS: Record<ScreenId, Def> = {
   profile: { useHead: fixed({ kind: 'Account', title: 'Profile' }), render: () => <ProfileScreen /> },
   settings: { useHead: fixed({ kind: 'Account', title: 'Settings' }), render: () => <SettingsScreen /> },
-  item: { useHead: (p) => useItemHead(Number(p?.id), p?.part ? String(p.part) : undefined), render: (e) => <ItemScreen id={Number(e.params?.id)} screenKey={e.key} part={e.params?.part ? String(e.params.part) : undefined} /> },
   design: { useHead: fixed({ kind: 'Reference', title: 'Design system' }), render: () => <DesignScreen /> },
-  dial: { useHead: fixed({ kind: 'Analytics', title: 'Bird’s-eye view' }), render: () => <DialScreen /> },
+  guest: { useHead: (p) => useGuestHead(p?.id ? String(p.id) : undefined), render: (e) => <GuestScreen id={String(e.params?.id)} /> },
+  retreat: { useHead: (p) => useRetreatHead(p?.id ? String(p.id) : undefined), render: (e) => <RetreatScreen id={String(e.params?.id)} /> },
+  step: { useHead: (p) => useStepHead(p?.id ? String(p.id) : undefined), render: (e) => <StepScreen id={String(e.params?.id)} /> },
+  insight: { useHead: (p) => useInsightHead(p?.id ? String(p.id) : undefined), render: (e) => <InsightScreen id={String(e.params?.id)} /> },
+  session: { useHead: (p) => useSessionHead(Number(p?.n)), render: (e) => <SessionScreen n={Number(e.params?.n)} /> },
 }
 
 function Layer({ entry, depth }: { entry: OpenScreen; depth: number }) {
@@ -38,10 +41,10 @@ export function ScreenView({ id }: { id: ScreenId }) {
   const def = SCREENS[id]
   const head = def.useHead(undefined)
   return (
-    <div className="arrive grid content-start gap-5">
-      <div className="grid gap-1">
-        <small className="text-[11.5px]/[1.3] font-semibold tracking-[0.1em] text-dim uppercase">{head.kind}</small>
-        <h1 className="text-[40px]/[1.05] font-light tracking-[-0.04em] @max-[700px]/frame:text-[30px]">{head.title}</h1>
+    <div className="arrive grid content-start gap-6">
+      <div className="grid gap-3 pb-2">
+        <small className="eyebrow">{head.kind}</small>
+        <h1 className="type-display @max-[700px]/frame:text-[40px]/[1.05]">{head.title}</h1>
       </div>
       {def.render({ key: `view-${id}`, id })}
     </div>

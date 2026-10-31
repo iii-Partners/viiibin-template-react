@@ -25,5 +25,5 @@ if (typeof window !== 'undefined') {
 // Motion helpers. Every transition moves only transform and opacity; under reduced motion each view arrives at its end
 // state at once.
 export const reduced = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
-export const EASE_OPEN = 'cubic-bezier(0.2, 0.7, 0.2, 1)'
+export const EASE_RISE = 'cubic-bezier(0.2, 0.7, 0.2, 1)'
 

@@ -1,12 +1,11 @@
-// The design system's parts, from one import: `import { FolderCard, ReelTrack, Empty } from '@/components/system'`.
+// The design system's parts, from one import: `import { Panel, ReelTrack, Empty } from '@/components/system'`.
 // Every part is in the catalog (src/design/catalog.tsx) with its four states; read it before building a view.
-export { FolderCard } from './folder-card'
+export { Panel } from './panel'
 export { Door } from './door'
 export { StatusWord, StatusShape, Chip, Sec, STATUS_WORD, STATUS_VAR, worst, type Status } from './status'
 export { Empty, Blank, Pending, PendingCard, Failed } from './empty'
 export { confirm, ConfirmHost } from './confirm'
 export { GrowButton, GrowOver, useGrowOver } from './grow-over'
-export { Dial, type DialReading, type DialRing, type DialTone } from './dial'
 export { ReelTrack, type ReelSeg, type ReelTone } from './charts/reel'
 export { StageChart, type Stage } from './charts/stage-chart'
 export { Fan, type FanPart } from './charts/fan'

@@ -3,8 +3,8 @@ import { cn } from '@/lib/utils/cn'
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    // every card is a folder card (the one-element form, so a card may scroll or clip)
-    <div ref={ref} className={cn('gm-folder px-5 pb-5 text-text [--fold-pt:6px]', className)} {...props} />
+    // every card is a panel: flat, square, on a hairline edge
+    <div ref={ref} className={cn('panel', className)} {...props} />
   ),
 )
 Card.displayName = 'Card'
@@ -18,14 +18,14 @@ CardHeader.displayName = 'CardHeader'
 
 const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h3 ref={ref} className={cn('font-display text-[20px]/[1.25] font-medium tracking-[-0.02em]', className)} {...props} />
+    <h3 ref={ref} className={cn('font-display text-[26px]/[1.2] font-light', className)} {...props} />
   ),
 )
 CardTitle.displayName = 'CardTitle'
 
 const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn('text-[13.5px]/[1.5] text-dim', className)} {...props} />
+    <p ref={ref} className={cn('text-[14px]/[1.55] text-dim', className)} {...props} />
   ),
 )
 CardDescription.displayName = 'CardDescription'

@@ -1,0 +1,86 @@
+[
+ {
+  "id": "modern",
+  "name": "Modern",
+  "note": "The Modern system: one deep-ocean ink on cream, Newsreader light, tracked labels, flat square panels and pills, after a reference proposal deck.",
+  "signature": "Deep-ocean #1f4558 on cream, Newsreader 300 and square panels with pill buttons.",
+  "fonts": ""
+ },
+ {
+  "id": "northlight",
+  "name": "Northlight",
+  "note": "Layers of porcelain and pearl whites lit by the Northlight sun: glass panels with 22 px corners, Newsreader and tracked Jost after Solage, a fine sun-gradient ring on the primary action and the open view, an edge glow that breathes and swells when the OS acts, and a faint aura that follows the cursor. Night mode is the logo’s violet sky.",
+  "signature": "Soft white glass and a sun-gradient hairline (#ebc913 → #e77103 → #dc3286 → #8f6ab7 → #8bb1d3), with ambient light at the edges.",
+  "fonts": "family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Jost:wght@400;500;600"
+ },
+ {
+  "id": "aman",
+  "name": "Aman",
+  "note": "Sand paper ground, warm charcoal ink, regular-weight serif and square outline buttons with wide padding; bronze only on hover.",
+  "signature": "The #f3eee7 sand ground with square 1px outline buttons padded 4em wide.",
+  "fonts": "family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Source+Sans+3:wght@300;400;500"
+ },
+ {
+  "id": "six-senses",
+  "name": "Six Senses",
+  "note": "White and linen grounds, a deep plum accent, a humanist serif set slightly tight, and plum pill buttons on 10 px panels.",
+  "signature": "Plum #673065 pill buttons with a serif tracked -0.02em.",
+  "fonts": "family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Figtree:wght@300;400;500&family=Barlow+Semi+Condensed:wght@500;600"
+ },
+ {
+  "id": "the-well",
+  "name": "The Well",
+  "note": "One cocoa brown used at every strength for ink, lines and washes, an extra-light display serif, and tracked uppercase labels on blush linen.",
+  "signature": "A single brown, #4d362b, carried by opacity, with a weight-200 display serif.",
+  "fonts": "family=Source+Serif+4:ital,opsz,wght@0,8..60,200..400;1,8..60,200..400&family=DM+Sans:opsz,wght@9..40,300..500"
+ },
+ {
+  "id": "remedy-place",
+  "name": "Remedy Place",
+  "note": "Nocturnal: black ground, bone type, a muted champagne gold and 20 %-alpha warm hairlines; tiny labels tracked very wide, square outlined buttons.",
+  "signature": "Black ground, #b9b2aa33 hairlines and labels tracked 0.22em. Best in dark.",
+  "fonts": "family=Inter+Tight:wght@300;400;500&family=Manrope:wght@300;400;500"
+ },
+ {
+  "id": "golden-door",
+  "name": "Golden Door",
+  "note": "Heritage ranch spa: inscriptional Roman capitals in gold, warm browns on cream, thin near-square gold buttons and slow one-second fades.",
+  "signature": "Inscriptional capitals (Cinzel for Trajan) with gold #c9a555.",
+  "fonts": "family=Cinzel:wght@400;500&family=Mulish:wght@300;400;600"
+ },
+ {
+  "id": "kamalaya",
+  "name": "Kamalaya",
+  "note": "A tropical sanctuary led by photography: white ground, charcoal text, lotus burgundy and saffron, all-caps headings tracked very wide, square buttons.",
+  "signature": "Uppercase headings tracked about 0.19em with square burgundy #822127 buttons.",
+  "fonts": "family=Josefin+Sans:wght@200;300;400;600&family=Raleway:wght@300;400;500"
+ },
+ {
+  "id": "solage",
+  "name": "Solage",
+  "note": "Relaxed wine country: white ground, grey-brown text, a light serif for headlines and body, and a filled butter-gold button in bold tracked capitals.",
+  "signature": "A filled butter-gold #e6cf87 button with bold caps tracked 2 px.",
+  "fonts": "family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Jost:wght@400;500;700"
+ },
+ {
+  "id": "lanserhof",
+  "name": "Lanserhof",
+  "note": "Cool clinical neutrals with no color accent: slate greys, a light italic serif beside an upright sans, compact pill buttons and frosted navigation.",
+  "signature": "A light italic serif headline on cool slate neutrals.",
+  "fonts": "family=Source+Serif+4:ital,opsz,wght@0,8..60,300..400;1,8..60,300..400&family=Albert+Sans:wght@300;400;500"
+ },
+ {
+  "id": "sha",
+  "name": "SHA",
+  "note": "Swiss-medical precision: one light sans in uppercase headlines, white and cool-grey grounds, a near-black navy, thin outline buttons, and the most motion of the set.",
+  "signature": "Light uppercase sans with no accent color; motion carries the identity.",
+  "fonts": "family=Inter:wght@300;400;500"
+ },
+ {
+  "id": "chenot",
+  "name": "Chenot",
+  "note": "Lakeside clinical luxury: warm white and blush grounds, black type, a pale sand accent, wide-tracked geometric capitals and 36 px pill buttons.",
+  "signature": "36 px pills and uppercase headings tracked 0.06em on warm white.",
+  "fonts": "family=Josefin+Sans:wght@300;400;600&family=Montserrat:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,400"
+ }
+]

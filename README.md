@@ -16,7 +16,7 @@ npm run dev
 | Framework | React 19 + TypeScript |
 | Build | Vite 7 |
 | Routing | React Router 7 |
-| UI Components | ShadCN/ui + Radix UI, on the Fleet Command design system (`design-system/tokens.json`) |
+| UI Components | ShadCN/ui + Radix UI, on the Modern design system (`design-system/tokens.json`, after a reference proposal deck) |
 | Styling | Tailwind CSS 4 |
 | State | Zustand 5 |
 | Forms | React Hook Form + Zod |
@@ -35,8 +35,8 @@ src/
 │   └── providers.tsx # Context providers (Auth0, QueryClient, i18n, etc.)
 ├── app/screens/      # Child views, opened as layered dialogs (no routes)
 ├── components/
-│   ├── system/       # Design system: folder card, door, status, empty states, confirm, charts
-│   ├── shell/        # Wedge-bar header, screen dialog
+│   ├── system/       # Design system: panel, door, status, empty states, confirm, charts
+│   ├── shell/        # Header pill, rail, screen dialog
 │   ├── common/       # Shared components (guards, error boundary, loading)
 │   ├── layout/       # App shell, public header, footer
 │   ├── ui/           # ShadCN primitives (button, card, skeleton)
@@ -118,7 +118,7 @@ To reproduce local proof with synthetic data only: `npm run build`, then `node .
 
 ## Design system and navigation
 
-The interface is the navigation, as in a game. Only the main views (Dashboard, Items) have routes; each is a wedge in the header bar. Everything under them opens as a screen: a dialog layered over the view, and closed with Close or Esc. Every view, card, chart and dialog has a designed fresh state, so a new account sees what each place is for before any data exists. Viewers pick the wedge bar or a rail of icons down the side in Settings. `design-system/README.md` holds the rules and the recipes for agents and people building on the template; the Design system screen shows every part in each of its four states (happy path, empty, loading, error).
+The interface is the navigation, as in a game. Only the main views (Dashboard, Items) have routes; each is a word in the frosted header pill. Everything under them opens as a screen: a dialog layered over the view, and closed with Close or Esc. Every view, card, chart and dialog has a designed fresh state, so a new account sees what each place is for before any data exists. Viewers pick the header pill or a rail of icons down the side in Settings. `design-system/README.md` holds the rules and the recipes for agents and people building on the template; the Design system screen shows every part in each of its four states (happy path, empty, loading, error).
 
 ## Mobile Development
 

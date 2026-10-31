@@ -22,12 +22,12 @@ export function StateSwitch({ part, label, className }: { part: string; label: s
   )
 }
 
-/** A part with its state switch on the shelf above its top right, beside the folder tab, over whichever state it
- *  shows; it never covers the part's own content. */
+/** A part with its state switch just above its top right, over whichever state it shows; it never covers the part's
+ *  own content. */
 export function Previewable({ part, label, children, className }: { part: string; label: string; children: ReactNode; className?: string }) {
   return (
     <div className={cn('grid min-w-0', className)}>
-      <StateSwitch part={part} label={label} className="relative z-[2] -mb-3 justify-self-end" />
+      <StateSwitch part={part} label={label} className="relative z-[2] mb-2.5 justify-self-end" />
       {children}
     </div>
   )

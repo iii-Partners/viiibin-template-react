@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Rajdhani:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..500&family=DM+Sans:opsz,wght@9..40,300..600&family=DM+Mono:wght@400;500&display=swap');
 @import 'tailwindcss';
 @import './tokens.css';
 @import './design.css';
@@ -20,35 +20,52 @@
 
   body {
     margin: 0;
-    background: var(--ground);
+    background-color: var(--ground);
+    background-image: var(--ground-image);
+    background-attachment: fixed;
     color: var(--text);
-    font: 400 15px/1.55 var(--font-body);
+    font: 400 15px/1.6 var(--font-body);
+    letter-spacing: 0.01em;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 
   button {
     font: inherit;
+    letter-spacing: inherit;
     color: inherit;
     cursor: pointer;
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
   }
 
   [hidden] {
     display: none !important;
   }
 
-  /* headings stay quiet: nothing heavier than medium, tight tracking, sentence case */
+  /* headings are the display face at the light weight (Newsreader 300 in the Modern system): calm, never bold,
+     balanced across their lines. A variant sets their case, style and tracking. */
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    font-weight: var(--font-weight-light);
+    letter-spacing: var(--display-tracking);
+    text-transform: var(--display-case);
+    font-style: var(--display-style);
+    text-wrap: balance;
+  }
+
+  .font-display {
+    text-transform: var(--display-case);
+    font-style: var(--display-style);
+  }
+
+  em {
+    font-style: italic;
   }
 }
 

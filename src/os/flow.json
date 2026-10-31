@@ -1,0 +1,1904 @@
+{
+ "nodes": {
+  "L1": {
+   "sf": null,
+   "type": "Trigger",
+   "who": [
+    "Elan",
+    "Salesperson"
+   ],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "A referral or scholarship lead arrives through contact with Elan or a salesperson.",
+   "next": [
+    "L2",
+    "L3"
+   ],
+   "rel": [],
+   "ins": [
+    "I01"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "Lead referral",
+   "prev": [],
+   "section": "1 · Lead generation",
+   "kind": "term"
+  },
+  "L2": {
+   "sf": null,
+   "type": "Staff",
+   "who": [
+    "Elan"
+   ],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "Lead originates from Elan.",
+   "next": [
+    "L4"
+   ],
+   "rel": [],
+   "ins": [
+    "I01"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "Via contact with Elan",
+   "prev": [
+    "L1"
+   ],
+   "section": "1 · Lead generation",
+   "kind": ""
+  },
+  "L3": {
+   "sf": null,
+   "type": "Staff",
+   "who": [
+    "Salesperson"
+   ],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "Lead originates from a salesperson.",
+   "next": [
+    "L4"
+   ],
+   "rel": [],
+   "ins": [
+    "I01"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "Via contact with salesperson",
+   "prev": [
+    "L1"
+   ],
+   "section": "1 · Lead generation",
+   "kind": ""
+  },
+  "L4": {
+   "sf": null,
+   "type": "Staff",
+   "who": [
+    "Elan or salesperson",
+    "Admin"
+   ],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "Lead details are handed to admin, who does the data entry. There is no direct inquiry path.",
+   "next": [
+    "L5"
+   ],
+   "rel": [],
+   "ins": [
+    "I01"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "Lead info is relayed to admin staff",
+   "prev": [
+    "L2",
+    "L3"
+   ],
+   "section": "1 · Lead generation",
+   "kind": ""
+  },
+  "L5": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "FormKit"
+   ],
+   "changes": [
+    "Referrer name (required; drives automated texts)",
+    "“(mine)” in first name when there is no referrer"
+   ],
+   "forms": [
+    "Northlight Referral Form"
+   ],
+   "detail": "The mandatory referral form is the only entry point for new leads.",
+   "next": [
+    "L6"
+   ],
+   "rel": [],
+   "ins": [
+    "I01"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "Admin staff completes the Northlight Referral Form",
+   "prev": [
+    "L4"
+   ],
+   "section": "1 · Lead generation",
+   "kind": ""
+  },
+  "L6": {
+   "sf": null,
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "FormKit",
+    "LinkFlow",
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "The form submission creates the contact in PipeCRM.",
+   "next": [
+    "S1"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "Lead is added to PipeCRM to begin the sales process",
+   "prev": [
+    "L5"
+   ],
+   "section": "1 · Lead generation",
+   "kind": "term"
+  },
+  "S1": {
+   "sf": "SF-01",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "LinkFlow",
+    "PipeCRM"
+   ],
+   "changes": [
+    "+ tag New Lead",
+    "Deal created → Sales: New Lead"
+   ],
+   "forms": [],
+   "detail": "LinkFlow tags the contact; automation flow SF-01 converts it to a deal.",
+   "next": [
+    "S2"
+   ],
+   "rel": [
+    "R1"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "New Lead tag and deal created",
+   "prev": [
+    "L6"
+   ],
+   "section": "2 · Sales pipeline",
+   "kind": ""
+  },
+  "S2": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Sales team",
+    "Admin"
+   ],
+   "sys": [
+    "CareDesk"
+   ],
+   "changes": [
+    "CareDesk calendar: HOLD ENTRY"
+   ],
+   "forms": [],
+   "detail": "Price and a provisional visit date are set before any application or medical review.",
+   "next": [
+    "S3"
+   ],
+   "rel": [
+    "C1",
+    "M9"
+   ],
+   "ins": [
+    "I05",
+    "I08"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": "No step releases this hold if the lead is not approved or stops responding.",
+   "title": "Client cost and hold date",
+   "prev": [
+    "S1"
+   ],
+   "section": "2 · Sales pipeline",
+   "kind": ""
+  },
+  "S3": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Associate Products: agreement price",
+    "Deal value",
+    "Consulting agreement value"
+   ],
+   "forms": [],
+   "detail": "Admin picks the agreement price from the product library and selects the consulting agreement value by hand.",
+   "next": [
+    "S4"
+   ],
+   "rel": [
+    "R3"
+   ],
+   "ins": [
+    "I08"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "Set the deal value",
+   "prev": [
+    "S2"
+   ],
+   "section": "2 · Sales pipeline",
+   "kind": ""
+  },
+  "S4": {
+   "sf": null,
+   "type": "Pipeline",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Stage → Sales: Program Application Sent"
+   ],
+   "forms": [],
+   "detail": "A manual stage move that triggers the application email.",
+   "next": [
+    "S5"
+   ],
+   "rel": [],
+   "ins": [
+    "I07"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "Move to Program Application Sent",
+   "prev": [
+    "S3"
+   ],
+   "section": "2 · Sales pipeline",
+   "kind": ""
+  },
+  "S5": {
+   "sf": "SF-02a/b",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM",
+    "FormKit"
+   ],
+   "changes": [
+    "+ tag Program Application Sent (contact & deal)"
+   ],
+   "forms": [
+    "Northlight Program Application"
+   ],
+   "detail": "The application form link goes out automatically.",
+   "next": [
+    "S6"
+   ],
+   "rel": [],
+   "ins": [
+    "I07"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": null,
+   "title": "Program Application emailed",
+   "prev": [
+    "S4"
+   ],
+   "section": "2 · Sales pipeline",
+   "kind": ""
+  },
+  "S6": {
+   "sf": "SF-03",
+   "type": "Auto",
+   "who": [
+    "Admin (follow-up at weeks 2 and 4)"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Automated chasers until the application is received.",
+   "next": [
+    "A0"
+   ],
+   "rel": [
+    "C9"
+   ],
+   "ins": [
+    "I06"
+   ],
+   "wish": [],
+   "sop": "ch1",
+   "note": "SOP (05 Aug) says 3 weeks; flowchart (11 Aug) says 4 weeks with admin alerts. Nothing is defined after reminders end.",
+   "title": "Application reminders",
+   "prev": [
+    "S5"
+   ],
+   "section": "2 · Sales pipeline",
+   "kind": ""
+  },
+  "A0": {
+   "sf": null,
+   "type": "Trigger",
+   "who": [],
+   "sys": [
+    "FormKit",
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [
+    "Northlight Program Application"
+   ],
+   "detail": "Submission reaches PipeCRM via API with the Program Application Received tag.",
+   "next": [
+    "A1",
+    "A3"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch2",
+   "note": null,
+   "title": "Application submitted",
+   "prev": [
+    "S6"
+   ],
+   "section": "3 · Application received",
+   "kind": "term"
+  },
+  "A1": {
+   "sf": "SF-04",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "− tag Program Application Sent",
+    "+ tag Program Application Received",
+    "Has Application Form been Received = YES"
+   ],
+   "forms": [],
+   "detail": "Status is recorded as a tag swap on contact and deal.",
+   "next": [
+    "A2"
+   ],
+   "rel": [],
+   "ins": [
+    "I07"
+   ],
+   "wish": [],
+   "sop": "ch2",
+   "note": null,
+   "title": "Application received",
+   "prev": [
+    "A0"
+   ],
+   "section": "3 · Application received",
+   "kind": ""
+  },
+  "A2": {
+   "sf": "SF-04",
+   "type": "Auto",
+   "who": [
+    "Mara",
+    "Medical Team"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Stage → Sales: Medical Review"
+   ],
+   "forms": [],
+   "detail": "The Medical Team is alerted to review the application.",
+   "next": [
+    "M1"
+   ],
+   "rel": [
+    "M6",
+    "M8"
+   ],
+   "ins": [
+    "I04"
+   ],
+   "wish": [],
+   "sop": "ch2",
+   "note": "In the SOP, admin also enters data in CareDesk, uploads the application and sends a LedgerBooks invoice at this point.",
+   "title": "Move to Medical Review",
+   "prev": [
+    "A1"
+   ],
+   "section": "3 · Application received",
+   "kind": ""
+  },
+  "A3": {
+   "sf": "SF-04a",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "FormKit",
+    "PipeCRM"
+   ],
+   "changes": [
+    "Has Application Form been Received = YES",
+    "+ tag Progress Update Received"
+   ],
+   "forms": [
+    "Northlight – Progress Update"
+   ],
+   "detail": "The returning-client equivalent of the application.",
+   "next": [
+    "M1"
+   ],
+   "rel": [
+    "R3"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "ch2",
+   "note": null,
+   "title": "Progress update received",
+   "prev": [
+    "A0"
+   ],
+   "section": "3 · Application received",
+   "kind": ""
+  },
+  "M1": {
+   "sf": null,
+   "type": "Staff",
+   "who": [
+    "Medical Team",
+    "Mara"
+   ],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "The Medical Team reviews the application. The decision is relayed to admin rather than recorded in a system.",
+   "next": [
+    "M2"
+   ],
+   "rel": [],
+   "ins": [
+    "I04",
+    "I10"
+   ],
+   "wish": [
+    "Medical approval tracking & automated chasers"
+   ],
+   "sop": "ch2",
+   "note": null,
+   "title": "Medical Team review",
+   "prev": [
+    "A2",
+    "A3"
+   ],
+   "section": "4 · Medical review",
+   "kind": "term"
+  },
+  "M2": {
+   "sf": null,
+   "type": "Decision",
+   "who": [
+    "Admin (records the outcome)"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Admin adds Medical – Approved or Medical – Not Approved by hand; that tag drives everything downstream.",
+   "next": [
+    "M3",
+    "M9"
+   ],
+   "rel": [],
+   "ins": [
+    "I04",
+    "I07",
+    "I10"
+   ],
+   "wish": [],
+   "sop": "ch2",
+   "note": null,
+   "title": "Medical review decision",
+   "prev": [
+    "M1"
+   ],
+   "section": "4 · Medical review",
+   "kind": "dec"
+  },
+  "M3": {
+   "sf": "SF-05a/06a",
+   "type": "Auto",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "+ tag Medical – Approved (contact, then mirrored to deal)",
+    "Consulting agreement emailed (SF-20a)"
+   ],
+   "forms": [],
+   "detail": "Admin tags the contact only; automation mirrors to the deal and sends the agreement.",
+   "next": [
+    "M4"
+   ],
+   "rel": [
+    "R3"
+   ],
+   "ins": [
+    "I07"
+   ],
+   "wish": [
+    "Automated consents & invoicing dispatch"
+   ],
+   "sop": "ch2",
+   "note": null,
+   "title": "Approved",
+   "prev": [
+    "M2"
+   ],
+   "section": "4 · Medical review",
+   "kind": ""
+  },
+  "M4": {
+   "sf": null,
+   "type": "Pipeline",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Stage → Onboarding: Payment"
+   ],
+   "forms": [],
+   "detail": "The client leaves the Sales pipeline.",
+   "next": [
+    "M5"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch2",
+   "note": null,
+   "title": "Move to Onboarding – Payment",
+   "prev": [
+    "M3"
+   ],
+   "section": "4 · Medical review",
+   "kind": ""
+  },
+  "M5": {
+   "sf": null,
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM",
+    "CareDesk"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "A custom integration creates the client record in CareDesk.",
+   "next": [
+    "M6"
+   ],
+   "rel": [],
+   "ins": [
+    "I02"
+   ],
+   "wish": [],
+   "sop": "ch2",
+   "note": null,
+   "title": "CareDesk client created",
+   "prev": [
+    "M4"
+   ],
+   "section": "4 · Medical review",
+   "kind": ""
+  },
+  "M6": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "CareDesk"
+   ],
+   "changes": [
+    "CareDesk client record: intake fields",
+    "Application PDF attached"
+   ],
+   "forms": [
+    "Northlight Program Application"
+   ],
+   "detail": "Data already captured in the application is re-keyed into CareDesk.",
+   "next": [
+    "M7"
+   ],
+   "rel": [
+    "M5"
+   ],
+   "ins": [
+    "I02",
+    "I10"
+   ],
+   "wish": [
+    "Unified info sheet generation"
+   ],
+   "sop": "ch2",
+   "note": null,
+   "title": "Complete the CareDesk record",
+   "prev": [
+    "M5"
+   ],
+   "section": "4 · Medical review",
+   "kind": ""
+  },
+  "M7": {
+   "sf": "SF-05b",
+   "type": "Auto",
+   "who": [
+    "Rosa (integrator partner)"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Is CareDesk Updated = YES (once CareDesk Details Updated tag is applied)"
+   ],
+   "forms": [],
+   "detail": "integrator partner is asked to assign an integrator.",
+   "next": [
+    "M8"
+   ],
+   "rel": [
+    "C4"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "ch2",
+   "note": null,
+   "title": "Integrator assignment requested",
+   "prev": [
+    "M6"
+   ],
+   "section": "4 · Medical review",
+   "kind": ""
+  },
+  "M8": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "LedgerBooks"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "The program invoice is created in LedgerBooks.",
+   "next": [
+    "C1"
+   ],
+   "rel": [
+    "C5"
+   ],
+   "ins": [
+    "I03"
+   ],
+   "wish": [
+    "Automated consents & invoicing dispatch"
+   ],
+   "sop": "ch2",
+   "note": "The SOP sends this when the application arrives (before review); the flowchart sends it after approval. Chapter 3 sends an invoice again at purchase.",
+   "title": "LedgerBooks invoice",
+   "prev": [
+    "M7"
+   ],
+   "section": "4 · Medical review",
+   "kind": ""
+  },
+  "M9": {
+   "sf": "SF-05c",
+   "type": "Auto",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "+ tag Medical – Not Approved",
+    "Stage → Retention: Medical – Not Approved"
+   ],
+   "forms": [],
+   "detail": "Exit path. The client joins the Retention pipeline alongside lapsed clients.",
+   "next": [],
+   "rel": [
+    "S2"
+   ],
+   "ins": [
+    "I05",
+    "I06"
+   ],
+   "wish": [],
+   "sop": "ch2",
+   "note": "The CareDesk hold entry created at the lead stage is not released here.",
+   "title": "Not approved",
+   "prev": [
+    "M2"
+   ],
+   "section": "4 · Medical review",
+   "kind": "end"
+  },
+  "C1": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "CareDesk"
+   ],
+   "changes": [
+    "CareDesk calendar: HOLD ENTRY → Confirmed Appt"
+   ],
+   "forms": [],
+   "detail": "The provisional hold becomes a confirmed retreat booking.",
+   "next": [
+    "C2"
+   ],
+   "rel": [
+    "S2"
+   ],
+   "ins": [
+    "I05"
+   ],
+   "wish": [],
+   "sop": "ch3",
+   "note": null,
+   "title": "Confirm the appointment",
+   "prev": [
+    "M8"
+   ],
+   "section": "5 · Schedule & purchase",
+   "kind": ""
+  },
+  "C2": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Retreat Version (A/B)",
+    "Starting retreat number",
+    "Scheduled Date",
+    "On-site / off-site"
+   ],
+   "forms": [],
+   "detail": "Retreat details are entered in PipeCRM.",
+   "next": [
+    "C3"
+   ],
+   "rel": [
+    "R3",
+    "K3"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "ch3",
+   "note": null,
+   "title": "Set retreat details",
+   "prev": [
+    "C1"
+   ],
+   "section": "5 · Schedule & purchase",
+   "kind": ""
+  },
+  "C3": {
+   "sf": "SF-06a/b",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "+ tag Onsite – Scheduled"
+   ],
+   "forms": [],
+   "detail": "Scheduling triggers the tag on both records.",
+   "next": [
+    "C4"
+   ],
+   "rel": [],
+   "ins": [
+    "I07"
+   ],
+   "wish": [],
+   "sop": "ch3",
+   "note": null,
+   "title": "Visit scheduled",
+   "prev": [
+    "C2"
+   ],
+   "section": "5 · Schedule & purchase",
+   "kind": ""
+  },
+  "C4": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin",
+    "integrator partner"
+   ],
+   "sys": [
+    "CareDesk",
+    "PipeCRM"
+   ],
+   "changes": [
+    "Integrator Assigned (CareDesk)",
+    "Integrator Assigned (PipeCRM)"
+   ],
+   "forms": [],
+   "detail": "The same value is entered in two systems.",
+   "next": [
+    "C5"
+   ],
+   "rel": [
+    "M7"
+   ],
+   "ins": [
+    "I02"
+   ],
+   "wish": [],
+   "sop": "ch3",
+   "note": null,
+   "title": "Record the integrator",
+   "prev": [
+    "C3"
+   ],
+   "section": "5 · Schedule & purchase",
+   "kind": ""
+  },
+  "C5": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "LedgerBooks",
+    "PipeCRM"
+   ],
+   "changes": [
+    "Invoice number",
+    "Invoice amount"
+   ],
+   "forms": [],
+   "detail": "Invoice details are copied from LedgerBooks into PipeCRM.",
+   "next": [
+    "C6"
+   ],
+   "rel": [
+    "M8"
+   ],
+   "ins": [
+    "I02",
+    "I03"
+   ],
+   "wish": [],
+   "sop": "ch3",
+   "note": null,
+   "title": "Send and record the invoice",
+   "prev": [
+    "C4"
+   ],
+   "section": "5 · Schedule & purchase",
+   "kind": ""
+  },
+  "C6": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "− tag Onsite – Scheduled",
+    "+ tag Client – Invoiced",
+    "Package Purchased",
+    "Scholarship Value / Package Session Number"
+   ],
+   "forms": [],
+   "detail": "Manual tag swap plus package fields.",
+   "next": [
+    "C7"
+   ],
+   "rel": [],
+   "ins": [
+    "I07"
+   ],
+   "wish": [],
+   "sop": "ch3",
+   "note": null,
+   "title": "Mark invoiced",
+   "prev": [
+    "C5"
+   ],
+   "section": "5 · Schedule & purchase",
+   "kind": ""
+  },
+  "C7": {
+   "sf": null,
+   "type": "Decision",
+   "who": [],
+   "sys": [
+    "LedgerBooks"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Payment status decides the path.",
+   "next": [
+    "C8",
+    "C9"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch3",
+   "note": null,
+   "title": "Invoice paid?",
+   "prev": [
+    "C6"
+   ],
+   "section": "5 · Schedule & purchase",
+   "kind": "dec"
+  },
+  "C8": {
+   "sf": "SF-07",
+   "type": "Auto",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "CareDesk",
+    "PipeCRM"
+   ],
+   "changes": [
+    "CareDesk: payment recorded",
+    "− Client – Invoiced, + Client – PAID (contact)",
+    "Has Invoice been Paid = YES",
+    "Stage → Onboarding: PAID"
+   ],
+   "forms": [],
+   "detail": "Admin records payment and tags the contact; SF-07 mirrors the tag and moves the deal.",
+   "next": [
+    "P1"
+   ],
+   "rel": [],
+   "ins": [
+    "I02",
+    "I07"
+   ],
+   "wish": [],
+   "sop": "ch3",
+   "note": null,
+   "title": "Paid",
+   "prev": [
+    "C7"
+   ],
+   "section": "5 · Schedule & purchase",
+   "kind": ""
+  },
+  "C9": {
+   "sf": "SF-08",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Automated invoice chasers.",
+   "next": [],
+   "rel": [
+    "S6"
+   ],
+   "ins": [
+    "I06"
+   ],
+   "wish": [],
+   "sop": "ch3",
+   "note": "SOP says 3 weeks; flowchart says 4. Nothing is defined after reminders end.",
+   "title": "Unpaid reminders",
+   "prev": [
+    "C7"
+   ],
+   "section": "5 · Schedule & purchase",
+   "kind": "end"
+  },
+  "P1": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Sent manually from a PipeCRM template. Gmail templates are deprecated.",
+   "next": [
+    "P2"
+   ],
+   "rel": [],
+   "ins": [
+    "I09"
+   ],
+   "wish": [],
+   "sop": "comms",
+   "note": null,
+   "title": "60 days: Preparing for your Experience",
+   "prev": [
+    "C8",
+    "R3"
+   ],
+   "section": "6 · Sessions sequence",
+   "kind": ""
+  },
+  "P2": {
+   "sf": "SF-21",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Automated SMS with the Prep Guide.",
+   "next": [
+    "P3"
+   ],
+   "rel": [],
+   "ins": [
+    "I09"
+   ],
+   "wish": [],
+   "sop": "comms",
+   "note": null,
+   "title": "Prep Guide text",
+   "prev": [
+    "P1"
+   ],
+   "section": "6 · Sessions sequence",
+   "kind": ""
+  },
+  "P3": {
+   "sf": "SF-09/10",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Two automated readiness emails.",
+   "next": [
+    "P4"
+   ],
+   "rel": [],
+   "ins": [
+    "I09"
+   ],
+   "wish": [],
+   "sop": "comms",
+   "note": "Nothing defines what happens if consent or medical forms are not returned.",
+   "title": "Medical Substance and IV Consent emails",
+   "prev": [
+    "P2"
+   ],
+   "section": "6 · Sessions sequence",
+   "kind": ""
+  },
+  "P4": {
+   "sf": null,
+   "type": "Staff",
+   "who": [
+    "Facilitator",
+    "Integrator"
+   ],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "Intro calls for new clients; Pre-Check calls for returning clients. Clear Playlist Used before a new retreat.",
+   "next": [
+    "P5"
+   ],
+   "rel": [
+    "C4"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "comms",
+   "note": null,
+   "title": "Intro / Pre-Check calls",
+   "prev": [
+    "P3"
+   ],
+   "section": "6 · Sessions sequence",
+   "kind": ""
+  },
+  "P5": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Manual text introducing hospitality staff and arranging pick-up.",
+   "next": [
+    "D1"
+   ],
+   "rel": [],
+   "ins": [
+    "I09"
+   ],
+   "wish": [],
+   "sop": "comms",
+   "note": null,
+   "title": "Connection Text",
+   "prev": [
+    "P4"
+   ],
+   "section": "6 · Sessions sequence",
+   "kind": "term"
+  },
+  "R1": {
+   "sf": "SF-01",
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Starting retreat number",
+    "Matching tag",
+    "On-site / off-site"
+   ],
+   "forms": [],
+   "detail": "Returning package buyers bypass the lead pipeline.",
+   "next": [
+    "R2"
+   ],
+   "rel": [
+    "S1"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "ch4",
+   "note": null,
+   "title": "Returning client: Quick Contact",
+   "prev": [],
+   "section": "6 · Returning client",
+   "kind": ""
+  },
+  "R2": {
+   "sf": null,
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Stage → Onboarding: RETURNING"
+   ],
+   "forms": [],
+   "detail": "SF-01 creates the deal directly in Onboarding.",
+   "next": [
+    "R3"
+   ],
+   "rel": [
+    "K3"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "ch4",
+   "note": null,
+   "title": "Deal in Onboarding – Returning",
+   "prev": [
+    "R1"
+   ],
+   "section": "6 · Returning client",
+   "kind": ""
+  },
+  "R3": {
+   "sf": "SF-20b/c",
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Scheduled Date, Retreat A/B, retreat number",
+    "Consulting agreement value"
+   ],
+   "forms": [
+    "Northlight – Progress Update"
+   ],
+   "detail": "Medical approval is still required before the agreement is sent.",
+   "next": [
+    "P1"
+   ],
+   "rel": [
+    "A3",
+    "M2",
+    "C2",
+    "S3"
+   ],
+   "ins": [
+    "I08"
+   ],
+   "wish": [],
+   "sop": "ch4",
+   "note": null,
+   "title": "Finalize returning client",
+   "prev": [
+    "R2"
+   ],
+   "section": "6 · Returning client",
+   "kind": "term"
+  },
+  "D1": {
+   "sf": null,
+   "type": "Staff",
+   "who": [
+    "Facilitator"
+   ],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "On-site briefing in Highlands.",
+   "next": [
+    "D2"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch5",
+   "note": null,
+   "title": "Client briefing",
+   "prev": [
+    "P5"
+   ],
+   "section": "7 · Day of session",
+   "kind": ""
+  },
+  "D2": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Facilitator"
+   ],
+   "sys": [
+    "CareDesk"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Session notes go into CareDesk during or right after the session.",
+   "next": [
+    "D3"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [
+    "Facilitator access & auto-revocation windows"
+   ],
+   "sop": "ch5",
+   "note": null,
+   "title": "Facilitator Session Notes",
+   "prev": [
+    "D1"
+   ],
+   "section": "7 · Day of session",
+   "kind": ""
+  },
+  "D3": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Playlist Used",
+    "+ tag FIRST RETREAT COMPLETED (first visit only)"
+   ],
+   "forms": [],
+   "detail": "The first-retreat tag later qualifies the client for the Living Well Series.",
+   "next": [
+    "D4"
+   ],
+   "rel": [
+    "E1"
+   ],
+   "ins": [],
+   "wish": [
+    "One-click completion & pipeline automation"
+   ],
+   "sop": "ch5",
+   "note": null,
+   "title": "Playlist and first-retreat tag",
+   "prev": [
+    "D2"
+   ],
+   "section": "7 · Day of session",
+   "kind": ""
+  },
+  "D4": {
+   "sf": null,
+   "type": "Pipeline",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Stage → Onboarding: Post Session"
+   ],
+   "forms": [],
+   "detail": "Manual stage move that triggers post-session automations.",
+   "next": [
+    "D5"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [
+    "One-click completion & pipeline automation"
+   ],
+   "sop": "ch5",
+   "note": null,
+   "title": "Move to Post Session",
+   "prev": [
+    "D3"
+   ],
+   "section": "7 · Day of session",
+   "kind": ""
+  },
+  "D5": {
+   "sf": "SF-11/12",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "+ tag Post-Session",
+    "Type of Client = Past Client"
+   ],
+   "forms": [],
+   "detail": "Email 4 goes out automatically.",
+   "next": [
+    "D6"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch5",
+   "note": null,
+   "title": "Integration Audio and Past Client",
+   "prev": [
+    "D4"
+   ],
+   "section": "7 · Day of session",
+   "kind": ""
+  },
+  "D6": {
+   "sf": "SF-13–16",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Day 3 at 4 pm follow-up and resources; 48h feedback; 96h post-visit review.",
+   "next": [
+    "E1",
+    "G1"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "comms",
+   "note": null,
+   "title": "Post-session follow-ups",
+   "prev": [
+    "D5"
+   ],
+   "section": "7 · Day of session",
+   "kind": "term"
+  },
+  "E1": {
+   "sf": "SF-17",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Only for clients tagged FIRST RETREAT COMPLETED.",
+   "next": [
+    "E2"
+   ],
+   "rel": [
+    "D3"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "comms",
+   "note": null,
+   "title": "Living Well Series",
+   "prev": [
+    "D6"
+   ],
+   "section": "8 · LWS & client care",
+   "kind": ""
+  },
+  "E2": {
+   "sf": "SEQ 1",
+   "type": "Auto",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "+ Living Well Series – Started",
+    "+ Unsubscribed (halts) or Completed"
+   ],
+   "forms": [],
+   "detail": "LWS Completed is the one tag kept when a client re-enters Onboarding.",
+   "next": [],
+   "rel": [
+    "K6"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "ch5",
+   "note": null,
+   "title": "LWS tags",
+   "prev": [
+    "E1"
+   ],
+   "section": "8 · LWS & client care",
+   "kind": ""
+  },
+  "G1": {
+   "sf": null,
+   "type": "Staff",
+   "who": [
+    "Integration Guide"
+   ],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "Integration care begins 48 hours after the visit.",
+   "next": [
+    "G2"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch6",
+   "note": null,
+   "title": "Post Visit Check-In",
+   "prev": [
+    "D6"
+   ],
+   "section": "8 · LWS & client care",
+   "kind": ""
+  },
+  "G2": {
+   "sf": null,
+   "type": "Staff",
+   "who": [
+    "Integration Guide"
+   ],
+   "sys": [
+    "CareDesk"
+   ],
+   "changes": [],
+   "forms": [],
+   "detail": "Session transcription is sent to the guide; a review call precedes the finalization form.",
+   "next": [
+    "K1"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [
+    "Integration progress tracking"
+   ],
+   "sop": "ch6",
+   "note": null,
+   "title": "Integration notes and finalization",
+   "prev": [
+    "G1"
+   ],
+   "section": "8 · LWS & client care",
+   "kind": "term"
+  },
+  "K1": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Stage → Package Use: Used Pkg Session #"
+   ],
+   "forms": [],
+   "detail": "Tracks how many package sessions have been used.",
+   "next": [
+    "K2"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch6",
+   "note": null,
+   "title": "Move to Package Usage",
+   "prev": [
+    "G2"
+   ],
+   "section": "9 · Package & retention",
+   "kind": ""
+  },
+  "K2": {
+   "sf": null,
+   "type": "Decision",
+   "who": [],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "Package balance decides the path.",
+   "next": [
+    "K3",
+    "K4"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch6",
+   "note": null,
+   "title": "More sessions in package?",
+   "prev": [
+    "K1"
+   ],
+   "section": "9 · Package & retention",
+   "kind": "dec"
+  },
+  "K3": {
+   "sf": null,
+   "type": "Manual",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Clear Playlist Used, invoice info, paid status",
+    "Unpaid → Onboarding: Payment + Client – Invoiced + Onsite – Scheduled",
+    "Paid → Onboarding: RETURNING + Onsite – Scheduled"
+   ],
+   "forms": [],
+   "detail": "The client loops back into onboarding.",
+   "next": [],
+   "rel": [
+    "C2",
+    "C3",
+    "R2"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "ch6",
+   "note": null,
+   "title": "Schedule the next package session",
+   "prev": [
+    "K2"
+   ],
+   "section": "9 · Package & retention",
+   "kind": "term"
+  },
+  "K4": {
+   "sf": "SF-18",
+   "type": "Pipeline",
+   "who": [],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Stage → Retention: Re-Intro",
+    "− Post-Session, + Re-Intro Retention Calls"
+   ],
+   "forms": [],
+   "detail": "Starts the retention conversation.",
+   "next": [
+    "K5"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch7",
+   "note": null,
+   "title": "Move to Re-Intro (Retention Calls)",
+   "prev": [
+    "K2"
+   ],
+   "section": "9 · Package & retention",
+   "kind": ""
+  },
+  "K5": {
+   "sf": null,
+   "type": "Decision",
+   "who": [
+    "Salesperson"
+   ],
+   "sys": [],
+   "changes": [],
+   "forms": [],
+   "detail": "7 days post-visit, the salesperson calls to determine retention.",
+   "next": [
+    "K6",
+    "K7"
+   ],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch7",
+   "note": null,
+   "title": "Retention successful?",
+   "prev": [
+    "K4"
+   ],
+   "section": "9 · Package & retention",
+   "kind": "dec"
+  },
+  "K6": {
+   "sf": "SF-07",
+   "type": "Manual",
+   "who": [
+    "Salesperson",
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Scheduled Return Date",
+    "Stage → Onboarding: Payment",
+    "All tags removed except LWS Completed"
+   ],
+   "forms": [],
+   "detail": "The client re-enters onboarding with a new package.",
+   "next": [],
+   "rel": [
+    "M4",
+    "E2"
+   ],
+   "ins": [],
+   "wish": [],
+   "sop": "ch7",
+   "note": null,
+   "title": "Client continues",
+   "prev": [
+    "K5"
+   ],
+   "section": "9 · Package & retention",
+   "kind": "term"
+  },
+  "K7": {
+   "sf": "SF-19",
+   "type": "Auto",
+   "who": [
+    "Admin"
+   ],
+   "sys": [
+    "PipeCRM"
+   ],
+   "changes": [
+    "Stage → Retention: Client – Inactive",
+    "+ tag STOP"
+   ],
+   "forms": [],
+   "detail": "Exit path.",
+   "next": [],
+   "rel": [],
+   "ins": [],
+   "wish": [],
+   "sop": "ch7",
+   "note": null,
+   "title": "Client stops",
+   "prev": [
+    "K5"
+   ],
+   "section": "9 · Package & retention",
+   "kind": "end"
+  }
+ },
+ "stages": {
+  "Sales|New Lead": [
+   "S1"
+  ],
+  "Sales|Program Application Sent": [
+   "S4",
+   "S5"
+  ],
+  "Sales|Medical Review Stage": [
+   "A2"
+  ],
+  "Onboarding|New Client": [],
+  "Onboarding|Payment Stage": [
+   "M4",
+   "K3",
+   "K6"
+  ],
+  "Onboarding|PAID": [
+   "C8"
+  ],
+  "Onboarding|RETURNING": [
+   "R2",
+   "K3"
+  ],
+  "Onboarding|Worldwide": [],
+  "Onboarding|Post Session": [
+   "D4"
+  ],
+  "Onboarding|Program Application Sent": [],
+  "Onboarding|Medical Review Stage": [],
+  "Package Use|Used Pkg Session 1": [
+   "K1"
+  ],
+  "Package Use|Used Pkg Session 2": [
+   "K1"
+  ],
+  "Package Use|Used Pkg Session 3": [
+   "K1"
+  ],
+  "Package Use|Used Pkg Session 4": [
+   "K1"
+  ],
+  "Package Use|One-Off": [],
+  "Package Use|NL West": [],
+  "Package Use|Europe": [],
+  "Package Use|Scholarship": [],
+  "Package Use|NL Staff Only": [],
+  "Retention|Re-Intro (Retention Calls)": [
+   "K4"
+  ],
+  "Retention|New Full Program": [],
+  "Retention|Client – Inactive": [
+   "K7"
+  ],
+  "Retention|Medical – Not Approved": [
+   "M9"
+  ]
+ },
+ "forms": {
+  "Northlight Program Application": [
+   "S5",
+   "A0",
+   "M6"
+  ],
+  "Northlight – Progress Update": [
+   "A3",
+   "R3"
+  ],
+  "Northlight Referral Form": [
+   "L5"
+  ],
+  "Northlight Feedback Survey": [],
+  "Prep Guide Acknowledgement Form": [],
+  "Travel Details – Retreat A": [],
+  "Travel Details – Retreat B": [],
+  "Client Post-Visit Analysis Form": []
+ },
+ "insights": {
+  "I01": "Intake runs through admin",
+  "I02": "The same data is keyed in more than once",
+  "I03": "Invoice timing is inconsistent",
+  "I04": "The medical gate isn’t recorded in a system",
+  "I05": "Calendar holds are created early and never released",
+  "I06": "There’s no defined path for lost or stalled leads",
+  "I07": "Status is tracked with tags, by hand",
+  "I08": "Pricing is decided outside the system",
+  "I09": "Readiness is spread across 60 days with no checklist",
+  "I10": "Health status sits in the CRM"
+ },
+ "sop": {
+  "ch1": "01 Lead & sales",
+  "ch2": "02 Application & medical",
+  "ch3": "03 Schedule & invoice",
+  "ch4": "04 Returning clients",
+  "ch5": "05 Session & follow-up",
+  "ch6": "06 Care & packages",
+  "ch7": "07 Retention",
+  "comms": "Comms timeline"
+ }
+}

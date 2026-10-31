@@ -1,4 +1,4 @@
-// The track: steps and timelines. One rail filled purple to where the work is now, a tick ruler under it, and a
+// The track: steps and timelines. One rail filled with ink to where the work is now, a tick ruler under it, and a
 // ringed marker on a dashed guide at each step, its name and detail under the guide, in sentence case. Labels
 // alternate two rows past five steps, or wherever the steps sit closer than their longest label (a phone). A timeline places its
 // steps on its own scale and draws a Today line with its label above the rail. The legend names every ring color it
@@ -7,7 +7,7 @@ import { useLayoutEffect, useRef, useState } from 'react'
 
 export type Tone = 'done' | 'lit' | 'pending' | 'watch' | 'blocked' | ''
 
-const RING: Record<Tone, string> = { done: 'var(--done)', lit: 'var(--brand)', pending: 'var(--brand)', watch: 'var(--watch)', blocked: 'var(--fault)', '': 'var(--line)' }
+const RING: Record<Tone, string> = { done: 'var(--done)', lit: 'var(--text)', pending: 'var(--need)', watch: 'var(--watch)', blocked: 'var(--fault)', '': 'var(--edge)' }
 const WORD: Record<Tone, string> = { done: 'Done', lit: 'Where the work is now', pending: 'Needs a decision', watch: 'At risk', blocked: 'Blocked', '': 'Ahead' }
 const ORDER: Tone[] = ['done', 'lit', 'pending', 'watch', 'blocked', '']
 
@@ -36,14 +36,14 @@ export function Track({ label, points, now, nowLabel, ruler }: { label: string; 
   return (
     <figure className="m-0 grid gap-3 px-2 pt-2" aria-label={`${label}: ${points.map((p) => `${p.title}${p.sub ? ` ${p.sub}` : ''}, ${WORD[p.tone ?? ''].toLowerCase()}`).join('; ')}.`}>
       <div ref={box} className="relative mx-3" style={{ height: (two ? 160 : 116) + top }} aria-hidden="true">
-        <span style={{ top: 22 + top }} className="absolute inset-x-0 flex h-2.5 overflow-hidden rounded-chip bg-glass-raised">
-          <i className="block h-full bg-lit" style={{ width: `${Math.max(0, Math.min(1, now)) * 100}%` }} />
+        <span style={{ top: 24 + top }} className="absolute inset-x-0 flex h-1.5 overflow-hidden bg-wash">
+          <i className="block h-full bg-text" style={{ width: `${Math.max(0, Math.min(1, now)) * 100}%` }} />
         </span>
-        <i className="absolute inset-x-0 block h-2.5 opacity-80" style={{ top: 38 + top, backgroundImage: 'linear-gradient(to right, var(--teal) 1px, transparent 1px), linear-gradient(to right, var(--line) 1px, transparent 1px)', backgroundSize: `25% 10px, ${100 / Math.max(1, ruler)}% 5px`, backgroundRepeat: 'repeat-x' }} />
+        <i className="absolute inset-x-0 block h-2.5 opacity-80" style={{ top: 38 + top, backgroundImage: 'linear-gradient(to right, var(--edge) 1px, transparent 1px), linear-gradient(to right, var(--line) 1px, transparent 1px)', backgroundSize: `25% 10px, ${100 / Math.max(1, ruler)}% 5px`, backgroundRepeat: 'repeat-x' }} />
         {nowLabel && (
           <span className="absolute top-0 w-0" style={{ left: `${now * 100}%`, height: top + 52 }}>
-            <i className="absolute top-0 bottom-0 left-0 w-0 border-l-2 border-brand" />
-            <span className="absolute top-0 left-1.5 text-[12px]/none font-medium whitespace-nowrap text-brand">{nowLabel}</span>
+            <i className="absolute top-0 bottom-0 left-0 w-0 border-l-[1.5px] border-accent" />
+            <span className="absolute top-0 left-2 text-[10.5px]/none tracking-[0.14em] whitespace-nowrap text-accent uppercase">{nowLabel}</span>
           </span>
         )}
         {points.map((p, i) => {
@@ -51,28 +51,28 @@ export function Track({ label, points, now, nowLabel, ruler }: { label: string; 
           const edge = p.at <= 0.02 ? 'start' : p.at >= 0.98 ? 'end' : 'mid'
           return (
             <span key={i} className="rise-in absolute flex w-0 flex-col items-center" style={{ top: 14 + top, left: `${p.at * 100}%`, animationDelay: `${80 + i * 60}ms` }}>
-              <i className="grid h-[26px] w-[26px] flex-none place-items-center rounded-full border-2 bg-glass" style={{ borderColor: RING[p.tone ?? ''] }}>
+              <i className="grid h-[24px] w-[24px] flex-none place-items-center rounded-full border-[1.5px] bg-panel" style={{ borderColor: RING[p.tone ?? ''] }}>
                 <i className="h-2 w-2 rounded-full" style={{ background: p.tone ? RING[p.tone] : 'transparent' }} />
               </i>
-              <i className={`w-0 flex-none border-l border-dashed border-teal ${low ? 'h-[62px]' : 'h-[20px]'}`} />
+              <i className={`w-0 flex-none border-l border-dashed border-edge ${low ? 'h-[62px]' : 'h-[20px]'}`} />
               <span className={`grid gap-0.5 whitespace-nowrap ${edge === 'start' ? 'translate-x-[calc(50%-13px)] justify-items-start' : edge === 'end' ? '-translate-x-[calc(50%-13px)] justify-items-end' : 'justify-items-center'}`}>
-                <b className="text-[13px]/[1.2] font-medium" style={{ color: p.tone === 'lit' || p.tone === 'pending' ? 'var(--brand)' : undefined }}>{p.title}</b>
+                <b className={`text-[13px]/[1.2] ${p.tone === 'lit' ? 'font-semibold' : 'font-medium'}`} style={{ color: p.tone === 'pending' ? 'var(--need)' : p.tone ? undefined : 'var(--dim)' }}>{p.title}</b>
                 {p.sub && <span className="text-[12px]/[1.2] text-dim">{p.sub}</span>}
               </span>
             </span>
           )
         })}
       </div>
-      <figcaption className="flex flex-wrap gap-x-4 gap-y-1 border-t-2 border-line pt-2.5 text-[12.5px] text-dim">
+      <figcaption className="flex flex-wrap gap-x-5 gap-y-1 border-t border-line pt-3 text-[12.5px] text-dim">
         {legend.map((t) => (
           <span key={t} className="inline-flex items-center gap-1.5">
-            <i className="h-2.5 w-2.5 rounded-full border-2" style={{ borderColor: RING[t], background: t ? RING[t] : 'transparent' }} />
+            <i className="h-2.5 w-2.5 rounded-full border-[1.5px]" style={{ borderColor: RING[t], background: t ? RING[t] : 'transparent' }} />
             {WORD[t]}
           </span>
         ))}
         {nowLabel && (
           <span className="inline-flex items-center gap-1.5">
-            <i className="h-3 w-0 border-l-2 border-brand" />
+            <i className="h-3 w-0 border-l-[1.5px] border-accent" />
             {nowLabel.split(' · ')[0]}
           </span>
         )}

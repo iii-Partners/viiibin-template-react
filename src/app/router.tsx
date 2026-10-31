@@ -3,8 +3,13 @@ import { lazy, Suspense } from 'react'
 import { LoadingSpinner } from '@/components/common/loading-spinner'
 // the authenticated shell and its main views load with the app, so switching views shows at once
 import AuthLayout from './routes/_auth'
-import DashboardPage from './routes/dashboard'
-import ItemsPage from './routes/items'
+import TodayPage from './routes/today'
+import GuestsPage from './routes/guests'
+import RetreatsPage from './routes/retreats'
+import ReviewsPage from './routes/reviews'
+import CarePage from './routes/care'
+import PortalPage from './routes/portal'
+import BlueprintPage from './routes/blueprint'
 import { RailView } from './routes/rail-view'
 
 
@@ -64,12 +69,17 @@ export const router = createBrowserRouter([
       <AuthLayout />
     ),
     // the main views have routes (app/nav.ts), and so do the places the rail reaches: with the rail they are views,
-    // with the wedge bar their routes open them as screens over the dashboard. Every other child view is a screen.
+    // with the header pill their routes open them as screens over the dashboard. Every other child view is a screen.
     children: [
-      { index: true, element: <Navigate to="dashboard" replace /> },
-      { path: 'dashboard', element: <DashboardPage /> },
-      { path: 'items', element: <ItemsPage /> },
-      { path: 'birds-eye', element: <RailView id="dial" /> },
+      { index: true, element: <Navigate to="today" replace /> },
+      { path: 'dashboard', element: <Navigate to="/app/today" replace /> },
+      { path: 'today', element: <TodayPage /> },
+      { path: 'guests', element: <GuestsPage /> },
+      { path: 'retreats', element: <RetreatsPage /> },
+      { path: 'reviews', element: <ReviewsPage /> },
+      { path: 'care', element: <CarePage /> },
+      { path: 'portal', element: <PortalPage /> },
+      { path: 'blueprint', element: <BlueprintPage /> },
       { path: 'design', element: <RailView id="design" /> },
       { path: 'profile', element: <RailView id="profile" /> },
       { path: 'settings', element: <RailView id="settings" /> },

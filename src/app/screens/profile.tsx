@@ -9,7 +9,7 @@ import { LogOut } from 'lucide-react'
 import { profileSchema, type ProfileInput } from '@/lib/validation/profile'
 import { isAuthEnabled } from '@/lib/auth'
 import { useOnboardingStore } from '@/stores/onboarding'
-import { FolderCard } from '@/components/system/folder-card'
+import { Panel } from '@/components/system/panel'
 import { Sec, StatusWord } from '@/components/system/status'
 
 type User = { name: string; email: string; picture: string | null } | null
@@ -57,35 +57,35 @@ function ProfileBody({ user, onLogout }: { user: User; onLogout?(): void }) {
   }
 
   return (
-    <div className="grid gap-3.5" style={{ gridTemplateColumns: 'var(--layout-plates)' }}>
-      <FolderCard bodyClassName="content-start gap-4">
+    <div className="grid gap-4" style={{ gridTemplateColumns: 'var(--layout-plates)' }}>
+      <Panel className="content-start gap-5">
         <Sec as="h3">Who you are</Sec>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           {user?.picture ? (
-            <img src={user.picture} alt="" className="h-16 w-16 rounded-full" />
+            <img src={user.picture} alt="" className="h-[72px] w-[72px] rounded-full" />
           ) : (
-            <span className="grid h-16 w-16 place-items-center rounded-full bg-glass-raised font-figure text-[26px] font-medium text-brand">{initials(name || user?.name || '')}</span>
+            <span className="figure grid h-[72px] w-[72px] flex-none place-items-center rounded-full border border-edge text-[30px]">{initials(name || user?.name || '')}</span>
           )}
-          <div className="grid min-w-0 gap-1">
-            <b className="truncate text-[17px] font-semibold">{name || user?.name || 'No name yet'}</b>
+          <div className="grid min-w-0 gap-1.5">
+            <b className="truncate font-display text-[26px]/[1.15] font-light">{name || user?.name || 'No name yet'}</b>
             {user ? <StatusWord st="ok">Signed in</StatusWord> : <StatusWord st="risk">Demo mode: sign-in is not set up</StatusWord>}
           </div>
         </div>
-        <p className="text-[13.5px]/[1.5] text-dim">
+        <p className="text-[14px]/[1.55] text-dim">
           {user
             ? 'Your picture comes from your identity provider. Change it there.'
             : 'Add Auth0 keys (VITE_AUTH0_DOMAIN and VITE_AUTH0_CLIENT_ID) to turn on sign-in. Until then, what you save here stays in this browser.'}
         </p>
         {onLogout && (
-          <button type="button" className="btn inline-flex w-fit items-center gap-2" onClick={onLogout}>
-            <LogOut className="h-4 w-4" aria-hidden="true" />
+          <button type="button" className="pill sm w-fit" onClick={onLogout}>
+            <LogOut className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden="true" />
             Log out
           </button>
         )}
-      </FolderCard>
-      <FolderCard bodyClassName="gap-3">
+      </Panel>
+      <Panel className="content-start gap-5">
         <Sec as="h3">Your details</Sec>
-        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-5">
           <div>
             <label htmlFor="name" className="label">Name</label>
             <input id="name" {...register('name')} className="field" placeholder="How the app should address you" />
@@ -100,11 +100,11 @@ function ProfileBody({ user, onLogout }: { user: User; onLogout?(): void }) {
             <label htmlFor="phone" className="label">Phone (optional)</label>
             <input id="phone" type="tel" {...register('phone')} className="field" />
           </div>
-          <button type="submit" className="gm-btn go w-fit" disabled={!isDirty || saving}>
+          <button type="submit" className="pill go w-fit" disabled={!isDirty || saving}>
             {saving ? 'Saving…' : 'Save details'}
           </button>
         </form>
-      </FolderCard>
+      </Panel>
     </div>
   )
 }

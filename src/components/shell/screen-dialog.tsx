@@ -1,7 +1,8 @@
-// A screen as a dialog over the main view. The blur fades in over the view and the screen's parts arrive in reading
-// order. Close or Esc reverses it: the parts and the blur fade, and focus returns to the door the viewer pressed. A
-// press on the blur does nothing, so nothing behind a dialog takes a click. Each screen opened from a screen layers
-// over it and blurs it in turn.
+// A screen as a dialog over the main view, after the deck's "more" dialogs: a pane of frosted glass sized to its
+// content, up to 90 % of the window, over a veil that blurs and tints the view. The veil fades in and the pane rises
+// 12 px; its parts arrive in reading order. Close or Esc reverses it: the pane sinks and fades with the veil, and focus
+// returns to the door the viewer pressed. A press on the veil does nothing, so nothing behind a dialog takes a click.
+// Each screen opened from a screen layers over it and blurs it in turn.
 import { useEffect, useEffectEvent, useRef, useState, type ReactNode } from 'react'
 import { X } from 'lucide-react'
 import { pushLayer, reduced } from '@/lib/layers'
@@ -11,19 +12,17 @@ import { StatusWord, type Status } from '@/components/system/status'
 
 export type ScreenHead = { kind: string; title: string; st?: Status; word?: string }
 
-/** The cue on every Close: the button names itself, and the Esc tag beside it says the key does the same. */
+/** The cue on every Close: the button names itself in a tracked word, the Esc tag beside it says the key does the
+ *  same, and the X sits in a round button that fills with the ink when pointed at. */
 export function CloseCue({ onClose, label = 'Close' }: { onClose(): void; label?: string }) {
   return (
-    <button
-      type="button"
-      data-close
-      onClick={onClose}
-      className="inline-flex items-center gap-2 rounded-base border border-teal bg-glass px-3 py-2 text-[12.5px]/none font-semibold tracking-[0.02em] transition-colors duration-(--dur-hover) hover:border-accent hover:text-accent focus-visible:border-accent focus-visible:text-accent focus-visible:outline-none"
-    >
-      <X className="h-3.5 w-3.5" aria-hidden="true" />
-      {label}
-      <span aria-hidden="true" className="rounded-chip border border-line px-1 py-[2px] font-mono text-[10px]/none font-medium tracking-[0.04em] text-dim">
+    <button type="button" data-close onClick={onClose} className="group inline-flex flex-none items-center gap-2.5 rounded-full focus-visible:outline-none">
+      <span className="eyebrow ink max-[480px]:sr-only">{label}</span>
+      <span aria-hidden="true" className="border border-line px-1.5 py-[3px] font-mono text-[10px]/none tracking-[0.04em] text-dim max-[480px]:hidden">
         Esc
+      </span>
+      <span aria-hidden="true" className="round group-hover:border-text group-hover:bg-text group-hover:text-ground group-focus-visible:border-text group-focus-visible:bg-text group-focus-visible:text-ground group-focus-visible:shadow-[0_0_0_2px_var(--focus)]">
+        <X size={17} strokeWidth={1.5} />
       </span>
     </button>
   )
@@ -42,7 +41,7 @@ export function ScreenDialog({ entry, depth, head, children }: { entry: OpenScre
     leaving.current = true
     const door = doorOf(entry.key)
     setPhase('out')
-    if (!reduced()) await new Promise((r) => setTimeout(r, 220))
+    if (!reduced()) await new Promise((r) => setTimeout(r, 280))
     close(entry.key)
     if (door instanceof HTMLElement && door.isConnected) door.focus({ preventScroll: true })
   }
@@ -61,33 +60,31 @@ export function ScreenDialog({ entry, depth, head, children }: { entry: OpenScre
       aria-modal="true"
       aria-labelledby={`${entry.key}-title`}
       style={{ zIndex: 14 + depth * 2 }}
-      className={`surface @container/frame fixed inset-0 overflow-y-auto ${phase === 'out' ? 'surface-out' : ''}`}
+      className={`veil fixed inset-0 grid place-items-center p-[clamp(8px,3vw,40px)] ${phase === 'out' ? 'out' : ''}`}
     >
-      <section
-        className={`mx-auto grid min-h-full max-w-[1240px] content-start gap-4 px-safe pt-[clamp(24px,5vh,56px)] pb-16 ${
-          phase === 'out' ? 'opacity-0 transition-opacity duration-160 ease-in' : 'arrive'
-        }`}
-      >
+      <div className="sheet flex max-h-[min(90dvh,100%)] w-[min(100%,1180px)] flex-col overflow-hidden">
         {/* the title on the left, the status then Close on the right; on a phone the title takes its own row under
             them, so it is never squeezed */}
-        <header className="grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-x-4 gap-y-2.5 border-b border-line pb-3">
-          <span className="col-start-3 row-start-1 justify-self-end">
+        <header className="grid flex-none grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-x-5 gap-y-3 px-[clamp(20px,4vw,52px)] pt-[clamp(20px,4vh,44px)] pb-5 max-[560px]:grid-cols-[minmax(0,1fr)_auto]">
+          <span className="col-start-3 row-start-1 justify-self-end max-[560px]:col-start-2">
             <CloseCue onClose={() => void leave()} />
           </span>
-          <div className="col-start-1 row-start-1 grid min-w-0 gap-0.5 @max-[560px]/frame:col-span-full @max-[560px]/frame:row-start-2">
-            <small className="text-[11.5px]/[1.3] font-semibold tracking-[0.1em] text-dim uppercase">{head.kind}</small>
-            <h1 id={`${entry.key}-title`} className="text-[28px]/[1.15] text-balance @max-[560px]/frame:text-[24px]">
+          <div className="col-start-1 row-start-1 grid min-w-0 gap-2 max-[560px]:col-span-full max-[560px]:row-start-2">
+            <small className="eyebrow">{head.kind}</small>
+            <h1 id={`${entry.key}-title`} className="text-[44px]/[1.05] max-[560px]:text-[32px]">
               {head.title}
             </h1>
           </div>
           {head.st && (
-            <StatusWord st={head.st} className="col-start-2 row-start-1 max-w-full justify-self-end whitespace-normal @max-[560px]/frame:col-start-1 @max-[560px]/frame:justify-self-start">
+            <StatusWord st={head.st} className="col-start-2 row-start-1 max-w-full justify-self-end whitespace-normal max-[560px]:col-start-1 max-[560px]:justify-self-start">
               {head.word}
             </StatusWord>
           )}
         </header>
-        {children}
-      </section>
+        <section className="@container/frame arrive grid min-h-0 flex-1 content-start gap-5 overflow-y-auto px-[clamp(20px,4vw,52px)] pt-2 pb-[clamp(24px,5vh,52px)]">
+          {children}
+        </section>
+      </div>
     </div>
   )
 }

@@ -1,173 +1,103 @@
-// Visual QA: screenshots of every main view and screen in each data state (fresh, partial, failed), in both themes,
-// at desktop and phone widths, into qa-out/. The items API is answered from fixtures, so no database is needed. Run
-// with the dev server up: `npm run dev`, then `npm run qa` (APP_URL overrides the address).
+// Visual QA for Northlight OS: screenshots of every view and screen, in both themes, at desktop and phone widths, plus a
+// guest action carried through to the operations view, and every design variant on Today. The OS runs on its own
+// example data (no API), reset before each pass. Run with the dev server up: `npm run dev`, then `npm run qa` (APP_URL
+// overrides the address). Images land in qa-out/.
 import { chromium } from '@playwright/test'
-import { mkdirSync } from 'node:fs'
+import { mkdirSync, readFileSync } from 'node:fs'
 
 const URL = process.env.APP_URL || 'http://localhost:5182'
 const OUT = 'qa-out'
 mkdirSync(OUT, { recursive: true })
+const VARIANTS = JSON.parse(readFileSync('src/design/variants.json', 'utf8')).map((v) => v.id)
 
-const day = (d) => `2026-10-${String(d).padStart(2, '0')} 09:00:00`
-const ITEMS = [
-  { id: 1, title: 'Supplier contract renewal', description: 'Renews January 1; pricing review due first', status: 'active', created_at: day(2), updated_at: day(27) },
-  { id: 2, title: 'Spring catalog photos', description: null, status: 'active', created_at: day(5), updated_at: day(21) },
-  { id: 3, title: 'Website accessibility audit', description: 'WCAG 2.1 AA pass on checkout', status: 'done', created_at: day(1), updated_at: day(19) },
-  { id: 4, title: 'Old price list', description: null, status: 'archived', created_at: day(1), updated_at: day(3) },
-]
-const DATA = { fresh: [], partial: ITEMS }
-
-async function stage(page, state) {
-  // only the API's own path: a glob would also catch the source module /src/lib/api/items.ts
-  await page.route((url) => url.pathname.startsWith('/api/items'), (route) => {
-    if (state === 'failed') return route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ error: 'Unavailable' }) })
-    const items = DATA[state]
-    return route.fulfill({ contentType: 'application/json', body: JSON.stringify({ items, total: items.length, limit: 50, offset: 0 }) })
-  })
-}
-
-async function fresh(page, theme, steps = [], nav = 'wedges', switches = false) {
+async function prime(page, theme, variant = 'northlight') {
   // a script error blanks the page; report it rather than shoot an empty frame
-  page.on('pageerror', (e) => console.error(`page error (${theme}): ${e.message}`))
-  await page.addInitScript(([theme, steps, nav, switches]) => {
-    localStorage.setItem('preferences', JSON.stringify({ state: { navStyle: nav, stateSwitches: switches, notificationsEnabled: true, reducedMotion: false, locale: 'en' }, version: 0 }))
+  page.on('pageerror', (e) => console.error(`page error (${theme}/${variant}): ${e.message}`))
+  await page.addInitScript(([theme, variant]) => {
+    if (sessionStorage.getItem('qa-primed')) return
+    sessionStorage.setItem('qa-primed', '1')
+    localStorage.setItem('preferences', JSON.stringify({ state: { navStyle: 'rail', stateSwitches: false, notificationsEnabled: true, reducedMotion: false, locale: 'en' }, version: 2 }))
     localStorage.setItem('theme', JSON.stringify({ state: { mode: theme }, version: 0 }))
-    localStorage.setItem('onboarding', JSON.stringify({ state: { completed: false, currentStep: 0, completedSteps: steps }, version: 0 }))
-    sessionStorage.clear()
-  }, [theme, steps, nav, switches])
+    localStorage.setItem('variant', JSON.stringify({ state: { id: variant }, version: 2 }))
+    localStorage.removeItem('northlight-os')
+    sessionStorage.removeItem('screens')
+  }, [theme, variant])
 }
 
-const settle = (page, ms = 900) => page.waitForTimeout(ms)
+const settle = (page, ms = 1100) => page.waitForTimeout(ms)
+const close = async (page) => { await page.keyboard.press('Escape'); await settle(page, 500) }
 
 const browser = await chromium.launch()
 try {
   for (const theme of ['light', 'dark']) {
     for (const [vw, vh, tag] of [[1440, 960, 'desk'], [390, 844, 'phone']]) {
-      const shot = async (page, name) => page.screenshot({ path: `${OUT}/${tag}-${theme}-${name}.png`, fullPage: true })
-      // a fresh account: no items, no steps done
-      {
-        const ctx = await browser.newContext({ viewport: { width: vw, height: vh } })
-        const page = await ctx.newPage()
-        await fresh(page, theme)
-        await stage(page, 'fresh')
-        await page.goto(`${URL}/app/dashboard`)
-        await settle(page)
-        await shot(page, '01-dashboard-fresh')
-        await page.goto(`${URL}/app/items`)
-        await settle(page)
-        await shot(page, '02-items-fresh')
-        await page.locator('[data-door="dial-tool"]').click()
-        await settle(page, 1200)
-        await shot(page, '12-dial-fresh')
-        await ctx.close()
-      }
-      // a partial account: four items, one step done
-      {
-        const ctx = await browser.newContext({ viewport: { width: vw, height: vh } })
-        const page = await ctx.newPage()
-        await fresh(page, theme, ['preferences'])
-        await stage(page, 'partial')
-        await page.goto(`${URL}/app/dashboard`)
-        await settle(page)
-        await shot(page, '03-dashboard-partial')
-        // a need's context grown over the set
-        await page.getByRole('button', { name: /^Context/ }).first().click()
-        await settle(page, 700)
-        await shot(page, '04-dashboard-context')
-        await page.keyboard.press('Escape')
-        await settle(page, 700)
-        await page.goto(`${URL}/app/items`)
-        await settle(page)
-        await shot(page, '05-items-partial')
-        // an item's screen grown from its row, then a confirm over it
-        await page.getByRole('button', { name: /Supplier contract renewal/ }).click()
-        await settle(page)
-        await shot(page, '06-item-screen')
-        await page.getByRole('button', { name: 'Delete item' }).click()
-        await settle(page, 500)
-        await shot(page, '07-item-confirm')
-        await page.keyboard.press('Escape')
-        await page.keyboard.press('Escape')
+      const ctx = await browser.newContext({ viewport: { width: vw, height: vh } })
+      const page = await ctx.newPage()
+      const shot = (name) => page.screenshot({ path: `${OUT}/${tag}-${theme}-${name}.png`, fullPage: true })
+      await prime(page, theme)
+      const view = async (path, name) => { await page.goto(`${URL}${path}`); await settle(page); await shot(name) }
+
+      await view('/app/today', '01-today')
+      await view('/app/guests', '02-guests')
+      await page.locator('[data-door="guest-g09"]').click()
+      await settle(page)
+      await shot('03-guest-screen')
+      await close(page)
+      await view('/app/retreats', '04-retreats')
+      await page.locator('[data-door="retreat-A41"]').first().click()
+      await settle(page)
+      await shot('05-retreat-screen')
+      await close(page)
+      await view('/app/reviews', '06-reviews')
+      await view('/app/care', '07-care')
+      await view('/app/portal', '08-portal')
+      await view('/app/blueprint', '09-blueprint-flow')
+      for (const [word, n] of [['Insights', 10], ['Systems today', 11], ['NL-OS target', 12], ['Discovery', 13]]) {
+        await page.getByRole('tab', { name: word }).click()
         await settle(page, 800)
-        await page.goto(`${URL}/app/dashboard`)
-        await settle(page)
-        await page.locator('[data-door="dial"]').click()
-        await settle(page, 1200)
-        await shot(page, '13-dial-partial')
-        await page.getByText('Activity', { exact: true }).hover()
-        await settle(page, 400)
-        await shot(page, '14-dial-hover')
-        await page.keyboard.press('Escape')
-        await settle(page, 800)
-        await page.locator('[data-door="design"]').click()
-        await settle(page, 1200)
-        await shot(page, '08-design-screen')
-        // every part in each of the other states, from the switch at the top
-        for (const [word, n] of [['Empty', '08b'], ['Loading', '08c'], ['Error', '08d']]) {
-          await page.getByRole('radiogroup', { name: 'Every part: state' }).getByRole('radio', { name: word }).click()
-          await settle(page, 600)
-          await shot(page, `${n}-design-${word.toLowerCase()}`)
-        }
-        await page.keyboard.press('Escape')
-        await settle(page, 800)
-        await page.locator('[data-door="profile"]').first().click()
-        await settle(page)
-        await shot(page, '09-profile-screen')
-        await page.keyboard.press('Escape')
-        await settle(page, 800)
-        await page.locator('[data-door="settings"]').first().click()
-        await settle(page)
-        await shot(page, '10-settings-screen')
-        await ctx.close()
+        await shot(`${n}-blueprint-${word.toLowerCase().replace(/[^a-z]+/g, '-')}`)
       }
-      // the rail instead of the wedge bar
-      {
-        const ctx = await browser.newContext({ viewport: { width: vw, height: vh } })
-        const page = await ctx.newPage()
-        await fresh(page, theme, ['preferences'], 'rail')
-        await stage(page, 'partial')
-        await page.goto(`${URL}/app/dashboard`)
-        await settle(page)
-        await page.locator('.rail-btn').nth(1).hover()
-        await settle(page, 400)
-        await shot(page, '15-rail-dashboard')
-        await page.locator('[data-door="rail-dial"]').click()
-        await settle(page, 1200)
-        await shot(page, '16-rail-dial')
-        await ctx.close()
-      }
-      // the state switches: the prototype opens on the Happy path; each view's switch moves it through its states
-      {
-        const ctx = await browser.newContext({ viewport: { width: vw, height: vh } })
-        const page = await ctx.newPage()
-        await fresh(page, theme, [], 'wedges', true)
-        await stage(page, 'fresh')
-        await page.goto(`${URL}/app/dashboard`)
-        await settle(page)
-        await shot(page, '17-switch-happy')
-        for (const word of ['Error', 'Loading']) {
-          await page.getByRole('radiogroup', { name: 'Dashboard: preview a state' }).getByRole('radio', { name: word }).click()
-          await settle(page, 600)
-          await shot(page, `17-switch-${word.toLowerCase()}`)
-        }
-        await page.locator('[data-door="dial-tool"]').click()
-        await settle(page, 1000)
-        await page.getByRole('radiogroup', { name: 'Bird’s-eye view: preview a state' }).getByRole('radio', { name: 'Error' }).click()
-        await settle(page, 800)
-        await shot(page, '18-dial-error')
-        await ctx.close()
-      }
-      // the API down
-      {
-        const ctx = await browser.newContext({ viewport: { width: vw, height: vh } })
-        const page = await ctx.newPage()
-        await fresh(page, theme)
-        await stage(page, 'failed')
-        await page.goto(`${URL}/app/dashboard`)
-        await settle(page, 2500)
-        await shot(page, '11-dashboard-failed')
-        await ctx.close()
-      }
+      await page.getByRole('tab', { name: 'Flow today' }).click()
+      await settle(page, 600)
+      await page.locator('[data-door="step-M8"]').click()
+      await settle(page)
+      await shot('14-step-screen')
+      await close(page)
+      await view('/app/design', '15-design')
+      await view('/app/settings', '16-settings')
+
+      // a guest action carried through: Ava pays in the portal, then shows as Preparing with a room
+      await page.goto(`${URL}/app/portal`)
+      await settle(page)
+      await page.locator('#as').selectOption('g07')
+      await settle(page, 500)
+      await page.getByRole('button', { name: 'Pay now' }).click()
+      await settle(page, 700)
+      await shot('17-portal-paid')
+      await page.goto(`${URL}/app/guests`)
+      await settle(page)
+      await page.getByRole('radio', { name: /^Preparing/ }).click()
+      await settle(page, 600)
+      await shot('18-guests-preparing')
+      // the clock: two days on, A41 starts and its guests move onto the retreat
+      await page.goto(`${URL}/app/today`)
+      await settle(page)
+      await page.getByRole('button', { name: /Next day/ }).click()
+      await page.getByRole('button', { name: /Next day/ }).click()
+      await settle(page, 700)
+      await shot('19-today-two-days-on')
+      await ctx.close()
+    }
+    // every variant on Today, desktop
+    for (const variant of VARIANTS) {
+      const ctx = await browser.newContext({ viewport: { width: 1440, height: 960 } })
+      const page = await ctx.newPage()
+      await prime(page, theme, variant)
+      await page.goto(`${URL}/app/today`)
+      await page.waitForLoadState('networkidle')
+      await settle(page, 1400)
+      await page.screenshot({ path: `${OUT}/variant-${theme}-${variant}.png`, fullPage: false })
+      await ctx.close()
     }
   }
   console.log(`Wrote screenshots to ${OUT}/`)

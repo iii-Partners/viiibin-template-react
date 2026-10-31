@@ -4,7 +4,7 @@
 // card's detail without leaving the view.
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
 import { Maximize2 } from 'lucide-react'
-import { pushLayer, reduced, EASE_OPEN } from '@/lib/layers'
+import { pushLayer, reduced, EASE_RISE } from '@/lib/layers'
 import { CloseCue } from '@/components/shell/screen-dialog'
 
 /** The control that opens a card's context. Put it inside the card, which carries `data-grow`. */
@@ -15,10 +15,10 @@ export function GrowButton({ count, onOpen }: { count?: number; onOpen(card: HTM
       data-grow-ctl
       aria-haspopup="dialog"
       onClick={(e) => onOpen(e.currentTarget.closest<HTMLElement>('[data-grow]') ?? e.currentTarget)}
-      className="inline-flex items-center gap-1.5 rounded-base px-2 py-1.5 text-[12.5px]/none font-medium text-dim transition-colors duration-(--dur-hover) hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+      className="explore !text-[10.5px] text-dim"
     >
       Context{count != null && <span className="tabular-nums">· {count}</span>}
-      <Maximize2 className="h-3 w-3" aria-hidden="true" />
+      <Maximize2 className="h-3 w-3" strokeWidth={1.6} aria-hidden="true" />
     </button>
   )
 }
@@ -50,7 +50,7 @@ export function GrowOver({ host, from, title, onClose, children }: { host: RefOb
     setStyle(from, 'visibility', 'hidden')
     el.querySelector<HTMLElement>('[data-close]')?.focus({ preventScroll: true })
     if (!reduced()) {
-      el.animate([{ ...rectOf() }, { left: '0px', top: '0px', width: `${wrap.clientWidth}px`, height: `${full}px` }], { duration: 440, easing: EASE_OPEN })
+      el.animate([{ ...rectOf() }, { left: '0px', top: '0px', width: `${wrap.clientWidth}px`, height: `${full}px` }], { duration: 440, easing: EASE_RISE })
       body.current?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, delay: 160, easing: 'ease-out', fill: 'backwards' })
     }
     // a second run (React's dev double effects) must measure the card at rest, not mid-grow
@@ -68,7 +68,7 @@ export function GrowOver({ host, from, title, onClose, children }: { host: RefOb
     const el = box.current!
     if (!reduced()) {
       await body.current?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, easing: 'ease-in', fill: 'forwards' }).finished
-      await el.animate([{ left: '0px', top: '0px', width: `${el.offsetWidth}px`, height: `${el.offsetHeight}px` }, rectOf()], { duration: 380, easing: EASE_OPEN, fill: 'forwards' }).finished
+      await el.animate([{ left: '0px', top: '0px', width: `${el.offsetWidth}px`, height: `${el.offsetHeight}px` }, rectOf()], { duration: 380, easing: EASE_RISE, fill: 'forwards' }).finished
     }
     setStyle(from, 'visibility', '')
     from.querySelector<HTMLElement>('[data-grow-ctl]')?.focus({ preventScroll: true })
@@ -78,10 +78,10 @@ export function GrowOver({ host, from, title, onClose, children }: { host: RefOb
   useEffect(() => pushLayer(() => onEsc()), [])
 
   return (
-    <div ref={box} role="dialog" aria-modal="false" aria-label={`Context: ${title}`} className="gm-folder @container absolute inset-x-0 top-0 z-5 min-h-full overflow-hidden px-5 pb-5 [--fold-pt:10px]">
-      <div ref={body} className="grid content-start gap-4">
+    <div ref={box} role="dialog" aria-modal="false" aria-label={`Context: ${title}`} className="panel @container absolute inset-x-0 top-0 z-5 min-h-full overflow-hidden !border-edge">
+      <div ref={body} className="grid content-start gap-5">
         <div className="flex items-start gap-3">
-          <span className="min-w-0 flex-1 pt-1 font-display text-[19px]/[1.35] tracking-[-0.01em]">{title}</span>
+          <span className="min-w-0 flex-1 pt-1 font-display text-[24px]/[1.2] font-light">{title}</span>
           <CloseCue onClose={() => void close()} />
         </div>
         {children}
