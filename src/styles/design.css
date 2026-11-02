@@ -181,6 +181,7 @@
 @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes menu-in { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes menu-up { from { opacity: 0; transform: translateY(4px) scale(0.98); } to { opacity: 1; transform: none; } }
 @keyframes fade-out { to { opacity: 0; } }
 @keyframes rise { from { opacity: 0; transform: translateY(12px) scale(0.985); } to { opacity: 1; transform: none; } }
 @keyframes sink { to { opacity: 0; transform: translateY(8px) scale(0.99); } }
@@ -253,7 +254,7 @@
   .rail-group { display: flex; flex-direction: column; gap: 4px; }
   .rail-rule { display: block; width: 22px; height: 1px; margin: 6px 0; background: var(--rail-rule); }
   .rail-foot { margin-top: auto; }
-  .rail-btn { color: var(--rail-dim); border: 1.5px solid transparent; transition: color var(--dur-hover) ease, background var(--dur-hover) ease; }
+  .rail-btn { flex: none; width: 40px; height: 40px; color: var(--rail-dim); border: 1.5px solid transparent; transition: color var(--dur-hover) ease, background var(--dur-hover) ease; }
   .rail-btn:hover, .rail-btn:focus-visible { color: var(--rail-fg); background: var(--rail-hover); outline: none; }
   .rail-btn:focus-visible { box-shadow: 0 0 0 2px var(--focus); }
   .rail-btn.rail-on { color: var(--rail-ink); background: var(--rail-on-bg); box-shadow: var(--rail-on-shadow); }
@@ -262,6 +263,7 @@
     font: var(--label-weight) 10.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--rail-tip-fg); background: var(--rail-tip-bg); box-shadow: var(--shadow-float);
     opacity: 0; transform: translate(-6px, -50%); pointer-events: none; transition: opacity 200ms ease, transform 260ms var(--ease-rise); }
   .rail-btn:hover .rail-tip, .rail-btn:focus-visible .rail-tip { opacity: 1; transform: translate(0, -50%); }
+  .rail-more { display: none; }
   /* on a phone the rail lies along the bottom, in reach of the thumb; tips rise above the icons */
   @media (max-width: 720px) {
     .rail { flex-direction: row; justify-content: space-between; height: auto; width: 100%; padding: 6px 10px; }
@@ -272,7 +274,15 @@
     .rail { justify-content: flex-start; gap: 2px; overflow-x: auto; scrollbar-width: none; }
     .rail-tip { left: 50%; top: auto; bottom: calc(100% + 12px); transform: translate(-50%, 6px); }
     .rail-btn:hover .rail-tip, .rail-btn:focus-visible .rail-tip { transform: translate(-50%, 0); }
+    /* the main views spread across the bar; the rest wait in More */
+    .rail { justify-content: space-between; gap: 0; padding: 6px 8px; overflow: visible; }
+    .rail-group { display: contents; }
+    .rail-rule, .rail-own, .rail-foot, .rail-tucked { display: none; }
+    .rail-btn { flex: 0 1 38px; min-width: 30px; width: auto; height: auto; aspect-ratio: 1; }
+    .rail-more { display: grid; }
   }
+  /* a menu that opens upward rises into place instead of dropping */
+  .menu[data-side="top"][data-state="open"] { animation: menu-up 200ms var(--ease-rise) both; }
 
   /* the state switch: a small pill of words above a part's top right, a prototype tool; the picked state fills ink */
   .state-switch { display: flex; gap: 2px; padding: 3px; border-radius: var(--pill-radius); background: var(--switch-track); box-shadow: inset 0 0 0 1px var(--line); }
