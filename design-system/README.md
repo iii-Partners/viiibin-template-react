@@ -37,9 +37,11 @@ Northlight is the variant the app wears by default. It keeps every rule below an
 white, depth from shadow instead of lines, and light that lives at the window's edges. Use it as the reference when you
 build.
 
-- **Porcelain and pearl.** The ground is porcelain `#f8f6f2` under a faint dawn wash (`ground-image`); panels are pearl
-  `#fefdfb` at 80 % (`panel-opacity`), so the wash and the light show faintly through them. The rail is the same pearl,
-  frosted. Night mode is a violet night (`#15121f`) with the same layering.
+- **Porcelain and white.** The ground is porcelain `#f8f6f2` under a faint dawn wash (`ground-image`); panels are solid
+  white `#ffffff`, so each shape reads clearly against the ground. The rail is pearl `#fefdfb`, frosted. A dialog's
+  sheet is a near-solid porcelain tray (`sheet-bg`) lifted on a soft shadow (`sheet-shadow`) over a light gray-violet
+  veil, so the white panels inside it stand clear of the tray and the tray stands clear of the view behind. Night mode is
+  a violet night (`#15121f`) with the same layering.
 - **Depth from shadow.** Panels lift on a soft two-layer shadow (`panel-shadow`) and keep only a faint hairline. The open
   view on the rail sits raised on four layered shadows, from a tight contact shadow to a wide, faintly rose ambient one
   (`rail-on-shadow`); it has no ring.

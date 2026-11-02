@@ -193,8 +193,8 @@
    veil that blurs and tints what is behind it. The veil fades in; the sheet rises 12 px. Leaving, both fade. */
 .veil { background: var(--veil); -webkit-backdrop-filter: blur(10px) saturate(1.1); backdrop-filter: blur(10px) saturate(1.1); animation: fade-in var(--dur-dialog) ease both; }
 .veil.out { animation: fade-out var(--dur-leave) ease both; }
-.sheet { position: relative; background: color-mix(in srgb, var(--ground) 84%, transparent); -webkit-backdrop-filter: blur(24px) saturate(1.15); backdrop-filter: blur(24px) saturate(1.15);
-  border: 1px solid color-mix(in srgb, var(--text) 12%, transparent); border-radius: var(--panel-radius); animation: rise var(--dur-dialog) var(--ease-rise) both; }
+.sheet { position: relative; background: var(--sheet-bg); -webkit-backdrop-filter: blur(24px) saturate(1.15); backdrop-filter: blur(24px) saturate(1.15);
+  border: 1px solid var(--sheet-edge); border-radius: var(--panel-radius); box-shadow: var(--sheet-shadow); animation: rise var(--dur-dialog) var(--ease-rise) both; }
 .veil.out .sheet { animation: sink var(--dur-leave) ease both; }
 @media (prefers-reduced-motion: reduce) { .veil, .veil.out, .sheet, .veil.out .sheet { animation: none; } }
 
