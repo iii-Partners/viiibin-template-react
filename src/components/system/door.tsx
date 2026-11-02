@@ -18,7 +18,7 @@ export function Door({ id, name, st, word, n, icon: Icon, onOpen, className }: {
       className={`grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-4 !p-5 ${className ?? ''}`}
     >
       <span className="grid min-w-0 gap-1.5">
-        <span className="font-display leading-[1.15] font-light break-words" style={{ fontSize: 'calc(22px * var(--display-scale))' }}>{name}</span>
+        <span className="font-display leading-[1.15] font-title break-words" style={{ fontSize: 'calc(22px * var(--display-scale))' }}>{name}</span>
         {st ? <StatusWord st={st} className="!whitespace-normal">{word}</StatusWord> : <span className="text-[13px]/[1.35] text-dim">{word}</span>}
       </span>
       <span className="grid h-10 w-10 place-items-center rounded-full border border-edge text-text" aria-hidden="true">

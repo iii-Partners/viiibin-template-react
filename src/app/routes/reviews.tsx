@@ -25,7 +25,7 @@ function Review({ g }: { g: Guest }) {
     <Panel className="gap-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="grid gap-1">
-          <button type="button" className="text-left font-display text-[26px]/[1.15] font-light underline decoration-transparent underline-offset-4 hover:decoration-line" onClick={(e) => openScreen('guest', { id: g.id }, e.currentTarget)}>
+          <button type="button" className="text-left font-display text-[26px]/[1.15] font-title underline decoration-transparent underline-offset-4 hover:decoration-line" onClick={(e) => openScreen('guest', { id: g.id }, e.currentTarget)}>
             {g.name}
           </button>
           <span className="text-[13px] text-dim">
@@ -36,7 +36,7 @@ function Review({ g }: { g: Guest }) {
       </div>
       <div className="grid gap-3 border-t border-line pt-4">
         <span className="eyebrow">Application summary</span>
-        <p className="text-[15px]/[1.6] font-light">{g.medical.summary}</p>
+        <p className="text-[15px]/[1.6] font-text">{g.medical.summary}</p>
         {!!g.medical.flags?.length && (
           <ul className="m-0 grid list-none gap-1.5 p-0">
             {g.medical.flags.map((f) => <li key={f}><StatusWord st="risk">{f}</StatusWord></li>)}

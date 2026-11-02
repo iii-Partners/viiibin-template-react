@@ -123,6 +123,10 @@
 }
 :root {
   --font-weight-light: 300;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 999px;
   --pill-pad-x: 22px;
   --pill-weight: 400;
@@ -270,7 +274,7 @@
   font-family: var(--font-display);
   font-size: 22px;
   line-height: 30px;
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-lead, 300);
   letter-spacing: var(--display-tracking, -0.005em);
   text-transform: var(--display-case);
   font-style: var(--display-style);
@@ -279,7 +283,7 @@
   font-family: var(--font-display);
   font-size: 26px;
   line-height: 31px;
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-title, 300);
   letter-spacing: var(--display-tracking, -0.005em);
   text-transform: var(--display-case);
   font-style: var(--display-style);
@@ -297,7 +301,7 @@
   font-family: var(--font-body);
   font-size: 11.5px;
   line-height: 16px;
-  font-weight: 400;
+  font-weight: var(--label-weight, 400);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -312,7 +316,7 @@
   font-family: var(--font-body);
   font-size: 17px;
   line-height: 27px;
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-text, 300);
   letter-spacing: 0;
 }
 @utility type-body {
@@ -354,6 +358,10 @@
   --font-label: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
   --font-lead: Newsreader, 'Iowan Old Style', Georgia, serif;
   --font-weight-light: 300;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 999px;
   --pill-pad-x: 22px;
   --pill-weight: 400;
@@ -491,18 +499,22 @@
 }
 /* Northlight: Cream panels on white and a sun-gradient hairline (#ebc913 → #e77103 → #dc3286 → #8f6ab7 → #8bb1d3), with ambient light at the edges. */
 :root[data-variant="northlight"], [data-variant-scope="northlight"] {
-  --font-display: Jost, system-ui, sans-serif;
-  --font-body: Jost, system-ui, sans-serif;
-  --font-mono: Jost, system-ui, sans-serif;
-  --font-figure: Jost, system-ui, sans-serif;
-  --font-label: Jost, system-ui, sans-serif;
-  --font-lead: Jost, system-ui, sans-serif;
+  --font-display: Inter, system-ui, sans-serif;
+  --font-body: Inter, system-ui, sans-serif;
+  --font-mono: Inter, system-ui, sans-serif;
+  --font-figure: Inter, system-ui, sans-serif;
+  --font-label: Inter, system-ui, sans-serif;
+  --font-lead: Inter, system-ui, sans-serif;
   --font-weight-light: 300;
+  --font-weight-title: 400;
+  --font-weight-lead: 350;
+  --font-weight-text: 400;
+  --label-weight: 500;
   --pill-radius: 999px;
   --pill-pad-x: 26px;
   --pill-weight: 500;
   --panel-radius: 16px;
-  --label-tracking: 0.18em;
+  --label-tracking: 0.12em;
   --display-tracking: -0.01em;
   --display-case: none;
   --display-style: normal;
@@ -517,9 +529,9 @@
 }
 :root[data-variant="northlight"]:not(.dark), :root:not(.dark) [data-variant-scope="northlight"] {
   --ground: #ffffff;
-  --panel: #f8f7f5;
+  --panel: #fbf7f8;
   --wash: #edebe8;
-  --band: #f8f7f5;
+  --band: #fbf7f8;
   --line: #e4e1dc;
   --edge: #8a867e;
   --text: #2b2d33;
@@ -644,6 +656,10 @@
   --font-label: 'Source Sans 3', system-ui, sans-serif;
   --font-lead: Newsreader, 'Iowan Old Style', Georgia, serif;
   --font-weight-light: 400;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 0px;
   --pill-pad-x: 44px;
   --pill-weight: 400;
@@ -788,6 +804,10 @@
   --font-label: 'Barlow Semi Condensed', system-ui, sans-serif;
   --font-lead: Newsreader, 'Iowan Old Style', Georgia, serif;
   --font-weight-light: 400;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 999px;
   --pill-pad-x: 22px;
   --pill-weight: 600;
@@ -932,6 +952,10 @@
   --font-label: 'DM Sans', system-ui, sans-serif;
   --font-lead: Newsreader, 'Iowan Old Style', Georgia, serif;
   --font-weight-light: 200;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 999px;
   --pill-pad-x: 22px;
   --pill-weight: 400;
@@ -1076,6 +1100,10 @@
   --font-label: Manrope, system-ui, sans-serif;
   --font-lead: Manrope, system-ui, sans-serif;
   --font-weight-light: 300;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 0px;
   --pill-pad-x: 22px;
   --pill-weight: 400;
@@ -1220,6 +1248,10 @@
   --font-label: Mulish, system-ui, sans-serif;
   --font-lead: Mulish, system-ui, sans-serif;
   --font-weight-light: 400;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 2px;
   --pill-pad-x: 22px;
   --pill-weight: 400;
@@ -1364,6 +1396,10 @@
   --font-label: 'Josefin Sans', system-ui, sans-serif;
   --font-lead: Raleway, system-ui, sans-serif;
   --font-weight-light: 300;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 0px;
   --pill-pad-x: 22px;
   --pill-weight: 600;
@@ -1508,6 +1544,10 @@
   --font-label: Jost, system-ui, sans-serif;
   --font-lead: Newsreader, 'Iowan Old Style', Georgia, serif;
   --font-weight-light: 300;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 0px;
   --pill-pad-x: 22px;
   --pill-weight: 700;
@@ -1652,6 +1692,10 @@
   --font-label: 'Albert Sans', system-ui, sans-serif;
   --font-lead: Newsreader, 'Iowan Old Style', Georgia, serif;
   --font-weight-light: 300;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 999px;
   --pill-pad-x: 22px;
   --pill-weight: 400;
@@ -1796,6 +1840,10 @@
   --font-label: Inter, system-ui, sans-serif;
   --font-lead: Inter, system-ui, sans-serif;
   --font-weight-light: 300;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 4px;
   --pill-pad-x: 22px;
   --pill-weight: 400;
@@ -1940,6 +1988,10 @@
   --font-label: 'Josefin Sans', system-ui, sans-serif;
   --font-lead: Montserrat, system-ui, sans-serif;
   --font-weight-light: 300;
+  --font-weight-title: var(--font-weight-light);
+  --font-weight-lead: var(--font-weight-light);
+  --font-weight-text: var(--font-weight-light);
+  --label-weight: 400;
   --pill-radius: 36px;
   --pill-pad-x: 22px;
   --pill-weight: 400;

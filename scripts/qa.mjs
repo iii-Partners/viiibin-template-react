@@ -1,27 +1,25 @@
 // Visual QA for Northlight OS: screenshots of every view and screen, in both themes, at desktop and phone widths, plus a
-// guest action carried through to the operations view, and every design variant on Today. The OS runs on its own
-// example data (no API), reset before each pass. Run with the dev server up: `npm run dev`, then `npm run qa` (APP_URL
+// guest action carried through to the operations view. The app always wears Northlight, so there is no variant to
+// loop over. The OS runs on its own example data (no API), reset before each pass. Run with the dev server up: `npm run dev`, then `npm run qa` (APP_URL
 // overrides the address). Images land in qa-out/.
 import { chromium } from '@playwright/test'
-import { mkdirSync, readFileSync } from 'node:fs'
+import { mkdirSync } from 'node:fs'
 
 const URL = process.env.APP_URL || 'http://localhost:5182'
 const OUT = 'qa-out'
 mkdirSync(OUT, { recursive: true })
-const VARIANTS = JSON.parse(readFileSync('src/design/variants.json', 'utf8')).map((v) => v.id)
 
-async function prime(page, theme, variant = 'northlight') {
+async function prime(page, theme) {
   // a script error blanks the page; report it rather than shoot an empty frame
-  page.on('pageerror', (e) => console.error(`page error (${theme}/${variant}): ${e.message}`))
-  await page.addInitScript(([theme, variant]) => {
+  page.on('pageerror', (e) => console.error(`page error (${theme}): ${e.message}`))
+  await page.addInitScript((theme) => {
     if (sessionStorage.getItem('qa-primed')) return
     sessionStorage.setItem('qa-primed', '1')
     localStorage.setItem('preferences', JSON.stringify({ state: { navStyle: 'rail', stateSwitches: false, notificationsEnabled: true, reducedMotion: false, locale: 'en' }, version: 2 }))
     localStorage.setItem('theme', JSON.stringify({ state: { mode: theme }, version: 0 }))
-    localStorage.setItem('variant', JSON.stringify({ state: { id: variant }, version: 2 }))
     localStorage.removeItem('northlight-os')
     sessionStorage.removeItem('screens')
-  }, [theme, variant])
+  }, theme)
 }
 
 const settle = (page, ms = 1100) => page.waitForTimeout(ms)
@@ -90,17 +88,6 @@ try {
       await page.getByRole('button', { name: /Next day/ }).click()
       await settle(page, 700)
       await shot('19-today-two-days-on')
-      await ctx.close()
-    }
-    // every variant on Today, desktop
-    for (const variant of VARIANTS) {
-      const ctx = await browser.newContext({ viewport: { width: 1440, height: 960 } })
-      const page = await ctx.newPage()
-      await prime(page, theme, variant)
-      await page.goto(`${URL}/app/today`)
-      await page.waitForLoadState('networkidle')
-      await settle(page, 1400)
-      await page.screenshot({ path: `${OUT}/variant-${theme}-${variant}.png`, fullPage: false })
       await ctx.close()
     }
   }

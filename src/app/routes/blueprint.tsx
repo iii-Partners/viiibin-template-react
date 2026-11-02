@@ -80,7 +80,7 @@ function Flow() {
                       </span>
                       <span className="flex items-center gap-3">
                         {absorbed.has(id) && <StatusWord st="done" className="!text-[11.5px]">Taken over</StatusWord>}
-                        {s.note && <Tip label={s.note}><span className="text-[11px] tracking-[0.1em] text-watch uppercase">Note</span></Tip>}
+                        {s.note && <Tip label={s.note}><span className="font-caps text-[11px] tracking-[0.1em] text-watch uppercase">Note</span></Tip>}
                         <ArrowRight size={14} strokeWidth={1.4} className="text-dim transition-transform group-hover:translate-x-1" aria-hidden="true" />
                       </span>
                     </StepLink>
@@ -130,7 +130,7 @@ function Insights() {
         {INSIGHTS.map((ins) => (
           <Panel key={ins.id} as="button" type="button" live data-door={`insight-${ins.id}`} onClick={(e: React.MouseEvent<HTMLButtonElement>) => openScreen('insight', { id: ins.id }, e.currentTarget)} className="content-start gap-3">
             <span className="flex items-center justify-between gap-3"><Chip st={INSIGHT_ST[ins.kind]}>{ins.kind}</Chip><code className="font-mono text-[11.5px] text-dim">{ins.id}</code></span>
-            <span className="font-display text-[22px]/[1.2] font-light">{ins.title}</span>
+            <span className="font-display text-[22px]/[1.2] font-title">{ins.title}</span>
             <span className="text-[13.5px]/[1.55] text-dim">{ins.answer}</span>
           </Panel>
         ))}
@@ -212,7 +212,7 @@ function Cvos() {
         <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))' }}>
           {CVOS.vendors.map((v) => (
             <Panel key={v.name} className="content-start gap-2 !p-5">
-              <span className="flex items-baseline justify-between gap-2"><span className="font-display text-[20px] font-light">{v.name}</span><code className="font-mono text-[11px] text-dim">{v.module}</code></span>
+              <span className="flex items-baseline justify-between gap-2"><span className="font-display text-[20px] font-title">{v.name}</span><code className="font-mono text-[11px] text-dim">{v.module}</code></span>
               <span className="text-[13px]/[1.5] text-dim">{v.role}</span>
               <StatusWord st={v.onStack ? 'ok' : 'paused'} className="!text-[11.5px]">{v.onStack ? 'On today’s stack list' : 'Not on the stack list'}</StatusWord>
             </Panel>
@@ -229,9 +229,9 @@ function Cvos() {
         <div className="grid gap-4" style={{ gridTemplateColumns: 'var(--layout-plates)' }}>
           {WISHES.map((w) => (
             <Panel key={w.title} className="content-start gap-2 !p-5">
-              <span className="font-display text-[20px]/[1.2] font-light">{w.title}</span>
+              <span className="font-display text-[20px]/[1.2] font-title">{w.title}</span>
               <span className="text-[13.5px]/[1.55] text-dim">{w.body} {w.replaces}</span>
-              <span className="pt-1 text-[11px] tracking-[0.12em] text-accent uppercase">In this prototype: {w.where}</span>
+              <span className="pt-1 font-caps text-[11px] tracking-[0.12em] text-accent uppercase">In this prototype: {w.where}</span>
             </Panel>
           ))}
         </div>
@@ -253,7 +253,7 @@ function Discovery() {
         {SESSIONS.filter((s) => s.questions.length).map((s) => (
           <Panel key={s.n} as="button" type="button" live data-door={`session-${s.n}`} onClick={(e: React.MouseEvent<HTMLButtonElement>) => openScreen('session', { n: s.n }, e.currentTarget)} className="content-start gap-2 !p-5">
             <span className="eyebrow">Discovery {s.n}/6{s.state === 'next' ? ' · up next' : ''}</span>
-            <span className="font-display text-[22px]/[1.2] font-light">{s.name}</span>
+            <span className="font-display text-[22px]/[1.2] font-title">{s.name}</span>
             <span className="text-[13px] text-dim">{s.questions.length} questions · {s.deliverables.length} deliverables</span>
           </Panel>
         ))}
@@ -263,7 +263,7 @@ function Discovery() {
           {SCOPE_DECISIONS.map((d) => (
             <Panel key={d.title} className="gap-2 !p-5">
               <StatusWord st="pending">{d.kind}</StatusWord>
-              <b className="font-display text-[20px]/[1.25] font-light">{d.title}</b>
+              <b className="font-display text-[20px]/[1.25] font-title">{d.title}</b>
               <p className="text-[13.5px]/[1.55] text-dim">{d.body}</p>
               <button type="button" className="explore w-fit !text-[10.5px]" onClick={(e) => openScreen('session', { n: d.session }, e.currentTarget)}>Discovery {d.session}/6 <ArrowRight size={13} strokeWidth={1.5} aria-hidden="true" /></button>
             </Panel>
@@ -273,7 +273,7 @@ function Discovery() {
           {OBSERVATIONS.map((o) => (
             <Panel key={o.title} className="gap-2 !p-5">
               <StatusWord st={o.kind === 'Conflict' ? 'blocked' : o.kind === 'Opportunity' ? 'ok' : 'risk'}>{o.kind}</StatusWord>
-              <b className="font-display text-[20px]/[1.25] font-light">{o.title}</b>
+              <b className="font-display text-[20px]/[1.25] font-title">{o.title}</b>
               <p className="text-[13.5px]/[1.55] text-dim">{o.body}</p>
             </Panel>
           ))}

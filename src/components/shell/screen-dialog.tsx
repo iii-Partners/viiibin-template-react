@@ -2,7 +2,8 @@
 // content, up to 90 % of the window, over a veil that blurs and tints the view. The veil fades in and the pane rises
 // 12 px; its parts arrive in reading order. Close or Esc reverses it: the pane sinks and fades with the veil, and focus
 // returns to the door the viewer pressed. A press on the veil does nothing, so nothing behind a dialog takes a click.
-// Each screen opened from a screen layers over it and blurs it in turn.
+// Each screen opened from a screen layers over it and blurs it in turn. A form takes the side form: a full-height panel
+// that slides in from the right edge, so the view it adds to stays in sight.
 import { useEffect, useEffectEvent, useRef, useState, type ReactNode } from 'react'
 import { X } from 'lucide-react'
 import { pushLayer, reduced } from '@/lib/layers'
@@ -28,7 +29,7 @@ export function CloseCue({ onClose, label = 'Close' }: { onClose(): void; label?
   )
 }
 
-export function ScreenDialog({ entry, depth, head, children }: { entry: OpenScreen; depth: number; head: ScreenHead; children: ReactNode }) {
+export function ScreenDialog({ entry, depth, head, side = false, children }: { entry: OpenScreen; depth: number; head: ScreenHead; side?: boolean; children: ReactNode }) {
   const close = useScreens((s) => s.close)
   const veil = useRef<HTMLDivElement>(null)
   // in: the parts arrive; out: they and the blur fade
@@ -60,9 +61,9 @@ export function ScreenDialog({ entry, depth, head, children }: { entry: OpenScre
       aria-modal="true"
       aria-labelledby={`${entry.key}-title`}
       style={{ zIndex: 14 + depth * 2 }}
-      className={`veil fixed inset-0 grid place-items-center p-[clamp(8px,3vw,40px)] ${phase === 'out' ? 'out' : ''}`}
+      className={`veil fixed inset-0 grid ${side ? 'side justify-items-end p-[clamp(8px,1.5vw,16px)]' : 'place-items-center p-[clamp(8px,3vw,40px)]'} ${phase === 'out' ? 'out' : ''}`}
     >
-      <div className="sheet flex max-h-[min(90dvh,100%)] w-[min(100%,1180px)] flex-col overflow-hidden">
+      <div className={`sheet flex flex-col overflow-hidden ${side ? 'h-full w-[min(100%,520px)]' : 'max-h-[min(90dvh,100%)] w-[min(100%,1180px)]'}`}>
         {/* the title on the left, the status then Close on the right; on a phone the title takes its own row under
             them, so it is never squeezed */}
         <header className="grid flex-none grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-x-5 gap-y-3 px-[clamp(20px,4vw,52px)] pt-[clamp(20px,4vh,44px)] pb-5 max-[560px]:grid-cols-[minmax(0,1fr)_auto]">
@@ -71,7 +72,7 @@ export function ScreenDialog({ entry, depth, head, children }: { entry: OpenScre
           </span>
           <div className="col-start-1 row-start-1 grid min-w-0 gap-2 max-[560px]:col-span-full max-[560px]:row-start-2">
             <small className="eyebrow">{head.kind}</small>
-            <h1 id={`${entry.key}-title`} className="text-[44px]/[1.05] max-[560px]:text-[32px]">
+            <h1 id={`${entry.key}-title`} className={side ? 'text-[34px]/[1.1]' : 'text-[44px]/[1.05] max-[560px]:text-[32px]'}>
               {head.title}
             </h1>
           </div>

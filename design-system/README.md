@@ -10,7 +10,7 @@ Two places show you everything:
 
 - **The catalog** (`src/design/catalog.tsx`) lists every part with its import, when to use it, and how it renders in its
   four states. Read it in code.
-- **The Design system screen** (the palette on the rail) renders the catalog and the design variants.
+- **The Design system screen** (the palette on the rail) renders the catalog and the layers.
   Each part has a switch for its four states, and one switch at the top sets them all.
 
 ## What the system looks like
@@ -33,12 +33,12 @@ The deck reads as calm and expensive, and it gets that from restraint. The app k
 
 ## Northlight, the default look
 
-Northlight is the variant the app wears by default. It keeps every rule below and adds a softer surface: layers of warm
-white, depth from shadow instead of lines, and light that lives at the window's edges. Use it as the reference when you
-build.
+Northlight is the look the app always wears; the app has no switch to another variant. It keeps every rule below and
+adds a softer surface: layers of warm white, depth from shadow instead of lines, and light that lives at the window's
+edges. Use it as the reference when you build.
 
 - **White and cream.** The ground is white `#ffffff` under a faint dawn wash (`ground-image`); panels are a soft,
-  nearly neutral cream `#f8f7f5`, so each shape reads clearly against the ground. The rail is pearl `#fefdfb`, frosted. A
+  blush-white `#fbf7f8`, so each shape reads clearly against the ground. The rail is pearl `#fefdfb`, frosted. A
   dialog's sheet is a near-solid white tray (`sheet-bg`) lifted on a soft shadow (`sheet-shadow`) over a light
   gray-violet veil, so the cream panels inside it stand clear of the tray and the tray stands clear of the view behind.
   Night mode is a violet night (`#15121f`) with the same layering.
@@ -47,13 +47,24 @@ build.
   (`rail-on-shadow`); it has no ring.
 - **Soft shapes.** Panels and dialogs take 16 px corners (`panel-radius`); fields take 60 % of that. Buttons are pills;
   icon buttons are circles.
-- **Type.** One face, Jost (the `label` family), for everything: headings and figures at its light weight, reading text,
-  tracked capitals (0.18em) and codes. Its italic marks the one emphasized word in a heading.
+- **Type.** One face, Inter (the `label` family), for everything, in four weights that rise as the type gets smaller:
+  - *300* (`font-weight-light`) for view and dialog titles (32 px and up) and every figure. Inter light holds its shape at
+    that size.
+  - *350* (`font-weight-lead`) for the lead sentence under a view's title, so the 22 px dim line stays calm and still
+    reads.
+  - *400* for mid-size titles of 18 to 26 px (`font-weight-title`: panel titles, door names, list-row names) and for all
+    reading text (`font-weight-text` and the body). At 300 these titles read lighter than the 13 to 15 px text under
+    them.
+  - *500* for the tracked capitals (`label-weight`: section heads, labels, chips, nav words, the state switch) and button
+    text (`pill-weight`). They track at 0.12em (`label-tracking`): Inter is wider than Jost, so 0.18em pulled the
+    letters apart.
+
+  Its italic marks the one emphasized word in a heading.
 - **One thread of color.** A fine sun-gradient hairline (yellow, orange, magenta, violet, sky) marks only the primary
   action (`go-ring` around a `go-fill` face), with a faint rose and amber glow under it on hover. The ring turns so its
   rose faces the cursor (`src/components/shell/turning-ring.tsx` sets `--go-angle` on each `.pill.go`); under reduced
   motion or without a mouse it rests at 210°. Everything else is ink on white.
-- **Ambient light** (`src/components/shell/ambient.tsx`, on when a variant sets `glow-on: 1`):
+- **Ambient light** (`src/components/shell/ambient.tsx`, on because Northlight sets `glow-on: 1`):
   - *The edge glow* sits beneath every element, in the nine `glow-*` brand colors turning slowly around the frame. Its
     reach is 6 to 12 % of the window's short side (capped at 110 px), and its light falls away over 3.2 times that. It measures distance with a smooth minimum of the
     four edges, so the corners blend along a rounded curve, and it fades by opacity alone over a long cubic tail, so no
@@ -87,7 +98,9 @@ build.
    per panel. Mustard marks only what waits on the viewer (the Needs you diamond). Ocean
    blue is the hover color and the Done color. Lagoon is the focus ring.
 6. **Type stays light.** Headings and figures are Newsreader 300, never bold; one italic word is the only emphasis a
-   heading takes. Figures set `.figure` (lining, tabular numerals).
+   heading takes. Figures set `.figure` (lining, tabular numerals). A mid-size title (18 to 26 px) sets `font-title`,
+   reading text that would be light sets `font-text`, and a hand-set tracked capital sets `font-caps`, so each variant
+   can weight them apart from its display type.
 7. **Light is the default.** Dark applies only when the viewer picks it.
 8. **Motion moves only transform and opacity,** and settles at once under reduced motion. Nothing loops except the
    breathing of a part while it loads.
@@ -145,7 +158,9 @@ states.
 **Add a screen** (a record, a form, a detail). Add its id to `ScreenId` in `src/stores/screens.ts`. Add its head and
 body to `SCREENS` in `src/app/screens/index.tsx`. Open it from a door or a row with
 `openScreen(id, params, event.currentTarget)`. The screen dialog gives it the blur, the Close cue, Esc, focus return and
-layering.
+layering. Give a form `side: true`: it opens as a full-height panel that slides in from the right, so the view it adds to
+stays in sight (New inquiry on Guests). A view never holds a form inline; it opens the form from a primary button in its
+head.
 
 **Add a part.** Build it in `src/components/system`, export it from `src/components/system/index.ts`, and add it to the
 catalog with all four states. `npm test` renders every catalog part in every state and fails if one is missing.
@@ -155,16 +170,18 @@ catalog with all four states. `npm test` renders every catalog part in every sta
 route through `RailView` in `src/app/router.tsx` and a button in `src/components/shell/rail.tsx`. To bring back the
 header pill, let `navStyle` be `'bar'` again in `src/stores/preferences.ts` (its migration forces the rail today).
 
-**The Northlight variant.** Northlight is the default look (`src/stores/variant.ts`) and the one to build against; see
-*Northlight, the default look* above for its rules. Its values live in `tokens.json` under `variants.list`, id
-`northlight`.
+**The Northlight variant.** Northlight is the only look the app wears and the one to build against; see
+*Northlight, the default look* above for its rules. `src/stores/variant.ts` sets `<html data-variant="northlight">` and
+loads its fonts before the first paint, and it deletes any variant an earlier build saved in localStorage. The app has
+no variant picker. Its values live in `tokens.json` under `variants.list`, id `northlight`.
 
-**Add or change a design variant.** Variants live in `design-system/tokens.json` under `variants.list`: colors for light
-and dark (any token may be overridden; the rest come from the base), font families (`display`, `body`, `figure`,
+**Change Northlight's tokens.** Variants live in `design-system/tokens.json` under `variants.list`: colors for light and
+dark (any token may be overridden; the rest come from the base), font families (`display`, `body`, `figure`,
 `label`, `lead`), the shape variables under `shape` (button and panel radius, label tracking, heading case, style and
-scale) and motion timings, and `fonts`, the Google Fonts query loaded the first time the variant is picked. The token
-writer emits `<html data-variant="…">` rules and `[data-variant-scope="…"]` rules (one element, as in the gallery), and
-`src/design/variants.json` for the picker. `npm test` fails if any variant's text drops below 4.5:1 or a control edge
+scale) and motion timings, and `fonts`, the Google Fonts query the app loads for Northlight. The token
+writer emits `<html data-variant="…">` rules and `[data-variant-scope="…"]` rules (one element), and
+`src/design/variants.json`, which the app reads for Northlight's fonts. The other variants still sit in `tokens.json`,
+but nothing in the app applies them. `npm test` fails if any variant's text drops below 4.5:1 or a control edge
 below 3:1 on its ground, panel or band. Licensed brand faces are replaced by their closest Google Fonts; never copy a
 logo or wordmark.
 
@@ -177,5 +194,5 @@ it; never edit that file by hand. Every color has a light and a dark value; chec
 - `npm test` checks every catalog part in every state, the layers, Northlight OS's journey and automations, and every
   variant's contrast.
 - `npm run qa`, with the dev server up, takes screenshots of every view and screen in both themes, at 1440 and 390 px,
-  a guest action carried through, and every variant on Today, into `qa-out/`. Read them after any visual change. Check that text fits,
+  and a guest action carried through, into `qa-out/`. Read them after any visual change. Check that text fits,
   nothing clips, every status color sits beside its word, and each view has at most one band.

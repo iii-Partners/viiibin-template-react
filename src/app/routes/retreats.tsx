@@ -55,7 +55,7 @@ function RetreatCard({ r }: { r: Retreat }) {
         <span className="text-[12px] text-dim tabular-nums">{fmt(r.start)}–{fmt(r.end)}</span>
       </span>
       <span className="grid gap-1">
-        <span className="font-display text-[22px]/[1.2] font-light">{retreatName(r)}</span>
+        <span className="font-display text-[22px]/[1.2] font-title">{retreatName(r)}</span>
         <span className="text-[13px] text-dim">{RETREAT_WINDOW[r.version]} · {r.facilitator}</span>
       </span>
       <RoomGrid r={r} guests={guests} today={today} />

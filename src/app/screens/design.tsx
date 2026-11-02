@@ -1,11 +1,10 @@
 // The design reference as a screen: every part in the catalog (src/design/catalog.tsx), each with its own switch for
-// its four states (happy path, empty, loading, error), and one switch at the top that sets them all. Then the design
-// variants and the layers. The example data is invented. Delete the doors to this screen when the app no longer needs it.
+// its four states (happy path, empty, loading, error), and one switch at the top that sets them all. Then the layers.
+// The example data is invented. Delete the doors to this screen when the app no longer needs it.
 import { useState } from 'react'
 import { Sparkles } from 'lucide-react'
 import { CATALOG, GROUPS, SPEC_STATES, type Spec, type SpecState } from '@/design/catalog'
 import { Sec, confirm } from '@/components/system'
-import { VariantPicker } from '@/components/shell/variant-picker'
 import { openScreen } from '@/stores/screens'
 import { usePreferencesStore } from '@/stores/preferences'
 import { cn } from '@/lib/utils/cn'
@@ -35,7 +34,7 @@ function Specimen({ spec, state, onState }: { spec: Spec; state: SpecState; onSt
     <section aria-labelledby={`spec-${spec.id}`} className="grid content-start gap-3.5">
       <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2.5">
         <div className="grid min-w-0 gap-1">
-          <h3 id={`spec-${spec.id}`} className="text-[24px]/[1.2]">{spec.name}</h3>
+          <h3 id={`spec-${spec.id}`} className="font-title text-[24px]/[1.2]">{spec.name}</h3>
           <p className="text-[13.5px]/[1.5] text-dim">{spec.use}</p>
           <code className="font-mono text-[11px] text-dim">{spec.from}</code>
         </div>
@@ -87,15 +86,6 @@ export function DesignScreen() {
           </div>
         </section>
       ))}
-
-      <section className="grid gap-4">
-        <Sec>Variants</Sec>
-        <p className="max-w-[72ch] text-[14px]/[1.55] text-dim">
-          The same parts in eleven looks. Each variant comes from a wellness brand’s public site (its CSS, read on October 30, 2026): its colors, the closest free
-          fonts, button and panel shape, label tracking, heading case and motion. Every text color passes 4.5:1. Picking one applies it to the whole app.
-        </p>
-        <VariantPicker gallery />
-      </section>
 
       <section className="grid gap-4">
         <Sec>Layers</Sec>

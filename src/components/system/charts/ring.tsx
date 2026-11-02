@@ -27,7 +27,7 @@ export function Ring({ value, plan, big, unit, sub, label, st, size = 220 }: { v
       {plan != null && <path d={arc(rp, plan)} fill="none" stroke="var(--edge)" strokeWidth={1.5} />}
       {pa != null && <line x1={c + (rp - 6) * Math.cos(pa)} y1={c + (rp - 6) * Math.sin(pa)} x2={c + (r + 8) * Math.cos(pa)} y2={c + (r + 8) * Math.sin(pa)} stroke="var(--fault)" strokeWidth={1.5} />}
       <text x={c} y={c + 10} textAnchor="middle" fontFamily="var(--font-figure)" fontWeight={300} fontSize={50} letterSpacing="-0.02em" fill="var(--text)" style={{ fontVariantNumeric: 'lining-nums tabular-nums' }}>{big}</text>
-      <text x={c} y={c + 32} textAnchor="middle" fontFamily="var(--font-body)" fontWeight={400} fontSize={9.5} letterSpacing="0.16em" fill="var(--dim)">{unit.toUpperCase()}</text>
+      <text x={c} y={c + 32} textAnchor="middle" fontFamily="var(--font-body)" fontSize={9.5} letterSpacing="0.16em" fill="var(--dim)" style={{ fontWeight: 'var(--label-weight)' }}>{unit.toUpperCase()}</text>
       {sub && <text x={c} y={c + 46} textAnchor="middle" fontFamily="var(--font-body)" fontSize={11} fill="var(--dim)">{sub}</text>}
     </svg>
   )

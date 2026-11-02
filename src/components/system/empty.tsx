@@ -14,7 +14,7 @@ export function Empty({ icon: Icon, title, children, action, className }: { icon
         <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} aria-hidden="true" />
       </span>
       <div className="grid gap-1.5">
-        <b className="font-display text-[22px]/[1.2] font-light">{title}</b>
+        <b className="font-display text-[22px]/[1.2] font-title">{title}</b>
         {children && <div className="max-w-[56ch] text-[14px]/[1.55] text-dim">{children}</div>}
       </div>
       {action}

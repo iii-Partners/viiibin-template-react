@@ -59,7 +59,7 @@ export function GuestRow({ g, extra }: { g: Guest; extra?: ReactNode }) {
       className="group grid w-full grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-x-5 gap-y-1 px-4 py-4 text-left transition-colors duration-(--dur-hover) hover:bg-wash focus-visible:bg-wash focus-visible:outline-none max-[560px]:grid-cols-[minmax(0,1fr)_auto]"
     >
       <span className="grid min-w-0 gap-1">
-        <span className="truncate font-display text-[19px]/[1.25] font-light">{g.name}{g.returning && <span className="ml-2 align-middle text-[10.5px] tracking-[0.12em] text-dim uppercase">Returning</span>}</span>
+        <span className="truncate font-display text-[19px]/[1.25] font-title">{g.name}{g.returning && <span className="ml-2 align-middle font-caps text-[10.5px] tracking-[0.12em] text-dim uppercase">Returning</span>}</span>
         <span className="truncate text-[13px] text-dim">{sub}</span>
       </span>
       <span className="flex items-center gap-4 max-[560px]:col-start-1 max-[560px]:row-start-2">
@@ -129,9 +129,9 @@ export function NeedCard({ need }: { need: Need }) {
     <Panel className="gap-2.5 !p-5">
       <span className="flex items-center justify-between gap-3">
         <StatusWord st={need.st}>{need.word}</StatusWord>
-        <span className="text-[10.5px] tracking-[0.12em] text-dim uppercase">{need.source}</span>
+        <span className="font-caps text-[10.5px] tracking-[0.12em] text-dim uppercase">{need.source}</span>
       </span>
-      <b className="font-display text-[20px]/[1.25] font-light">{need.title}</b>
+      <b className="font-display text-[20px]/[1.25] font-title">{need.title}</b>
       <p className="text-[13.5px]/[1.55] text-dim">{need.why}</p>
       <div className="flex flex-wrap items-center gap-2.5 pt-1.5">
         <NeedActions need={need} g={g} />
@@ -179,7 +179,7 @@ export function ActivityLog({ events, limit = 8, guestNames = true }: { events: 
               <span className="text-[13.5px]/[1.5] text-dim">{e.text}</span>
               {!!e.replaces?.length && (
                 <span className="flex flex-wrap gap-1.5 pt-0.5">
-                  <span className="text-[10.5px] tracking-[0.12em] text-dim uppercase">Replaces</span>
+                  <span className="font-caps text-[10.5px] tracking-[0.12em] text-dim uppercase">Replaces</span>
                   {e.replaces.map((id) => (
                     <Tip key={id} label={STEPS[id]?.title}><button type="button" onClick={(ev) => openScreen('step', { id }, ev.currentTarget)} className="font-mono text-[11px] text-accent underline decoration-transparent underline-offset-4 hover:decoration-accent">
                       {STEPS[id]?.sf ?? id}
@@ -198,7 +198,7 @@ export function ActivityLog({ events, limit = 8, guestNames = true }: { events: 
 /** The line every OS view carries: this is a prototype, on invented guests. */
 export function ExampleNote() {
   return (
-    <span className="inline-flex items-center gap-2 text-[10.5px] tracking-[0.14em] text-dim uppercase">
+    <span className="inline-flex items-center gap-2 font-caps text-[10.5px] tracking-[0.14em] text-dim uppercase">
       <FlaskConical size={13} strokeWidth={1.5} aria-hidden="true" /> Prototype · example guests
     </span>
   )

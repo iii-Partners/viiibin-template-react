@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import tokens from '../../design-system/tokens.json'
+import VARIANTS from '@/design/variants.json'
 
 // WCAG relative luminance and contrast, for hex colors
 const lum = (hex: string) => {
@@ -25,4 +26,34 @@ describe('Every variant, light and dark', () => {
         }
         expect(contrast(c.primary, c['on-primary'])).toBeGreaterThanOrEqual(4.5)
       })
+})
+
+describe('The look', () => {
+  beforeEach(() => {
+    vi.resetModules()
+    delete document.documentElement.dataset.variant
+    document.getElementById('fonts-northlight')?.remove()
+    localStorage.clear()
+  })
+
+  it('is Northlight on load, with its fonts', async () => {
+    await import('@/stores/variant')
+    expect(document.documentElement.dataset.variant).toBe('northlight')
+    const link = document.getElementById('fonts-northlight') as HTMLLinkElement | null
+    const fonts = VARIANTS.find((v) => v.id === 'northlight')!.fonts
+    expect(link?.getAttribute('href')).toBe(`https://fonts.googleapis.com/css2?${fonts}&display=swap`)
+  })
+
+  it('stays Northlight when an earlier build saved another variant, and deletes the saved choice', async () => {
+    localStorage.setItem('variant', JSON.stringify({ state: { id: 'aman' }, version: 2 }))
+    await import('@/stores/variant')
+    expect(document.documentElement.dataset.variant).toBe('northlight')
+    expect(localStorage.getItem('variant')).toBeNull()
+  })
+
+  it('offers no way to switch', async () => {
+    const mod = await import('@/stores/variant')
+    expect(Object.keys(mod).sort()).toEqual(['VARIANT', 'applyNorthlight'])
+    expect(mod.VARIANT).toBe('northlight')
+  })
 })

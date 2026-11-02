@@ -15,7 +15,7 @@ export default function LandingPage() {
       <h1 className="text-[48px]/[1.04] tracking-[-0.012em] sm:text-[84px]">
         <em>Welcome</em> to {appName}
       </h1>
-      <p className="max-w-[52ch] text-[18px]/[1.6] font-light text-dim">{appDescription}</p>
+      <p className="max-w-[52ch] text-[18px]/[1.6] font-text text-dim">{appDescription}</p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         {isAuthEnabled ? (
           <>

@@ -81,7 +81,7 @@ export function GrowOver({ host, from, title, onClose, children }: { host: RefOb
     <div ref={box} role="dialog" aria-modal="false" aria-label={`Context: ${title}`} className="panel @container absolute inset-x-0 top-0 z-5 min-h-full overflow-hidden !border-edge">
       <div ref={body} className="grid content-start gap-5">
         <div className="flex items-start gap-3">
-          <span className="min-w-0 flex-1 pt-1 font-display text-[24px]/[1.2] font-light">{title}</span>
+          <span className="min-w-0 flex-1 pt-1 font-display text-[24px]/[1.2] font-title">{title}</span>
           <CloseCue onClose={() => void close()} />
         </div>
         {children}

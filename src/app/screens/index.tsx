@@ -8,9 +8,11 @@ import { ProfileScreen } from './profile'
 import { SettingsScreen } from './settings'
 import { DesignScreen } from './design'
 import { GuestScreen, InsightScreen, RetreatScreen, SessionScreen, StepScreen } from './os'
+import { NewInquiryScreen } from './new-inquiry'
 import { useGuestHead, useInsightHead, useRetreatHead, useSessionHead, useStepHead } from './os-heads'
 
-type Def = { useHead(params: OpenScreen['params'] | undefined): ScreenHead; render(entry: OpenScreen): ReactNode }
+/** `side` opens the screen as a panel that slides in from the right: the form for a form, so the view stays in sight. */
+type Def = { useHead(params: OpenScreen['params'] | undefined): ScreenHead; render(entry: OpenScreen): ReactNode; side?: boolean }
 
 const fixed = (head: ScreenHead) => () => head
 
@@ -23,13 +25,14 @@ export const SCREENS: Record<ScreenId, Def> = {
   step: { useHead: (p) => useStepHead(p?.id ? String(p.id) : undefined), render: (e) => <StepScreen id={String(e.params?.id)} /> },
   insight: { useHead: (p) => useInsightHead(p?.id ? String(p.id) : undefined), render: (e) => <InsightScreen id={String(e.params?.id)} /> },
   session: { useHead: (p) => useSessionHead(Number(p?.n)), render: (e) => <SessionScreen n={Number(e.params?.n)} /> },
+  'new-inquiry': { useHead: fixed({ kind: 'Guests', title: 'New inquiry' }), render: (e) => <NewInquiryScreen entryKey={e.key} />, side: true },
 }
 
 function Layer({ entry, depth }: { entry: OpenScreen; depth: number }) {
   const def = SCREENS[entry.id]
   const head = def.useHead(entry.params)
   return (
-    <ScreenDialog entry={entry} depth={depth} head={head}>
+    <ScreenDialog entry={entry} depth={depth} head={head} side={def.side}>
       {def.render(entry)}
     </ScreenDialog>
   )

@@ -70,7 +70,7 @@ export function Track({ label, points, now, nowLabel, ruler }: { label: string; 
         {nowLabel && (
           <span className="absolute top-0 w-0" style={{ left: `${now * 100}%`, height: top + 52 }}>
             <i className="absolute top-0 bottom-0 left-0 w-0 border-l-[1.5px] border-accent" />
-            <span className="absolute top-0 left-2 text-[10.5px]/none tracking-[0.14em] whitespace-nowrap text-accent uppercase">{nowLabel}</span>
+            <span className="absolute top-0 left-2 font-caps text-[10.5px]/none tracking-[0.14em] whitespace-nowrap text-accent uppercase">{nowLabel}</span>
           </span>
         )}
         {points.map((p, i) => {

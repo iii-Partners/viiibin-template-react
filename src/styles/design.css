@@ -2,12 +2,20 @@
    Newsreader figures, flat square panels, pills for what you press, round icon buttons, frosted glass for what floats
    (the header, the rail, dialogs), and slow, soft fades. Layout lives in the components as Tailwind utilities; these are
    the pieces whose shape is the system's own. Every value reads the tokens. */
+/* type weights: a view's title and its figures take the light weight (font-light); mid-size titles, 18 to 26 px
+   (panel titles, door names, list-row names), take font-title; reading text the system sets light takes font-text.
+   Each follows the light weight unless a variant sets it (Northlight: 400 for both, with the light weight at 300). */
+@utility font-title { font-weight: var(--font-weight-title); }
+@utility font-text { font-weight: var(--font-weight-text); }
+/* a hand-set tracked capital (a small uppercase word outside .eyebrow, .label or .chip) takes the label weight */
+@utility font-caps { font-weight: var(--label-weight); }
+
 @layer components {
   /* type: the tracked label (section heads, the label over a reading, nav links) and the Newsreader figure */
-  .eyebrow { display: block; margin: 0; font: 400 11.5px/16px var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); }
+  .eyebrow { display: block; margin: 0; font: var(--label-weight) 11.5px/16px var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); }
   .eyebrow.ink { color: var(--text); }
   .figure { font-family: var(--font-figure); font-weight: var(--font-weight-light); letter-spacing: -0.02em; font-variant-numeric: lining-nums tabular-nums; }
-  .lead { font-family: var(--font-lead); font-weight: var(--font-weight-light); font-size: 22px; line-height: 1.38; letter-spacing: -0.005em; text-wrap: balance; }
+  .lead { font-family: var(--font-lead); font-weight: var(--font-weight-lead); font-size: 22px; line-height: 1.38; letter-spacing: -0.005em; text-wrap: balance; }
 
   /* status: a word, a shape and a color, always together */
   .st { display: inline-flex; align-items: center; gap: 8px; font: 500 12.5px/1.25 var(--font-body); letter-spacing: 0.01em; white-space: nowrap; }
@@ -24,7 +32,7 @@
   .st.paused::before, .s.paused { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
 
   /* the chip: the deck's square tag, a tracked word in a hairline box of its own color */
-  .chip { display: inline-flex; align-items: center; gap: 6px; font: 400 10.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; padding: 6px 9px; border: 1px solid currentColor; white-space: nowrap; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font: var(--label-weight) 10.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; padding: 6px 9px; border: 1px solid currentColor; white-space: nowrap; }
   .chip.done { color: var(--done); }
   .chip.blocked { color: var(--fault); }
   .chip.pending { color: var(--need); }
@@ -33,7 +41,7 @@
   .chip.paused { color: var(--paused); }
 
   /* a flowchart step's type, as a shape and a tracked word in ink: what kind of work it is today, not a status */
-  .kind { display: inline-flex; align-items: center; gap: 7px; font: 400 10.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+  .kind { display: inline-flex; align-items: center; gap: 7px; font: var(--label-weight) 10.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); white-space: nowrap; }
   .kind::before { content: ""; width: 8px; height: 8px; flex: none; }
   .kind.Manual { color: var(--text); } .kind.Manual::before { background: var(--text); }
   .kind.Auto { color: var(--accent); } .kind.Auto::before { background: var(--accent); border-radius: 999px; }
@@ -69,7 +77,7 @@
   .round.sm { width: 34px; height: 34px; }
 
   /* the explore link: a tracked word and an arrow that moves on hover (the deck's "more" links) */
-  .explore { display: inline-flex; align-items: center; gap: 9px; padding: 4px 0; font: 400 11.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--text); cursor: pointer; }
+  .explore { display: inline-flex; align-items: center; gap: 9px; padding: 4px 0; font: var(--label-weight) 11.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--text); cursor: pointer; }
   .explore svg { flex: none; transition: transform var(--dur-hover) ease; }
   .explore:hover, .explore:focus-visible { color: var(--accent); outline: none; }
   .explore:hover svg, .explore:focus-visible svg { transform: translateX(4px); }
@@ -91,7 +99,7 @@
   .panel.on { border-color: var(--text); }
 
   /* section heads: the tracked label in ink, with a hairline running out to the right edge */
-  .sec { display: flex; align-items: center; gap: 14px; margin: 0; font: 400 11.5px/16px var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--text); }
+  .sec { display: flex; align-items: center; gap: 14px; margin: 0; font: var(--label-weight) 11.5px/16px var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--text); }
   .sec::after { content: ""; flex: 1; height: 1px; background: var(--line); }
   .empty { padding: 16px; border: 1px dashed var(--line); color: var(--dim); font-size: 13.5px; }
   .more { font-size: 12px; color: var(--dim); }
@@ -141,14 +149,14 @@
   .toast-ok .toast-icon { color: var(--ok); }
   .toast-error .toast-icon { color: var(--fault); }
 
-  .label { display: block; margin-bottom: 8px; font: 400 11px/16px var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); }
+  .label { display: block; margin-bottom: 8px; font: var(--label-weight) 11px/16px var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); }
 
   /* the svg vocabulary for flow charts, timelines and bars: ink for the reading, hairlines for the frame */
   .fsvg { display: block; width: 100%; height: auto; overflow: visible; }
   .fsvg text { font-family: var(--font-body); }
   .node { fill: var(--wash); stroke: var(--edge); stroke-width: 1; }
   .node.lit { stroke: var(--text); } .node.watch { stroke: var(--watch); } .node.blocked { stroke: var(--fault); } .node.done { stroke: var(--done); } .node.pending { stroke: var(--need); }
-  .nt { fill: var(--text); font-size: 10.5px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; }
+  .nt { fill: var(--text); font-size: 10.5px; font-weight: var(--label-weight); letter-spacing: 0.14em; text-transform: uppercase; }
   .nt.watch { fill: var(--watch); } .nt.blocked { fill: var(--fault); } .nt.done { fill: var(--done); } .nt.pending { fill: var(--need); }
   .nv { fill: var(--text); font-size: 13.5px; font-weight: 500; font-variant-numeric: tabular-nums; }
   .ns { fill: var(--dim); font-size: 11.5px; font-weight: 400; letter-spacing: 0.02em; }
@@ -196,7 +204,12 @@
 .sheet { position: relative; background: var(--sheet-bg); -webkit-backdrop-filter: blur(24px) saturate(1.15); backdrop-filter: blur(24px) saturate(1.15);
   border: 1px solid var(--sheet-edge); border-radius: var(--panel-radius); box-shadow: var(--sheet-shadow); animation: rise var(--dur-dialog) var(--ease-rise) both; }
 .veil.out .sheet { animation: sink var(--dur-leave) ease both; }
-@media (prefers-reduced-motion: reduce) { .veil, .veil.out, .sheet, .veil.out .sheet { animation: none; } }
+/* a side screen (a form): the sheet runs the window's height at the right edge and slides in 24 px from the right */
+.veil.side .sheet { animation: slide-in var(--dur-dialog) var(--ease-rise) both; }
+.veil.side.out .sheet { animation: slide-out var(--dur-leave) ease both; }
+@keyframes slide-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@keyframes slide-out { to { opacity: 0; transform: translateX(16px); } }
+@media (prefers-reduced-motion: reduce) { .veil, .veil.out, .sheet, .veil.out .sheet, .veil.side .sheet, .veil.side.out .sheet { animation: none; } }
 
 /* the old surface name, for the chat and boards that still use it: the veil without a sheet */
 .surface { background: color-mix(in srgb, var(--ground) 52%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1.05); backdrop-filter: blur(14px) saturate(1.05); animation: fade-in 260ms ease-out both; }
@@ -222,7 +235,7 @@
     border: 1px solid color-mix(in srgb, var(--text) 10%, transparent); box-shadow: var(--shadow-float); }
   .topbar-name { font-family: var(--font-display); font-weight: 400; font-size: 21px; line-height: 1; letter-spacing: -0.01em; white-space: nowrap; }
   .topnav { display: flex; align-items: center; gap: 4px; }
-  .topnav-link { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 999px; font: 400 11.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--text);
+  .topnav-link { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 999px; font: var(--label-weight) 11.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--text);
     transition: background-color var(--dur-hover) ease, color var(--dur-hover) ease; }
   .topnav-link:hover, .topnav-link:focus-visible { color: var(--accent); }
   .topnav-link[aria-current="page"] { background: var(--primary); color: var(--on-primary); }
@@ -246,7 +259,7 @@
   .rail-btn.rail-on { color: var(--rail-ink); background: var(--rail-on-bg); box-shadow: var(--rail-on-shadow); }
   .rail-btn.rail-on:focus-visible { box-shadow: var(--rail-on-shadow), 0 0 0 2px var(--focus); }
   .rail-tip { position: absolute; left: calc(100% + 16px); top: 50%; z-index: 20; padding: 8px 13px; border-radius: 999px; white-space: nowrap;
-    font: 400 10.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--rail-tip-fg); background: var(--rail-tip-bg); box-shadow: var(--shadow-float);
+    font: var(--label-weight) 10.5px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--rail-tip-fg); background: var(--rail-tip-bg); box-shadow: var(--shadow-float);
     opacity: 0; transform: translate(-6px, -50%); pointer-events: none; transition: opacity 200ms ease, transform 260ms var(--ease-rise); }
   .rail-btn:hover .rail-tip, .rail-btn:focus-visible .rail-tip { opacity: 1; transform: translate(0, -50%); }
   /* on a phone the rail lies along the bottom, in reach of the thumb; tips rise above the icons */
@@ -263,7 +276,7 @@
 
   /* the state switch: a small pill of words above a part's top right, a prototype tool; the picked state fills ink */
   .state-switch { display: flex; gap: 2px; padding: 3px; border-radius: var(--pill-radius); background: var(--switch-track); box-shadow: inset 0 0 0 1px var(--line); }
-  .state-switch button { padding: 6px 10px; border-radius: var(--pill-radius); font: 400 10px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); transition: color var(--dur-hover) ease, background-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease; }
+  .state-switch button { padding: 6px 10px; border-radius: var(--pill-radius); font: var(--label-weight) 10px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); transition: color var(--dur-hover) ease, background-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease; }
   .state-switch button:hover, .state-switch button:focus-visible { color: var(--text); background: color-mix(in srgb, var(--panel) 55%, transparent); outline: none; }
   .state-switch button:focus-visible { box-shadow: 0 0 0 2px var(--focus); }
   .state-switch button[aria-checked="true"] { color: var(--on-primary); background: var(--primary); font-weight: 500; box-shadow: var(--switch-on-shadow); }

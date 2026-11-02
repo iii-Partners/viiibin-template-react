@@ -9,9 +9,9 @@
  {
   "id": "northlight",
   "name": "Northlight",
-  "note": "A white ground lit by the Northlight sun: soft warm-gray panels with 16 px corners, Jost throughout, from tracked labels to headings, a fine sun-gradient ring on the primary action, the open view raised on layered soft shadows, an edge glow that breathes and swells when the OS acts, and a faint aura that follows the cursor. Night mode is the logo’s violet sky.",
+  "note": "A white ground lit by the Northlight sun: soft warm-gray panels with 16 px corners, Inter throughout, from tracked labels to headings, a fine sun-gradient ring on the primary action, the open view raised on layered soft shadows, an edge glow that breathes and swells when the OS acts, and a faint aura that follows the cursor. Night mode is the logo’s violet sky.",
   "signature": "Cream panels on white and a sun-gradient hairline (#ebc913 → #e77103 → #dc3286 → #8f6ab7 → #8bb1d3), with ambient light at the edges.",
-  "fonts": "family=Jost:ital,wght@0,300..600;1,300..600"
+  "fonts": "family=Inter:ital,opsz,wght@0,14..32,300..600;1,14..32,300..600"
  },
  {
   "id": "aman",

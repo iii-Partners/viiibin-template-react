@@ -69,7 +69,7 @@ export function NavStylePicker() {
           )}
         >
           {n.draw}
-          <span className="mt-1 font-display text-[19px]/none font-light">{n.word}</span>
+          <span className="mt-1 font-display text-[19px]/none font-title">{n.word}</span>
           <span className="text-[12.5px] text-dim">{n.note}</span>
         </button>
       ))}

@@ -1,8 +1,8 @@
 // Turns design-system/tokens.json into src/styles/tokens.css: the theme variables for Shore (light, the default)
 // and Deep (dark, under the theme store's `.dark` class), the Tailwind theme that reads them, and the design variants.
 // A variant applies to the whole app as `<html data-variant="aman">`, or to one element and its children as
-// `data-variant-scope="aman"` (the Design system screen's gallery). It also writes src/design/variants.json, the list
-// the app reads to offer and load the variants. The Vite config runs this on start and again whenever tokens.json
+// `data-variant-scope="aman"`. The app always wears Northlight (src/stores/variant.ts) and offers no switch. It also
+// writes src/design/variants.json, the list the app reads to load Northlight's fonts. The Vite config runs this on start and again whenever tokens.json
 // changes. Run by hand with `npm run tokens`.
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -15,7 +15,7 @@ export const VARIANTS_JSON = resolve(here, '../src/design/variants.json')
 
 type Themed = Record<string, string>
 type Token<V> = { name: string; value: V; usage?: string }
-type TypeStyle = { name: string; family?: string; fontSize: string; lineHeight: string; fontWeight: number; letterSpacing?: string; textTransform?: string }
+type TypeStyle = { name: string; family?: string; fontSize: string; lineHeight: string; fontWeight: number; weight?: string; letterSpacing?: string; textTransform?: string }
 type Group<V> = { note?: string; tokens: Token<V>[] }
 export type Variant = { id: string; name: string; note: string; signature: string; fonts: string; families: Record<string, string>; vars: Record<string, string>; light: Themed; dark: Themed }
 type Tokens = {
@@ -63,7 +63,9 @@ export function buildTokensCss(json: string): string {
     // display styles follow the variant's heading voice: its case, style and tracking; a light weight follows its weight
     const display = family === 'display'
     const transform = s.textTransform ? `\n  text-transform: ${s.textTransform};` : display ? '\n  text-transform: var(--display-case);\n  font-style: var(--display-style);' : ''
-    const weight = s.fontWeight === 300 ? 'var(--font-weight-light)' : s.fontWeight
+    // a style may name the weight variable it follows (a variant's title or label weight); a light weight otherwise
+    // follows the variant's light weight
+    const weight = s.weight ? `var(--${s.weight}, ${s.fontWeight})` : s.fontWeight === 300 ? 'var(--font-weight-light)' : s.fontWeight
     const tracking = display ? `var(--display-tracking, ${s.letterSpacing ?? '0'})` : s.letterSpacing ?? '0'
     return `@utility type-${s.name} {\n  font-family: var(--font-${family});\n  font-size: ${s.fontSize};\n  line-height: ${s.lineHeight};\n  font-weight: ${weight};\n  letter-spacing: ${tracking};${transform}\n}`
   }))

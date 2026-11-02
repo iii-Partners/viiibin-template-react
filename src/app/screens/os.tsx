@@ -57,7 +57,7 @@ function NextStep({ g }: { g: Guest }) {
   const [retreat, setRetreat] = useState(open[0]?.id ?? '')
   const [who, setWho] = useState(INTEGRATORS[0])
   const r = os.retreats.find((x) => x.id === (g.retreatId ?? g.hold?.retreatId))
-  const title = (t: string) => <b className="font-display text-[24px]/[1.2] font-light">{t}</b>
+  const title = (t: string) => <b className="font-display text-[24px]/[1.2] font-title">{t}</b>
   switch (g.stage) {
     case 'inquiry':
       return (
@@ -290,7 +290,7 @@ export function StepScreen({ id }: { id: string }) {
       <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <Panel className="content-start gap-4">
           <span className="flex flex-wrap items-center gap-3"><KindTag type={s.type} />{s.sf && <code className="font-mono text-[12px] text-accent">{s.sf}</code>}</span>
-          <p className="text-[17px]/[1.6] font-light">{s.detail}</p>
+          <p className="text-[17px]/[1.6] font-text">{s.detail}</p>
           <Facts rows={[['Who', s.who.join(', ') || 'Nobody: it runs on its own'], ['Systems', s.sys.join(' · ')], ['Forms', s.forms.join(', ')], ['SOP chapter', s.sop.replace('ch', '0')]]} />
           {!!s.changes.length && (
             <div className="grid gap-1.5 border-t border-line pt-3"><span className="eyebrow">What it changes</span>{s.changes.map((c) => <span key={c} className="font-mono text-[12.5px]">{c}</span>)}</div>
@@ -328,7 +328,7 @@ export function InsightScreen({ id }: { id: string }) {
     <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
       <Panel className="content-start gap-4">
         <Chip st="risk">{ins.kind}</Chip>
-        {ins.body.length > 1 ? <ul className="m-0 grid list-disc gap-2 pl-5">{ins.body.map((b) => <li key={b} className="text-[16px]/[1.6] font-light">{b}</li>)}</ul> : <p className="text-[17px]/[1.6] font-light">{ins.body[0]}</p>}
+        {ins.body.length > 1 ? <ul className="m-0 grid list-disc gap-2 pl-5">{ins.body.map((b) => <li key={b} className="text-[16px]/[1.6] font-text">{b}</li>)}</ul> : <p className="text-[17px]/[1.6] font-text">{ins.body[0]}</p>}
         <span className="text-[12.5px] text-dim">Seen in: {ins.refs.join(' · ')}</span>
       </Panel>
       <div className="grid gap-4">
@@ -356,7 +356,7 @@ export function SessionScreen({ n }: { n: number }) {
           {s.questions.length ? s.questions.map((q, i) => (
             <Panel key={q.q} className="gap-3">
               <span className="eyebrow">Q{i + 1}</span>
-              <b className="font-display text-[22px]/[1.3] font-light">{q.q}</b>
+              <b className="font-display text-[22px]/[1.3] font-title">{q.q}</b>
               <ul className="m-0 grid list-disc gap-1 pl-5 text-[14px]/[1.55] text-dim">{q.probes.map((p) => <li key={p}>{p}</li>)}</ul>
             </Panel>
           )) : <Blank>{s.state === 'held' ? 'Discovery 1 is held. This guide picks up from its findings.' : 'This session remains to be defined separately.'}</Blank>}
@@ -365,8 +365,8 @@ export function SessionScreen({ n }: { n: number }) {
           {!!s.deliverables.length && (
             <Panel band className="content-start gap-3"><span className="eyebrow ink">Deliverables · {s.deliverables.length}</span><div className="flex flex-wrap gap-2">{s.deliverables.map((d) => <span key={d} className="border border-line bg-panel px-2.5 py-1.5 text-[13px]">{d}</span>)}</div></Panel>
           )}
-          {decisions.map((d) => <Panel key={d.title} className="gap-2 !p-5"><StatusWord st="pending">{d.kind}</StatusWord><b className="font-display text-[19px]/[1.25] font-light">{d.title}</b><p className="text-[13.5px]/[1.55] text-dim">{d.body}</p></Panel>)}
-          {obs.map((o) => <Panel key={o.title} className="gap-2 !p-5"><StatusWord st="risk">{o.kind}</StatusWord><b className="font-display text-[19px]/[1.25] font-light">{o.title}</b><p className="text-[13.5px]/[1.55] text-dim">{o.body}</p></Panel>)}
+          {decisions.map((d) => <Panel key={d.title} className="gap-2 !p-5"><StatusWord st="pending">{d.kind}</StatusWord><b className="font-display text-[19px]/[1.25] font-title">{d.title}</b><p className="text-[13.5px]/[1.55] text-dim">{d.body}</p></Panel>)}
+          {obs.map((o) => <Panel key={o.title} className="gap-2 !p-5"><StatusWord st="risk">{o.kind}</StatusWord><b className="font-display text-[19px]/[1.25] font-title">{o.title}</b><p className="text-[13.5px]/[1.55] text-dim">{o.body}</p></Panel>)}
           {!!bring.length && <Panel className="content-start gap-2"><span className="eyebrow">Questions to bring</span>{bring.map((q) => <p key={q.q} className="text-[14px]/[1.5]">{q.q}</p>)}</Panel>}
         </div>
       </div>

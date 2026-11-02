@@ -5,7 +5,7 @@ Guidance for Claude Code in this template. Read `README.md` first.
 ## Local dev
 
 - The app runs at http://localhost:5182 (`npm run dev`; `vite preview` uses the same port). `vite.config.ts` pins it with `strictPort`, so a busy port is an error, never a move to the next one. The API proxy targets http://localhost:8787 (`npm run dev:full` runs the Pages Functions and D1 beside the app).
-- `npm run qa` (with the dev server up) writes screenshots of every view and screen in both themes, at 1440 and 390 px, a guest action carried through, and every design variant, to `qa-out/`. Northlight OS runs on its own example data, so it needs no database. Read the images after any visual change.
+- `npm run qa` (with the dev server up) writes screenshots of every view and screen in both themes, at 1440 and 390 px, and a guest action carried through, to `qa-out/`. The app always wears Northlight; it has no variant switch. Northlight OS runs on its own example data, so it needs no database. Read the images after any visual change.
 - The app needs `VITE_APP_NAME` at startup (see `.env.example`); without it the page renders blank.
 
 ## Northlight OS (this branch)

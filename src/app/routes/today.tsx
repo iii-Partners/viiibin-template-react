@@ -55,7 +55,7 @@ export default function TodayPage() {
               return (
                 <Panel key={r.id} as="button" type="button" live data-door={`retreat-${r.id}`} onClick={(e: React.MouseEvent<HTMLButtonElement>) => openScreen('retreat', { id: r.id }, e.currentTarget)} className="content-start gap-3 !p-5">
                   <span className="eyebrow">{on ? 'On now' : `In ${daysBetween(today, r.start)} days`} · {fmt(r.start)}–{fmt(r.end)}</span>
-                  <span className="font-display text-[22px]/[1.2] font-light">{retreatName(r)}</span>
+                  <span className="font-display text-[22px]/[1.2] font-title">{retreatName(r)}</span>
                   <span className="text-[13px] text-dim">{RETREAT_WINDOW[r.version]} · {r.facilitator}</span>
                   <span className="flex items-baseline gap-2 border-t border-line pt-3">
                     <b className="figure text-[32px]/none">{booked.length}</b>

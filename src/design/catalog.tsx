@@ -47,7 +47,7 @@ function Rows({ rows }: { rows: { t: string; sub: string; st: Status }[] }) {
       {rows.map((r) => (
         <li key={r.t} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-5 border-t border-line px-4 py-4 first:border-t-0">
           <span className="grid min-w-0 gap-1">
-            <span className="truncate font-display text-[19px]/[1.25] font-light">{r.t}</span>
+            <span className="truncate font-display text-[19px]/[1.25] font-title">{r.t}</span>
             <span className="truncate text-[13px] text-dim">{r.sub}</span>
           </span>
           <StatusWord st={r.st} />
@@ -173,7 +173,7 @@ export const CATALOG: Spec[] = [
         <div className="grid gap-3">
           <Sec>Needs you · 2</Sec>
           {['Approve the spring catalog', 'Answer the supplier’s question'].map((t) => (
-            <Panel key={t} className="gap-3 !p-5"><StatusWord st="pending">Decision</StatusWord><b className="font-display text-[22px]/[1.2] font-light">{t}</b><span><button type="button" className="pill sm">Open</button></span></Panel>
+            <Panel key={t} className="gap-3 !p-5"><StatusWord st="pending">Decision</StatusWord><b className="font-display text-[22px]/[1.2] font-title">{t}</b><span><button type="button" className="pill sm">Open</button></span></Panel>
           ))}
         </div>
       ),

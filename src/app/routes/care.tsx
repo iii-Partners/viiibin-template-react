@@ -25,7 +25,7 @@ function SessionNotes({ g }: { g: Guest }) {
     <Panel className="gap-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="grid gap-1">
-          <button type="button" className="text-left font-display text-[24px]/[1.2] font-light underline decoration-transparent underline-offset-4 hover:decoration-line" onClick={(e) => openScreen('guest', { id: g.id }, e.currentTarget)}>{g.name}</button>
+          <button type="button" className="text-left font-display text-[24px]/[1.2] font-title underline decoration-transparent underline-offset-4 hover:decoration-line" onClick={(e) => openScreen('guest', { id: g.id }, e.currentTarget)}>{g.name}</button>
           <span className="text-[13px] text-dim">{r && `${retreatName(r)} · room ${g.room} · ${r.facilitator}`}{g.returning && ' · returning guest'}</span>
         </div>
         <StatusWord st={open ? 'ok' : 'paused'}>{open ? `Access open until ${fmt(closes)}` : 'Access closed'}</StatusWord>
@@ -33,7 +33,7 @@ function SessionNotes({ g }: { g: Guest }) {
       {g.session?.notes ? (
         <div className="grid gap-2 border-t border-line pt-4">
           <span className="eyebrow">Facilitator session notes · {g.session.notesBy} · {fmt(g.session.notesAt!)}</span>
-          <p className="text-[15px]/[1.6] font-light">{g.session.notes}</p>
+          <p className="text-[15px]/[1.6] font-text">{g.session.notes}</p>
           {r && r.end <= today ? (
             <button type="button" className="pill go mt-2 w-fit" onClick={() => markComplete(g.id, ACTOR.operations)}>Mark complete</button>
           ) : (
@@ -58,7 +58,7 @@ function Integration({ g }: { g: Guest }) {
     <Panel className="gap-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="grid gap-1">
-          <button type="button" className="text-left font-display text-[22px]/[1.2] font-light underline decoration-transparent underline-offset-4 hover:decoration-line" onClick={(e) => openScreen('guest', { id: g.id }, e.currentTarget)}>{g.name}</button>
+          <button type="button" className="text-left font-display text-[22px]/[1.2] font-title underline decoration-transparent underline-offset-4 hover:decoration-line" onClick={(e) => openScreen('guest', { id: g.id }, e.currentTarget)}>{g.name}</button>
           <span className="text-[13px] text-dim">{by} · session ended {fmt(g.session?.completed ?? g.since)}</span>
         </div>
         {g.les && <StatusWord st={g.les.status === 'completed' ? 'done' : 'ok'}>{g.les.status === 'scheduled' ? `Living Well Series from ${fmt(g.les.start)}` : g.les.status === 'completed' ? 'Living Well Series done' : `Living Well Series, week ${g.les.week} of 8`}</StatusWord>}

@@ -23,7 +23,7 @@ function NextStep({ g, r }: { g: Guest; r?: Retreat }) {
   const box = (title: string, body: string, action?: { label: string; run(): void }) => (
     <div className="grid gap-3 bg-band p-5">
       <span className="eyebrow ink">Your next step</span>
-      <b className="font-display text-[24px]/[1.2] font-light">{title}</b>
+      <b className="font-display text-[24px]/[1.2] font-title">{title}</b>
       <p className="text-[14px]/[1.6] text-dim">{body}</p>
       {action && <button type="button" className="pill go w-fit" onClick={action.run}>{action.label}</button>}
     </div>
@@ -110,7 +110,7 @@ function Phone({ g }: { g: Guest }) {
         {r && (
           <div className="grid gap-2 border-t border-line pt-4">
             <span className="eyebrow">{g.retreatId ? 'Your retreat' : 'Held for you'}</span>
-            <b className="font-display text-[21px]/[1.2] font-light">{fmt(r.start, { month: 'long', day: 'numeric' })} to {fmt(r.end, { month: 'long', day: 'numeric' })}</b>
+            <b className="font-display text-[21px]/[1.2] font-title">{fmt(r.start, { month: 'long', day: 'numeric' })} to {fmt(r.end, { month: 'long', day: 'numeric' })}</b>
             <span className="text-[13px] text-dim">{retreatName(r)} · {RETREAT_WINDOW[r.version]}{g.room ? ` · room ${g.room}` : ''}</span>
             {g.integrator && <span className="text-[13px] text-dim">Integration Guide: {g.integrator}</span>}
           </div>

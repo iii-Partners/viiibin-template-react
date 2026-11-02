@@ -1,4 +1,4 @@
-// Ambient light, after the reference deck: two WebGL layers over the Northlight variant (any variant that sets --glow-on: 1).
+// Ambient light, after the reference deck: two WebGL layers over the Northlight look (it sets --glow-on: 1).
 //   The edge glow: soft light rises from the window's edges in the brand colors, turning slowly around the frame and
 //   dissolving by opacity as it fades inward, with no corner or rim. It sits beneath everything, so it shows only where the page is
 //   open and, faintly, through the glass panels and the rail. In the deck the music drove it; here it breathes on a slow cycle and swells for a moment whenever the OS
@@ -8,7 +8,6 @@
 // the aura needs a mouse. Settings, Appearance turns both off. Without WebGL, nothing draws.
 import { useEffect, useRef, useState } from 'react'
 import { usePreferencesStore } from '@/stores/preferences'
-import { useVariantStore } from '@/stores/variant'
 import { useThemeStore } from '@/stores/theme'
 import { useOs } from '@/os/store'
 
@@ -263,22 +262,21 @@ function Aura() {
   return <span ref={ref} className="contents" />
 }
 
-/** Mounts the ambient light when the variant asks for it (--glow-on: 1) and the viewer has not turned it off. Keyed by
- *  variant and theme, so the colors are read again when either changes. glow sets the edge glow's brightness; without
+/** Mounts the ambient light when the look asks for it (--glow-on: 1) and the viewer has not turned it off. Keyed by
+ *  theme, so the colors are read again when it changes. glow sets the edge glow's brightness; without
  *  it the glow burns at its usual level. */
 export function Ambient({ glow }: { glow?: Glow } = {}) {
   const on = usePreferencesStore((s) => s.ambient)
-  const variant = useVariantStore((s) => s.id)
   const mode = useThemeStore((s) => s.mode)
   const [lit, setLit] = useState(false)
   useEffect(() => {
-    // read after the variant's attribute and the theme's class have applied
+    // read after the theme's class has applied
     const id = requestAnimationFrame(() => setLit(on && getComputedStyle(document.documentElement).getPropertyValue('--glow-on').trim() === '1'))
     return () => cancelAnimationFrame(id)
-  }, [on, variant, mode])
+  }, [on, mode])
   if (!lit) return null
   return (
-    <span key={`${variant}-${mode}`} className="contents">
+    <span key={mode} className="contents">
       <EdgeGlow glow={glow} />
       <Aura />
     </span>
