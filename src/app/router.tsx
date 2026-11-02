@@ -10,6 +10,7 @@ import ReviewsPage from './routes/reviews'
 import CarePage from './routes/care'
 import PortalPage from './routes/portal'
 import BlueprintPage from './routes/blueprint'
+import AskPage from './routes/ask'
 import { RailView } from './routes/rail-view'
 
 
@@ -74,6 +75,7 @@ export const router = createBrowserRouter([
       { index: true, element: <Navigate to="today" replace /> },
       { path: 'dashboard', element: <Navigate to="/app/today" replace /> },
       { path: 'today', element: <TodayPage /> },
+      { path: 'ask', element: <AskPage /> },
       { path: 'guests', element: <GuestsPage /> },
       { path: 'retreats', element: <RetreatsPage /> },
       { path: 'reviews', element: <ReviewsPage /> },

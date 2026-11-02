@@ -70,6 +70,10 @@
       "default": "claude-sonnet-4-20250514",
       "description": "AI model ID. Defaults to Claude Sonnet for Anthropic, gpt-4o for OpenAI."
     },
+    "ANTHROPIC_API_KEY": {
+      "type": "string",
+      "description": "Anthropic API key for POST /api/ask, the Ask view's conversation with Claude (src/os/ask/contract.ts names the model). SECRET. Blank makes /api/ask answer 503 `not configured (ANTHROPIC_API_KEY)`, and the Ask view answers with its built-in matcher instead."
+    },
     "ENABLE_ANALYTICS": {
       "type": "boolean",
       "default": true,
