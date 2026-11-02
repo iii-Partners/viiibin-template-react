@@ -175,15 +175,13 @@ header pill, let `navStyle` be `'bar'` again in `src/stores/preferences.ts` (its
 loads its fonts before the first paint, and it deletes any variant an earlier build saved in localStorage. The app has
 no variant picker. Its values live in `tokens.json` under `variants.list`, id `northlight`.
 
-**Change Northlight's tokens.** Variants live in `design-system/tokens.json` under `variants.list`: colors for light and
-dark (any token may be overridden; the rest come from the base), font families (`display`, `body`, `figure`,
-`label`, `lead`), the shape variables under `shape` (button and panel radius, label tracking, heading case, style and
-scale) and motion timings, and `fonts`, the Google Fonts query the app loads for Northlight. The token
-writer emits `<html data-variant="…">` rules and `[data-variant-scope="…"]` rules (one element), and
-`src/design/variants.json`, which the app reads for Northlight's fonts. The other variants still sit in `tokens.json`,
-but nothing in the app applies them. `npm test` fails if any variant's text drops below 4.5:1 or a control edge
-below 3:1 on its ground, panel or band. Licensed brand faces are replaced by their closest Google Fonts; never copy a
-logo or wordmark.
+**Change Northlight's tokens.** Northlight lives in `design-system/tokens.json` under `variants.list`, id
+`northlight`: colors for light and dark (any token may be overridden; the rest come from the base), font families
+(`display`, `body`, `figure`, `label`, `lead`), the shape variables under `shape` (button and panel radius, label
+tracking, heading case, style and scale), weights and motion timings, and `fonts`, the Google Fonts query the app
+loads. The token writer emits `<html data-variant="northlight">` rules and `src/design/variants.json`, which the app
+reads for Northlight's fonts. `npm test` fails if its text drops below 4.5:1 or a control edge below 3:1 on its
+ground, panel or band.
 
 **Change a color, radius or font.** Edit `design-system/tokens.json`. The dev server writes `src/styles/tokens.css` from
 it; never edit that file by hand. Every color has a light and a dark value; check text colors against `ground`,
@@ -191,8 +189,8 @@ it; never edit that file by hand. Every color has a light and a dark value; chec
 
 ## Check your work
 
-- `npm test` checks every catalog part in every state, the layers, Northlight OS's journey and automations, and every
-  variant's contrast.
+- `npm test` checks every catalog part in every state, the layers, Northlight OS's journey and automations, and
+  Northlight's contrast.
 - `npm run qa`, with the dev server up, takes screenshots of every view and screen in both themes, at 1440 and 390 px,
   and a guest action carried through, into `qa-out/`. Read them after any visual change. Check that text fits,
   nothing clips, every status color sits beside its word, and each view has at most one band.

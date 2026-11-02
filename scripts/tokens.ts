@@ -1,8 +1,7 @@
 // Turns design-system/tokens.json into src/styles/tokens.css: the theme variables for Shore (light, the default)
-// and Deep (dark, under the theme store's `.dark` class), the Tailwind theme that reads them, and the design variants.
-// A variant applies to the whole app as `<html data-variant="aman">`, or to one element and its children as
-// `data-variant-scope="aman"`. The app always wears Northlight (src/stores/variant.ts) and offers no switch. It also
-// writes src/design/variants.json, the list the app reads to load Northlight's fonts. The Vite config runs this on start and again whenever tokens.json
+// and Deep (dark, under the theme store's `.dark` class), the Tailwind theme that reads them, and Northlight, the one
+// variant, applied as `<html data-variant="northlight">` (src/stores/variant.ts). It also writes
+// src/design/variants.json, which the app reads to load Northlight's fonts. The Vite config runs this on start and again whenever tokens.json
 // changes. Run by hand with `npm run tokens`.
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -78,9 +77,9 @@ export function buildTokensCss(json: string): string {
     ...Object.fromEntries(scalars(t.easing)),
   }
   const variantCss = t.variants.list.map((v) => {
-    const shared = `:root[data-variant="${v.id}"], [data-variant-scope="${v.id}"]`
-    const light = `:root[data-variant="${v.id}"]:not(.dark), :root:not(.dark) [data-variant-scope="${v.id}"]`
-    const dark = `:root.dark[data-variant="${v.id}"], :root.dark [data-variant-scope="${v.id}"]`
+    const shared = `:root[data-variant="${v.id}"]`
+    const light = `:root[data-variant="${v.id}"]:not(.dark)`
+    const dark = `:root.dark[data-variant="${v.id}"]`
     return `/* ${v.name}: ${v.signature} */
 ${shared} {
 ${lines({ ...t.type.families, ...v.families }, 'font-')}
@@ -142,7 +141,7 @@ ${t.shadow.tokens.map((x) => decl(x.name, `var(--${x.name})`)).join('\n')}
 /* type styles: type-display, type-statement, type-title, type-figure, type-label, type-summary and the rest */
 ${typeUtils.join('\n')}
 
-/* design variants: <html data-variant="…"> for the app, [data-variant-scope="…"] for one element */
+/* Northlight: <html data-variant="northlight"> */
 ${variantCss}
 `
 }
