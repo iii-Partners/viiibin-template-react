@@ -31,6 +31,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -89,6 +91,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -204,6 +208,8 @@
   --color-sheet-bg: var(--sheet-bg);
   --color-sheet-edge: var(--sheet-edge);
   --color-sheet-shadow: var(--sheet-shadow);
+  --color-switch-track: var(--switch-track);
+  --color-switch-on-shadow: var(--switch-on-shadow);
   --color-go-fill: var(--go-fill);
   --color-go-border: var(--go-border);
   --color-go-ring: var(--go-ring);
@@ -395,6 +401,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -452,6 +460,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -479,7 +489,7 @@
   --glow-9: #000000;
   color-scheme: dark;
 }
-/* Northlight: White panels on porcelain and a sun-gradient hairline (#ebc913 → #e77103 → #dc3286 → #8f6ab7 → #8bb1d3), with ambient light at the edges. */
+/* Northlight: Cream panels on white and a sun-gradient hairline (#ebc913 → #e77103 → #dc3286 → #8f6ab7 → #8bb1d3), with ambient light at the edges. */
 :root[data-variant="northlight"], [data-variant-scope="northlight"] {
   --font-display: Jost, system-ui, sans-serif;
   --font-body: Jost, system-ui, sans-serif;
@@ -491,7 +501,7 @@
   --pill-radius: 999px;
   --pill-pad-x: 26px;
   --pill-weight: 500;
-  --panel-radius: 22px;
+  --panel-radius: 16px;
   --label-tracking: 0.18em;
   --display-tracking: -0.01em;
   --display-case: none;
@@ -506,11 +516,11 @@
   --ease-rise: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 :root[data-variant="northlight"]:not(.dark), :root:not(.dark) [data-variant-scope="northlight"] {
-  --ground: #f8f6f2;
-  --panel: #ffffff;
-  --wash: #f2efea;
-  --band: #ffffff;
-  --line: #e6e1d9;
+  --ground: #ffffff;
+  --panel: #f8f7f5;
+  --wash: #edebe8;
+  --band: #f8f7f5;
+  --line: #e4e1dc;
   --edge: #8a867e;
   --text: #2b2d33;
   --dim: #5b5d64;
@@ -532,9 +542,11 @@
   --ground-image: radial-gradient(1200px 820px at 88% -12%, rgba(240, 122, 180, 0.06), transparent 62%), radial-gradient(1000px 740px at -8% 108%, rgba(185, 205, 230, 0.16), transparent 60%);
   --panel-opacity: 100%;
   --panel-shadow: 0 1px 2px rgba(43, 36, 64, 0.06), 0 22px 50px -24px rgba(43, 36, 64, 0.30);
-  --sheet-bg: color-mix(in srgb, #f6f4f0 96%, transparent);
+  --sheet-bg: color-mix(in srgb, #ffffff 96%, transparent);
   --sheet-edge: rgba(43, 45, 51, 0.08);
   --sheet-shadow: 0 2px 6px rgba(43, 36, 64, 0.06), 0 40px 90px -30px rgba(43, 36, 64, 0.40);
+  --switch-track: #eae8e4;
+  --switch-on-shadow: 0 1px 1px rgba(43, 36, 64, 0.08), 0 2px 6px -1px rgba(43, 36, 64, 0.14), 0 8px 18px -8px rgba(43, 36, 64, 0.22);
   --go-fill: #fefdfb;
   --go-border: transparent;
   --go-ring: #ebc913, #e77103, #dc3286, #8f6ab7, #8bb1d3, #ebc913;
@@ -593,6 +605,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: #0f0c17;
+  --switch-on-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 1px 1px rgba(0, 0, 0, 0.3), 0 4px 10px -2px rgba(0, 0, 0, 0.35);
   --go-fill: #1d1a2a;
   --go-border: transparent;
   --go-ring: #ebc913, #e77103, #dc3286, #8f6ab7, #8bb1d3, #ebc913;
@@ -677,6 +691,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -734,6 +750,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -817,6 +835,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -874,6 +894,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -957,6 +979,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1014,6 +1038,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1097,6 +1123,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1154,6 +1182,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1237,6 +1267,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1294,6 +1326,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1377,6 +1411,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1434,6 +1470,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1517,6 +1555,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1574,6 +1614,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1657,6 +1699,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1714,6 +1758,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1797,6 +1843,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1854,6 +1902,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1937,6 +1987,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;
@@ -1994,6 +2046,8 @@
   --sheet-bg: color-mix(in srgb, var(--ground) 84%, transparent);
   --sheet-edge: color-mix(in srgb, var(--text) 12%, transparent);
   --sheet-shadow: none;
+  --switch-track: var(--wash);
+  --switch-on-shadow: none;
   --go-fill: var(--primary);
   --go-border: var(--primary);
   --go-ring: transparent, transparent;

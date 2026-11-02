@@ -262,10 +262,11 @@
   }
 
   /* the state switch: a small pill of words above a part's top right, a prototype tool; the picked state fills ink */
-  .state-switch { display: flex; gap: 2px; padding: 3px; border-radius: var(--pill-radius); background: var(--wash); }
-  .state-switch button { padding: 6px 10px; border-radius: var(--pill-radius); font: 400 10px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); transition: color var(--dur-hover) ease, background-color var(--dur-hover) ease; }
-  .state-switch button:hover, .state-switch button:focus-visible { color: var(--text); background: var(--panel); outline: none; }
-  .state-switch button[aria-checked="true"] { color: var(--on-primary); background: var(--primary); }
+  .state-switch { display: flex; gap: 2px; padding: 3px; border-radius: var(--pill-radius); background: var(--switch-track); box-shadow: inset 0 0 0 1px var(--line); }
+  .state-switch button { padding: 6px 10px; border-radius: var(--pill-radius); font: 400 10px/1 var(--font-label); letter-spacing: var(--label-tracking); text-transform: uppercase; color: var(--dim); transition: color var(--dur-hover) ease, background-color var(--dur-hover) ease, box-shadow var(--dur-hover) ease; }
+  .state-switch button:hover, .state-switch button:focus-visible { color: var(--text); background: color-mix(in srgb, var(--panel) 55%, transparent); outline: none; }
+  .state-switch button:focus-visible { box-shadow: 0 0 0 2px var(--focus); }
+  .state-switch button[aria-checked="true"] { color: var(--on-primary); background: var(--primary); font-weight: 500; box-shadow: var(--switch-on-shadow); }
 }
 
 /* a bar that opens its record lights its track on hover */

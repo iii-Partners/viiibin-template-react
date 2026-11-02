@@ -93,7 +93,7 @@ export default function GuestsPage() {
       <ViewHead label={<>Operations · <ExampleNote /></>} title="Guests" lead="One record per guest, from the first inquiry to retention. Stage is a field with a date, so the list reads the same in every view." />
       <section aria-labelledby="list-h" className="grid min-w-0 content-start gap-3.5 @max-[900px]/frame:col-span-full">
         <Sec id="list-h">{filters.find((x) => x.id === show)!.word}</Sec>
-        <div role="radiogroup" aria-label="Show guests" className="state-switch w-fit flex-wrap !rounded-[22px]">
+        <div role="radiogroup" aria-label="Show guests" className="state-switch w-fit flex-wrap !rounded-[16px]">
           {filters.map((x) => (
             <button key={x.id} type="button" role="radio" aria-checked={show === x.id} onClick={() => setShow(x.id)} className="!px-3 !py-2">
               {x.word} <span className="tabular-nums opacity-70">{x.n}</span>

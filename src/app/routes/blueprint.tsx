@@ -300,7 +300,7 @@ export default function BlueprintPage() {
   return (
     <div className="arrive grid content-start gap-6">
       <ViewHead label="iii.partners × Northlight · Confidential" title="Blueprint" lead={OVERVIEW.summary} />
-      <div role="tablist" aria-label="Blueprint sections" className="state-switch w-fit flex-wrap !rounded-[22px]">
+      <div role="tablist" aria-label="Blueprint sections" className="state-switch w-fit flex-wrap !rounded-[16px]">
         {TABS.map((t) => (
           <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} aria-checked={tab === t.id} onClick={() => setTab(t.id)} className="!px-3.5 !py-2.5">{t.word}</button>
         ))}
