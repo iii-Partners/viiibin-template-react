@@ -29,7 +29,7 @@ export function SettingsScreen() {
   const setAmbient = usePreferencesStore((s) => s.setAmbient)
   const { events, reset } = useOs()
   return (
-    <div className="grid gap-4" style={{ gridTemplateColumns: 'var(--layout-plates)' }}>
+    <div className="grid gap-4 @min-[700px]/frame:grid-cols-2">
       <Panel className="content-start gap-4">
         <Sec as="h3">Appearance</Sec>
         <div role="radiogroup" aria-label="Theme" className="grid grid-cols-3 gap-2">

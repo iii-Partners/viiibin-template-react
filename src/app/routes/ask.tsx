@@ -2,12 +2,13 @@
 // reviews, readiness, care, workload, the activity log, the discovery documents) and each answer comes back as a short
 // written answer over cards: stats, charts, tables and records that open as screens. Claude answers through /api/ask;
 // where that is not reachable, the built-in matcher answers and the answer says so (src/os/ask/engine.ts).
-import { ArrowUp, Plus, RotateCcw, Sparkles, Trash2 } from 'lucide-react'
+import { ArrowUp, Plus, RotateCcw, Search, Sparkles, Trash2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Panel } from '@/components/system/panel'
 import { Failed } from '@/components/system/empty'
 import { Sec } from '@/components/system/status'
 import { cn } from '@/lib/utils/cn'
+import { reduced } from '@/lib/layers'
 import { useOs } from '@/os/store'
 import { ExampleNote, ViewHead } from '@/os/ui'
 import { BlockCard } from '@/os/ask/cards'
@@ -85,6 +86,51 @@ function Answer({ t, onAsk, last }: { t: Turn; onAsk(q: string): void; last: boo
   )
 }
 
+/** The nearest ancestor that scrolls: the app frame in the shell, the window otherwise. */
+function scrollParent(el: HTMLElement | null): HTMLElement | Window {
+  for (let x = el?.parentElement; x; x = x.parentElement) {
+    const y = getComputedStyle(x).overflowY
+    if ((y === 'auto' || y === 'scroll') && x.scrollHeight > x.clientHeight) return x
+  }
+  return window
+}
+
+/** A text link over the composer, right-aligned, that returns to the top of the conversation. It fades in once the
+ *  view has scrolled past the first screen and out again at the top. */
+function BackToTop() {
+  const me = useRef<HTMLButtonElement>(null)
+  const [show, setShow] = useState(false)
+  const [box, setBox] = useState<HTMLElement | Window | null>(null)
+  useEffect(() => {
+    const find = () => setBox(scrollParent(me.current))
+    find()
+    // the frame only starts to scroll once answers make it taller, so look again when the page grows
+    const watch = new ResizeObserver(find)
+    watch.observe(document.body)
+    return () => watch.disconnect()
+  }, [])
+  useEffect(() => {
+    if (!box) return
+    const top = () => (box instanceof Window ? box.scrollY : box.scrollTop)
+    const onScroll = () => setShow(top() > 480)
+    onScroll()
+    box.addEventListener('scroll', onScroll, { passive: true })
+    return () => box.removeEventListener('scroll', onScroll)
+  }, [box])
+  return (
+    <button
+      ref={me}
+      type="button"
+      onClick={() => box?.scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' })}
+      tabIndex={show ? 0 : -1}
+      aria-hidden={!show}
+      className={cn('explore rounded-full bg-[color-mix(in_srgb,var(--ground)_82%,transparent)] px-3 py-1.5 !text-[10.5px] backdrop-blur-sm transition-[opacity,transform] duration-(--dur-hover)', show ? 'opacity-100' : 'pointer-events-none translate-y-2 opacity-0')}
+    >
+      Back to top <ArrowUp size={13} strokeWidth={1.5} aria-hidden="true" />
+    </button>
+  )
+}
+
 function Composer({ onAsk, busy }: { onAsk(q: string): void; busy: boolean }) {
   const [q, setQ] = useState('')
   const box = useRef<HTMLTextAreaElement>(null)
@@ -122,8 +168,53 @@ function Composer({ onAsk, busy }: { onAsk(q: string): void; busy: boolean }) {
   )
 }
 
+/** Past conversations: a panel that stays in view while the answer scrolls, up to 60 % of the window tall, with a
+ *  search over each conversation's questions and a list that scrolls inside it. */
+function History() {
+  const { threads, activeId, open, remove } = useAsk()
+  const [find, setFind] = useState('')
+  const q = find.trim().toLowerCase()
+  const shown = q ? threads.filter((t) => [t.title, ...t.turns.map((x) => x.q)].some((x) => x.toLowerCase().includes(q))) : threads
+  if (!threads.length) return <p className="text-[13.5px]/[1.55] text-dim">Your questions and their answers stay in this browser. Start with one of the questions on the left, or type your own.</p>
+  return (
+    <div className="panel flex max-h-[60dvh] min-h-0 flex-col gap-2 !p-2">
+      <label className="relative flex-none">
+        <span className="sr-only">Search conversations</span>
+        <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-dim" strokeWidth={1.5} aria-hidden="true" />
+        <input
+          type="search"
+          value={find}
+          onChange={(e) => setFind(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Escape' && find) { e.stopPropagation(); setFind('') } }}
+          placeholder="Search conversations"
+          className="field !py-2 !pl-9 !text-[13.5px]"
+        />
+      </label>
+      <ul className="m-0 min-h-0 flex-1 list-none overflow-y-auto overscroll-contain p-0" aria-label="Conversations">
+        {shown.map((t) => (
+          <li key={t.id} className="group flex items-center gap-1 border-t border-line first:border-t-0">
+            <button
+              type="button"
+              onClick={() => open(t.id)}
+              aria-current={t.id === activeId ? 'true' : undefined}
+              className={cn('grid min-w-0 flex-1 gap-0.5 rounded-[calc(var(--panel-radius)*0.5)] px-3 py-2.5 text-left transition-colors duration-(--dur-hover) outline-none hover:bg-wash focus-visible:shadow-[inset_0_0_0_2px_var(--focus)]', t.id === activeId && 'bg-wash')}
+            >
+              <span className="truncate text-[14px]">{t.title}</span>
+              <span className="text-[12px] text-dim">{t.turns.length} question{t.turns.length === 1 ? '' : 's'} · {new Date(t.at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+            </button>
+            <button type="button" onClick={() => remove(t.id)} className="round !h-8 !w-8 flex-none opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100" aria-label={`Delete “${t.title}”`}>
+              <Trash2 size={13} strokeWidth={1.5} aria-hidden="true" />
+            </button>
+          </li>
+        ))}
+        {!shown.length && <li className="px-3 py-4 text-[13px] text-dim">No conversation mentions “{find.trim()}”.</li>}
+      </ul>
+    </div>
+  )
+}
+
 export default function AskPage() {
-  const { threads, activeId, ask, open, remove } = useAsk()
+  const { threads, activeId, ask, open } = useAsk()
   const guests = useOs((s) => s.guests.length)
   const thread = threads.find((t) => t.id === activeId)
   const busy = !!thread?.turns.some((t) => t.status === 'working')
@@ -161,30 +252,15 @@ export default function AskPage() {
         )}
         <div ref={end} />
       </section>
-      <aside className="grid min-w-0 content-start gap-4 @max-[900px]/frame:col-span-full" aria-labelledby="threads-h">
+      <aside className="sticky top-[clamp(16px,3vh,32px)] grid min-w-0 content-start gap-3 self-start @max-[900px]/frame:static @max-[900px]/frame:col-span-full" aria-labelledby="threads-h">
         <Sec id="threads-h">Conversations{threads.length ? ` · ${threads.length}` : ''}</Sec>
-        {threads.length ? (
-          <ul className="panel m-0 grid list-none !p-2">
-            {threads.map((t) => (
-              <li key={t.id} className="group flex items-center gap-1 border-t border-line first:border-t-0">
-                <button type="button" onClick={() => open(t.id)} aria-current={t.id === activeId ? 'true' : undefined} className={cn('grid min-w-0 flex-1 gap-0.5 rounded-[calc(var(--panel-radius)*0.5)] px-3 py-2.5 text-left transition-colors duration-(--dur-hover) hover:bg-wash', t.id === activeId && 'bg-wash')}>
-                  <span className="truncate text-[14px]">{t.title}</span>
-                  <span className="text-[12px] text-dim">{t.turns.length} question{t.turns.length === 1 ? '' : 's'} · {new Date(t.at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-                </button>
-                <button type="button" onClick={() => remove(t.id)} className="round !h-8 !w-8 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100" aria-label={`Delete “${t.title}”`}>
-                  <Trash2 size={13} strokeWidth={1.5} aria-hidden="true" />
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-[13.5px]/[1.55] text-dim">Your questions and their answers stay in this browser. Start with one of the questions on the left, or type your own.</p>
-        )}
+        <History />
         {thread && thread.turns.some((t) => t.status === 'error') && (
           <p className="flex items-center gap-2 text-[12.5px] text-dim"><RotateCcw size={13} strokeWidth={1.5} aria-hidden="true" /> An answer that stopped offers a retry in place.</p>
         )}
       </aside>
-      <div className="sticky bottom-[max(12px,env(safe-area-inset-bottom))] z-[2]" style={{ gridColumn: '1 / -1' }}>
+      <div className="sticky bottom-[max(12px,env(safe-area-inset-bottom))] z-[2] grid gap-2" style={{ gridColumn: '1 / -1' }}>
+        <span className="flex justify-end"><BackToTop /></span>
         <Composer onAsk={onAsk} busy={busy} />
       </div>
     </div>
